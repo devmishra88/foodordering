@@ -1,8 +1,8 @@
 import React,{Component, Fragment} from 'react';
 
-import { ProductContext, ProductConsumer } from '../context/Product';
+import { ProductContext } from '../context/Product';
 
-import {Header, FeaturedCategory, ProductsListing} from '../components';
+import {Header, Banner, HomeCategory, FeaturedCategory, ProductsListing} from '../components';
 
 class Menu extends Component {
 
@@ -30,6 +30,8 @@ class Menu extends Component {
 
             <Fragment>
                 <Header />
+                <Banner />
+                <HomeCategory />
                 <FeaturedCategory />
                 <ProductsListing />
             </Fragment>

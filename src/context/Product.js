@@ -18,6 +18,7 @@ class ProductProvider extends Component{
 		hasbanner:false,
 		hasfeaturedcategory:false,
 		haspopularitem:false,
+		isdataloaded:false,
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -41,8 +42,10 @@ class ProductProvider extends Component{
 
 			let homebanners				= response.data.banners.list;
 			let homebannersNum			= Object.keys(homebanners).length;
+			
 			let homecategories			= response.data.categories.list;
 			let homecategoriesNum		= Object.keys(homecategories).length;
+			
 			let homepopularitems		= response.data.popularitems.list;
 			let homepopularitemsNum		= Object.keys(homepopularitems).length;
 
@@ -71,9 +74,8 @@ class ProductProvider extends Component{
 					bannerheading:response.data.banners.title,
 					categoryheading:response.data.categories.title,
 					popularitemheading:response.data.popularitems.title,
+					isdataloaded:true,
 				};
-			},()=>{
-				console.log(this.state);
 			});
 		})
 		.catch(function (error) {

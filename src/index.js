@@ -1,5 +1,8 @@
 import React from 'react';
+
 import {ProvideAuth} from './context/Auth';
+import {ProductProvider} from './context/Product';
+
 import {
   BrowserRouter as Router
 } from "react-router-dom";
@@ -11,11 +14,11 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <ProvideAuth>
-    <Router>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </Router>
+    <ProductProvider>
+      <Router>
+          <App />
+      </Router>
+    </ProductProvider>
   </ProvideAuth>,
   document.getElementById('root')
 );

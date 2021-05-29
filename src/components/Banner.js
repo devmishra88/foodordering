@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {ProductConsumer} from '../context/Product';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -79,7 +80,9 @@ class Banner extends Component {
                     ):null
                 }
                 </Fragment>
-                ):(<div className={classes.root}>bnnber loading</div>)
+                ):(
+                  <Skeleton variant="rect" width="100%" height={150}/>
+                )
             }
                     </Fragment>
                 );

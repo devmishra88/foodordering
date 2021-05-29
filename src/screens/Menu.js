@@ -32,7 +32,6 @@ class Menu extends Component {
                 <Header />
                 <Banner />
                 <HomeCategory />
-                <FeaturedCategory />
                 <ProductsListing />
             </Fragment>
         )

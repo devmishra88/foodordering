@@ -56,7 +56,55 @@ const useStyles = (theme) => ({
     color:'#00B970',
     fontWeight:'bold',
     marginRight:theme.spacing(1)
+  },
+  dfjlEy : {
+    borderRadius: '0.4rem',
+    overflow: 'hidden',
+	  visibility: 'visible',
+    transition: 'all 0.12s ease 0s',
+    position: 'relative',
+    maxWidth: '100%',
+    width: '8.5rem',
+    height: '8.5rem',
+  },
+  dqsEmh : {
+      width: '95%',
+      height: '95%',
+      position: 'absolute',
+      top: '0px',
+      right:'0px',
+      bottom:'0px',
+      left: '0px',
+      background: 'linear-gradient(to right, rgb(248, 248, 248) 0%, rgb(255, 255, 255) 10%, rgb(248, 248, 248) 40%, rgb(248, 248, 248) 100%) no-repeat rgb(248, 248, 248)',
+      opacity: '0',
+      transition: 'opacity 0.25s ease-out 0s',
+      willChange: 'opacity',
+      borderRadius: 'inherit',
+  },
+  hppEfq : {
+      width: '95%',
+      height: '95%',
+      objectFit: 'cover',
+      transform: 'none',
+      opacity: '1',
+      willChange: 'transform, opacity',
+      borderRadius: 'inherit',
+      filter: 'unset',
+      transition: 'opacity 0.25s ease 0s, transform 0.25s ease 0s',
+      margin:'auto'
+  },
+  cattitle:{
+    position:'absolute',
+    top: '8px',
+    left:'8px',
+    zIndex:'1',
+    backgroundColor:'#1c1c1c',
+    opacity:'0.65',
+    color:'#ffffff',
+    padding:'.2rem .5rem',
+    borderRadius:'5px',
   }
+
 });
 
 class HomeCategory extends Component {
@@ -95,13 +143,13 @@ class HomeCategory extends Component {
                             <Carousel responsive={responsive} infinite={true} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
                             {featuredcategory.map((category, i) => {
                                 return(
-                                    <Paper key={i} elevation={1}>
-                                        <div>{category.category_name}</div>
-                                        <img src={category.image_url} alt={category.category_name}/>
-                                    </Paper>
+                                  <div className={classes.dfjlEy} key={i}>
+                                    <div className={classes.cattitle}>{category.category_name}</div>
+                                    <div className={classes.dqsEmh}></div>
+                                    <img alt={category.category_name} src={category.image_url} className={classes.hppEfq} />
+                                  </div>
                                 );
-                            })
-                            }
+                            })}
                             </Carousel>
                         </Fragment>
                     ):null

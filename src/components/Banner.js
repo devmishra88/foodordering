@@ -71,7 +71,7 @@ class Banner extends Component {
                         {banners.map((banner) => {
                             return(
                                 <div key={banner.id}>
-                                    <img src={banner.image_url} alt={banner.id}/>
+                                    <img src={banner.image_url} alt={banner.id} style={{width:'100%'}} />
                                 </div>
                             );
                         })
@@ -81,7 +81,7 @@ class Banner extends Component {
                 }
                 </Fragment>
                 ):(
-                  <Skeleton variant="rect" width="100%" height={150}/>
+                  <Skeleton variant="rect" width="100%" height={180}/>
                 )
             }
                     </Fragment>

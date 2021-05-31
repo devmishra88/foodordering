@@ -3,7 +3,7 @@ import Banner from './Banner';
 import HomeCategory from './HomeCategory';
 import FeaturedCategory from './FeaturedCategory';
 import FeaturedCategoryLoading from './FeaturedCategoryLoading';
-import ProductsListing from './ProductsListing';
+import ItemsList from './ItemsList';
 
 export{
     Header,
@@ -11,5 +11,5 @@ export{
     HomeCategory,
     FeaturedCategory,
     FeaturedCategoryLoading,
-    ProductsListing,
+    ItemsList,
 }

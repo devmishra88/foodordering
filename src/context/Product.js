@@ -19,6 +19,7 @@ class ProductProvider extends Component{
 		hasfeaturedcategory:false,
 		haspopularitem:false,
 		isdataloaded:false,
+		searchkeyword:'',
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -144,12 +145,22 @@ class ProductProvider extends Component{
 		}
 	}
 
+	showHideSearch=()=>{
+
+	}
+
+	handleChange=()=>{
+
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
 			...this.state,
                 setAppHomeData:this.setAppHomeData,
 				handleUserInput:this.handleUserInput,
+				showHideSearch:this.showHideSearch,
+				handleChange:this.handleChange,
 			}}
 			>
 			{this.props.children}

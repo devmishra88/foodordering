@@ -1,0 +1,31 @@
+import {
+    StarFilled,
+    StarBlank,
+    Remove,
+    PinkRemove,
+    Plus,
+    PinkPlus,
+    Cross,
+    UpTriangle,
+    RightTriangle,
+    Search,
+    CrossSearch,
+    CloseModal,
+    BlackPlus,
+} from './Icons';
+
+export{
+    StarFilled,
+    StarBlank,
+    Remove,
+    PinkRemove,
+    Plus,
+    PinkPlus,
+    Cross,
+    UpTriangle,
+    RightTriangle,
+    Search,
+    CrossSearch,
+    CloseModal,
+    BlackPlus,
+}

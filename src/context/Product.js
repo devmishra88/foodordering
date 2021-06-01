@@ -38,7 +38,7 @@ class ProductProvider extends Component{
 
 		/*let tabledetail	= JSON.parse(localStorage.getItem('tabledetail'));*/
 
-		axios.get(`${process.env.REACT_APP_API_URL}/app_home?id=${appid}`) // api url
+		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${appid}`) // api url
 		.then( response => {
 
 			let homebanners				= response.data.banners.list;

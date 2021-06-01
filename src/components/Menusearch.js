@@ -1,9 +1,15 @@
 import React,{Fragment,Component} from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {Container} from '@material-ui/core';
 import { ProductConsumer, ProductContext } from '../context/Product';
 import {Search,CrossSearch}  from '../constants';
 
 const useStyles = (theme) => ({
+    container:{
+        paddingRight:theme.spacing(1),
+        paddingLeft:theme.spacing(1),
+        paddingBottom:theme.spacing(1.5),
+    },
     searwrapper:{
         width: '100%',
         display: 'flex',
@@ -106,7 +112,7 @@ class MenuSearch extends Component{
                 const{ showHideSearch, handleChange } = value;
 
                 return (
-                    <Fragment>
+                    <Container maxWidth="lg" className={classes.container}>
                         <section className={classes.searwrapper}>
                             <section label="Search within menu" value="" color="white" autoComplete="off" type="text" className={classes.searchbx}>
                                 <section className={classes.firstfindchild}>
@@ -124,7 +130,7 @@ class MenuSearch extends Component{
                                 </section>
                             </section>
                         </section>
-                    </Fragment>
+                    </Container>
                 );
             }}
             </ProductConsumer>

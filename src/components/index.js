@@ -3,6 +3,7 @@ import Banner from './Banner';
 import HomeCategory from './HomeCategory';
 import FeaturedCategory from './FeaturedCategory';
 import FeaturedCategoryLoading from './FeaturedCategoryLoading';
+import ItemLoading from './ItemLoading';
 import ItemsList from './ItemsList';
 import Menusearch from './Menusearch';
 
@@ -12,6 +13,7 @@ export{
     HomeCategory,
     FeaturedCategory,
     FeaturedCategoryLoading,
+    ItemLoading,
     ItemsList,
     Menusearch,
 }

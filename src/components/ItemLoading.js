@@ -1,15 +1,10 @@
-import React, {Component, Fragment} from 'react';
-import {ProductConsumer} from '../context/Product';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import React, {Fragment} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Skeleton from '@material-ui/lab/Skeleton';
 import {Container} from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 
-import ItemLoading from './ItemLoading';
-
-import {Remove,Plus}  from '../constants';
-
-const useStyles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   itelist:{
     paddingRight:theme.spacing(1),
     paddingLeft:theme.spacing(1),
@@ -300,112 +295,133 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     cursor: 'pointer',
   },
-});
+}));
 
-class ItemsList extends Component {
+export default function ItemLoading() {
+  const classes = useStyles();
 
-    constructor(props) {
-
-        super(props);
-
-        this.state = {
-
-        }
-	}
-  
-    render() {
-      const { classes } = this.props;
-
-      return (
-        <ProductConsumer>
-            {(value) => {
-
-                const{isdataloaded, haspopularitem, popularitems, popularitemheading, id} = value;
-                const{decrement, increment} = value;
-
-                return (
-                    <Fragment>
-            {
-                isdataloaded ? (<Fragment>
-                {
-                    haspopularitem ? (
-                        <Fragment>
-                            <div className={classes.titlewrapper}>
-                                <Typography variant="h6" className={classes.title}>
-                                    {popularitemheading}
-                                </Typography>
-                                <div className={classes.viewalltitle}>View all</div>
-                            </div>
-                            <div>
-                            {popularitems.map((item, i) => {
-                                return(
-                                  <Container maxWidth="lg" className={classes.itelist} key={i}>
-                                    <div>
-                                      <div className={classes.bGrnCu}>
-                                        <div className={classes.bckjvf}>
-                                          <div className={classes.jlQqiv}>
-                                            <div src="" className={classes.dqsEmh}></div>
-                                            <img alt="Veggie Paradise" src={item.image_url} className={classes.hppEfq} />
-                                          </div>
-                                          {/*<div type="veg" className={classes.bXZAXS}>
-                                            <div type="veg" className={classes.kEJKBm}></div>
-                                          </div>*/}
-                                        </div>
-                                        <div className={classes.cYSFTJ}>
-                                          <div className={classes.cYGeYt}>
-                                            <div className={classes.kQHKsO}>
-                                              <h4 className={classes.iSmBPS}>{item.item_name}</h4>
-                                            </div>
-                                          </div>
-                                          <p className={classes.hcROsL}>{item.description}</p>
-                                          <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
-                                            <div className={classes.jOoliK}>
-                                              <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price}</span>
-                                            </div>
-                                            {/*<div className={classes.fJNrek}>
-                                              <div className={classes.cBmpNp}>
-                                                <span className={classes.fTsfFl}>Add</span>
-                                                <i className={classes.MxLSp} size="14" color="#ED5A6B">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="#ED5A6B" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.hoSSCx}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg>
-                                                </i>
-                                              </div>
-                                            </div>*/}
-                                            <div className={classes.qtychildin}>
-
-                                                  <div className={classes.cMipmx}>
-                                                      <div className={classes.hTzRFw} onClick={()=>decrement(id)}>
-                                                          <Remove />
-                                                      </div>
-                                                      <div className={classes.iQCkqv}>
-                                                          <span className={classes.qtytitle} style={{
-                                                              color:'#FFF6F7'
-                                                          }}>1</span>
-                                                      </div>
-                                                      <div className={classes.hTzRFw} onClick={()=>increment(id)}>
-                                                          <Plus />
-                                                      </div>
-                                                  </div>
-                                          </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Container>
-                                );
-                            })}
-                            </div>
-                        </Fragment>
-                    ):null
-                }
-                </Fragment>
-                ):<ItemLoading />
-            }
-                    </Fragment>
-                );
-            }}
-        </ProductConsumer>
-      )
-    }
+  return (
+    <Fragment>
+        <div className={classes.titlewrapper}>
+            <Typography variant="h6" className={classes.title}>
+                <Skeleton width="100%" /> 
+            </Typography>
+            <div className={classes.viewalltitle}><Skeleton width={120} height={40} /></div>
+        </div>
+        <div className={classes.root}>
+        <Container maxWidth="lg" className={classes.itelist}>
+        <div>
+            <div className={classes.bGrnCu}>
+            <div className={classes.bckjvf}>
+                <div className={classes.jlQqiv}>
+                <div src="" className={classes.dqsEmh}></div>
+                    <Skeleton variant="rect" width={120} height={120} style={{borderRadius:'10px'}}/>
+                </div>
+            </div>
+            <div className={classes.cYSFTJ}>
+                <div className={classes.cYGeYt}>
+                <div className={classes.kQHKsO}>
+                    <h4 className={classes.iSmBPS}><Skeleton width={120} /></h4>
+                </div>
+                </div>
+                <p className={classes.hcROsL}><Skeleton width="100%" /><Skeleton width="100%" /><Skeleton width="100%" /></p>
+                <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
+                <div className={classes.jOoliK}>
+                    <span className={classes.cCiQWA}><Skeleton width={100} height={40} /></span>
+                </div>
+                <div>
+                    <Skeleton width={80} height={40} />
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </Container>
+        <Container maxWidth="lg" className={classes.itelist}>
+        <div>
+            <div className={classes.bGrnCu}>
+            <div className={classes.bckjvf}>
+                <div className={classes.jlQqiv}>
+                <div src="" className={classes.dqsEmh}></div>
+                    <Skeleton variant="rect" width={120} height={120} style={{borderRadius:'10px'}}/>
+                </div>
+            </div>
+            <div className={classes.cYSFTJ}>
+                <div className={classes.cYGeYt}>
+                <div className={classes.kQHKsO}>
+                    <h4 className={classes.iSmBPS}><Skeleton width={120} /></h4>
+                </div>
+                </div>
+                <p className={classes.hcROsL}><Skeleton width="100%" /><Skeleton width="100%" /><Skeleton width="100%" /></p>
+                <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
+                <div className={classes.jOoliK}>
+                    <span className={classes.cCiQWA}><Skeleton width={100} height={40} /></span>
+                </div>
+                <div>
+                    <Skeleton width={80} height={40} />
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </Container>
+        <Container maxWidth="lg" className={classes.itelist}>
+        <div>
+            <div className={classes.bGrnCu}>
+            <div className={classes.bckjvf}>
+                <div className={classes.jlQqiv}>
+                <div src="" className={classes.dqsEmh}></div>
+                    <Skeleton variant="rect" width={120} height={120} style={{borderRadius:'10px'}}/>
+                </div>
+            </div>
+            <div className={classes.cYSFTJ}>
+                <div className={classes.cYGeYt}>
+                <div className={classes.kQHKsO}>
+                    <h4 className={classes.iSmBPS}><Skeleton width={120} /></h4>
+                </div>
+                </div>
+                <p className={classes.hcROsL}><Skeleton width="100%" /><Skeleton width="100%" /><Skeleton width="100%" /></p>
+                <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
+                <div className={classes.jOoliK}>
+                    <span className={classes.cCiQWA}><Skeleton width={100} height={40} /></span>
+                </div>
+                <div>
+                    <Skeleton width={80} height={40} />
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </Container>
+        <Container maxWidth="lg" className={classes.itelist}>
+        <div>
+            <div className={classes.bGrnCu}>
+            <div className={classes.bckjvf}>
+                <div className={classes.jlQqiv}>
+                <div src="" className={classes.dqsEmh}></div>
+                    <Skeleton variant="rect" width={120} height={120} style={{borderRadius:'10px'}}/>
+                </div>
+            </div>
+            <div className={classes.cYSFTJ}>
+                <div className={classes.cYGeYt}>
+                <div className={classes.kQHKsO}>
+                    <h4 className={classes.iSmBPS}><Skeleton width={120} /></h4>
+                </div>
+                </div>
+                <p className={classes.hcROsL}><Skeleton width="100%" /><Skeleton width="100%" /><Skeleton width="100%" /></p>
+                <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
+                <div className={classes.jOoliK}>
+                    <span className={classes.cCiQWA}><Skeleton width={100} height={40} /></span>
+                </div>
+                <div>
+                    <Skeleton width={80} height={40} />
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </Container>
+        </div>
+    </Fragment>
+  );
 }
-
-export default withStyles(useStyles, { withTheme: true })(ItemsList);

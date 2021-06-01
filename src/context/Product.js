@@ -153,6 +153,14 @@ class ProductProvider extends Component{
 
 	}
 
+	decrement = ()=>{
+
+	}
+
+	increment = ()=>{
+
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -161,6 +169,8 @@ class ProductProvider extends Component{
 				handleUserInput:this.handleUserInput,
 				showHideSearch:this.showHideSearch,
 				handleChange:this.handleChange,
+				decrement:this.decrement,
+				increment:this.increment,
 			}}
 			>
 			{this.props.children}

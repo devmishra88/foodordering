@@ -8,7 +8,6 @@ const useStyles = (theme) => ({
     container:{
         paddingRight:theme.spacing(1),
         paddingLeft:theme.spacing(1),
-        paddingBottom:theme.spacing(1.5),
     },
     searwrapper:{
         width: '100%',
@@ -20,7 +19,7 @@ const useStyles = (theme) => ({
         alignItems: 'center',
         background: '#ffffff',
         padding: '0rem 0px 0px',
-        height: '5rem',
+        height: '4rem',
         position: 'sticky',
         top: '0px',
         zIndex: '2'
@@ -32,7 +31,7 @@ const useStyles = (theme) => ({
     firstfindchild:{
         position: 'relative',
         margin: '0px',
-        height: '4.8rem',
+        height: '4rem',
     },
     findchildsub:{
         display: 'inline-block',

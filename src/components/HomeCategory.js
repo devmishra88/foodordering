@@ -49,7 +49,6 @@ const useStyles = (theme) => ({
     fontSize:'1.5rem',
     marginRight:theme.spacing(1),
     marginLeft:theme.spacing(1),
-    marginTop:theme.spacing(1.5),
     marginBottom:theme.spacing(1.5),
   },
   viewalltitle:{

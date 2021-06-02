@@ -44,9 +44,9 @@ export default function FeaturedCategory() {
             <div className={classes.viewalltitle}><Skeleton width={120} height={40} /></div>
         </div>
         <div className={classes.root}>
-            <Skeleton variant="rect" width={120} height={120} style={{borderRadius:'10px'}}/>
-            <Skeleton variant="rect" width={120} height={120} style={{borderRadius:'10px'}}/>
-            <Skeleton variant="rect" width={120} height={120} style={{borderRadius:'10px'}}/>
+            <Skeleton variant="rect" width={110} height={110} style={{borderRadius:'10px'}}/>
+            <Skeleton variant="rect" width={110} height={110} style={{borderRadius:'10px'}}/>
+            <Skeleton variant="rect" width={110} height={110} style={{borderRadius:'10px'}}/>
         </div>
     </Fragment>
   );

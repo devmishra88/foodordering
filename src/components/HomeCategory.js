@@ -139,7 +139,7 @@ class HomeCategory extends Component {
                                 </Typography>
                                 <div className={classes.viewalltitle}>View all</div>
                             </div>
-                            <Carousel responsive={responsive} infinite={true} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
+                            <Carousel responsive={responsive} infinite={false} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
                             {featuredcategory.map((category, i) => {
                                 return(
                                   <div className={classes.dfjlEy} key={i}>

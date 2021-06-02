@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import {Link} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -334,7 +335,7 @@ class ItemsList extends Component {
                                 <Typography variant="h6" className={classes.title}>
                                     {popularitemheading}
                                 </Typography>
-                                <div className={classes.viewalltitle}>View all</div>
+                                <Link to="/allitems" style={{textDecoration:'none'}}><div className={classes.viewalltitle}>View all</div></Link>
                             </div>
                             <div>
                             {popularitems.map((item, i) => {

@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "dexie": "^3.0.3",
     "font-awesome": "^4.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -31,8 +32,7 @@
     ]
   },
   "browserslist": {
-    "production": [
-    ],
+    "production": [],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

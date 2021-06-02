@@ -29,7 +29,7 @@ class Menu extends Component {
         return (
 
             <Fragment>
-                <Header />
+                <Header title="Menu"/>
                 <Banner />
                 <Menusearch />
                 <HomeCategory />

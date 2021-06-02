@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import {Link} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -137,7 +138,7 @@ class HomeCategory extends Component {
                                 <Typography variant="h6" className={classes.title}>
                                     {categoryheading}
                                 </Typography>
-                                <div className={classes.viewalltitle}>View all</div>
+                                <Link to="/allcategories" style={{textDecoration:'none'}}><div className={classes.viewalltitle}>View all</div></Link>
                             </div>
                             <Carousel responsive={responsive} infinite={false} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
                             {featuredcategory.map((category, i) => {

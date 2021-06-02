@@ -3,7 +3,7 @@ import {Switch, Route, Link, Redirect, useHistory} from "react-router-dom";
 
 import {authContext} from './context/Auth';
 
-import {PublicPage, PrivatePage, LoginPage, Menu} from './screens';
+import {PublicPage, PrivatePage, LoginPage, Menu, AllCategories, AllItems, Itemdetail, CartDetail} from './screens';
 
 export default function App() {
   return (
@@ -19,6 +19,18 @@ export default function App() {
         </PrivateRoute>
         <PrivateRoute path="/menu">
           <Menu />
+        </PrivateRoute>
+        <PrivateRoute path="/allcategories">
+          <AllCategories />
+        </PrivateRoute>
+        <PrivateRoute path="/allitems">
+          <AllItems />
+        </PrivateRoute>
+        <PrivateRoute path="/itemdetail:id">
+          <Itemdetail />
+        </PrivateRoute>
+        <PrivateRoute path="/cartdetail">
+          <CartDetail />
         </PrivateRoute>
       </Switch>
   );

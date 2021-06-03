@@ -30,15 +30,20 @@ class ProductProvider extends Component{
 		return false;
 	}	
 
-	setAppHomeData = async (appid) => {
+	setAppHomeData = async () => {
 
 		let hasbanner			= false;
 		let hasfeaturedcategory	= false;
 		let haspopularitem		= false;
 
-		/*let tabledetail	= JSON.parse(localStorage.getItem('tabledetail'));*/
+		let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
 
-		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${appid}`) // api url
+		if(!restaurantid)
+		{
+			return;
+		}
+
+		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}`) // api url
 		.then( response => {
 
 			let homebanners				= response.data.banners.list;

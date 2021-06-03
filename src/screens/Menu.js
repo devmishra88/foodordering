@@ -11,14 +11,13 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            appid:'02e8cc31-5119-4fdf-b0c8-a518019ceec6'
         };
     }
     componentDidMount(){
 
         setTimeout(()=>{
 
-            this.context.setAppHomeData(this.state.appid);
+            this.context.setAppHomeData();
 
         },1500);
 

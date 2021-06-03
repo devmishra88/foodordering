@@ -14,6 +14,9 @@ export default function App() {
         <Route path="/login">
           <LoginPage />
         </Route>
+        <PrivateRoute path="/">
+          <Menu />
+        </PrivateRoute>
         <PrivateRoute path="/protected">
           <PrivatePage />
         </PrivateRoute>
@@ -62,11 +65,12 @@ function AuthButton() {
 
 function PrivateRoute({ children, ...rest }) {
   let auth = useAuth();
+
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        auth.user ? (
+        auth.restaurantid ? (
           children
         ) : (
           <Redirect

@@ -3,6 +3,7 @@ import {ProductConsumer} from '../context/Product';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { ProductContext } from '../context/Product';
 
@@ -27,17 +28,15 @@ const useStyles = (theme) => ({
     height: '8.5rem',
   },
   cattitle:{
-    position:'absolute',
     left:'0',
     right:'0',
     bottom: '2.5rem',
+    position:'absolute',
     zIndex:'1',
     color:'#ffffff',
-    padding:'.2rem .5rem',
-    borderRadius:'5px',
     textAlign: 'center',
     fontWeight: '500',
-    fontSize: '1.5rem',    
+    fontSize: '1.5rem',
   },
   dqsEmh : {
       width: '95%',
@@ -63,7 +62,8 @@ const useStyles = (theme) => ({
       borderRadius: 'inherit',
       filter: 'unset',
       transition: 'opacity 0.25s ease 0s, transform 0.25s ease 0s',
-      margin:'auto'
+      margin:'auto',
+      display:'block',
   }
 });
 
@@ -121,7 +121,9 @@ class AllCategories extends Component {
                                     ):null
                                 }
                                 </div>
-                                ):null
+                                ):(<div style={{display:'flex',alignItems:'center',justifyContent:'center',flexGrow: 1}}>
+                                    <CircularProgress disableShrink />
+                                </div>)
                             }
                         </div>
                     );

@@ -20,9 +20,9 @@ export default function App() {
         <PrivateRoute exact path="/protected">
           <PrivatePage />
         </PrivateRoute>
-        {/*<PrivateRoute path="/menu">
+        <PrivateRoute path="/menu">
           <Menu />
-        </PrivateRoute>*/}
+        </PrivateRoute>
         <PrivateRoute exact path="/allcategories">
           <AllCategories />
         </PrivateRoute>

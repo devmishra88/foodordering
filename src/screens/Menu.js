@@ -2,7 +2,7 @@ import React,{Component, Fragment} from 'react';
 
 import { ProductContext } from '../context/Product';
 
-import {Header, Banner, Menusearch, HomeCategory, FeaturedCategory, ItemsList} from '../components';
+import {Header, Banner, Menusearch, HomeCategory, ItemsList} from '../components';
 
 class Menu extends Component {
 
@@ -17,7 +17,7 @@ class Menu extends Component {
     componentDidMount(){
 
         this.context.setAppHomeData();
-        
+
     }
 
     render(){

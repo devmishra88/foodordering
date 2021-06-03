@@ -1,10 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {Link} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {Container} from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 
 import ItemLoading from './ItemLoading';
 
@@ -247,21 +246,6 @@ const useStyles = (theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
-  },
-  hTzRFw:{
-    /*-webkit-box-flex: 0;
-    -webkit-box-pack: center;
-    -webkit-box-align: center;*/
-    position: 'relative',
-    width: '100%',
-    flexGrow: '0',
-    flexShrink: '0',
-    maxWidth: '31.6667%',
-    padding: '0px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer',
   },
   iQCkqv:{
     /*-webkit-box-pack: center,

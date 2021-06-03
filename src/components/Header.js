@@ -1,4 +1,4 @@
-import React,{Fragment, useState} from 'react';
+import React,{useState} from 'react';
 import {Link} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,9 +16,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 

@@ -1,5 +1,5 @@
-import React,{Fragment,Component} from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import React,{Component} from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import {Container} from '@material-ui/core';
 import { ProductConsumer, ProductContext } from '../context/Product';
 import {Search,CrossSearch}  from '../constants';

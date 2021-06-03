@@ -242,21 +242,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     alignItems: 'center',
   },
-  hTzRFw:{
-    /*-webkit-box-flex: 0;
-    -webkit-box-pack: center;
-    -webkit-box-align: center;*/
-    position: 'relative',
-    width: '100%',
-    flexGrow: '0',
-    flexShrink: '0',
-    maxWidth: '31.6667%',
-    padding: '0px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer',
-  },
   iQCkqv:{
     /*-webkit-box-pack: center,
     -webkit-box-align: center,

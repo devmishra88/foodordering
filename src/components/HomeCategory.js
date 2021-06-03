@@ -1,9 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import {Link} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 
 import FeaturedCategoryLoading from './FeaturedCategoryLoading';
 

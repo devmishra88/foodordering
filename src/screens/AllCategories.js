@@ -1,4 +1,4 @@
-import React,{Component, Fragment} from 'react';
+import React,{Component} from 'react';
 import {ProductConsumer} from '../context/Product';
 
 import { withStyles } from '@material-ui/core/styles';

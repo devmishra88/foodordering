@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {ProductConsumer} from '../context/Product';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import Carousel from 'react-multi-carousel';
@@ -53,7 +53,6 @@ class Banner extends Component {
 	}
   
     render() {
-      const { classes } = this.props;
 
       return (
         <ProductConsumer>

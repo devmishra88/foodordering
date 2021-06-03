@@ -331,12 +331,16 @@ class ItemsList extends Component {
                 {
                     haspopularitem ? (
                         <Fragment>
+                        {
+                          this.props.showtitle ? (
                             <div className={classes.titlewrapper}>
                                 <Typography variant="h6" className={classes.title}>
                                     {popularitemheading}
                                 </Typography>
                                 <Link to="/allitems" style={{textDecoration:'none'}}><div className={classes.viewalltitle}>View all</div></Link>
                             </div>
+                          ):null
+                        }
                             <div>
                             {popularitems.map((item, i) => {
                                 return(
@@ -399,7 +403,7 @@ class ItemsList extends Component {
                     ):null
                 }
                 </Fragment>
-                ):<ItemLoading />
+                ):<ItemLoading showtitle={this.props.showtitle}/>
             }
                     </Fragment>
                 );

@@ -20,11 +20,16 @@ class ProductProvider extends Component{
 		haspopularitem:false,
 		isdataloaded:false,
 		searchkeyword:'',
-		
+
 		allcategoryheading:"",
 		iscategoryloaded:false,
 		hascategory:false,
 		allcategories:[],
+
+		allitems:[],
+		hasitems:false,
+		allitemsheading:"",
+		isitemloaded:false,
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -37,61 +42,72 @@ class ProductProvider extends Component{
 
 	setAppHomeData = async () => {
 
-		let hasbanner			= false;
-		let hasfeaturedcategory	= false;
-		let haspopularitem		= false;
-
-		let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
-
-		if(!restaurantid)
-		{
-			return;
-		}
-
-		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}`) // api url
-		.then( response => {
-
-			let homebanners				= response.data.banners.list;
-			let homebannersNum			= Object.keys(homebanners).length;
-			
-			let homecategories			= response.data.categories.list;
-			let homecategoriesNum		= Object.keys(homecategories).length;
-			
-			let homepopularitems		= response.data.popularitems.list;
-			let homepopularitemsNum		= Object.keys(homepopularitems).length;
-
-			if(homebannersNum > 0)
-			{
-				hasbanner	= true;
+		this.setState(()=>{
+			return{
+				isdataloaded:false,
+				haspopularitem:false,
 			}
+		},()=>{
+			setTimeout(()=>{
 
-			if(homecategoriesNum > 0)
-			{
-				hasfeaturedcategory	= true;
-			}
-			if(homepopularitemsNum > 0)
-			{
-				haspopularitem	= true;
-			}
+				let hasbanner			= false;
+				let hasfeaturedcategory	= false;
+				let haspopularitem		= false;
+		
+				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+		
+				if(!restaurantid)
+				{
+					return;
+				}
+		
+				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}`) // api url
+				.then( response => {
+		
+					let homebanners				= response.data.banners.list;
+					let homebannersNum			= Object.keys(homebanners).length;
+					
+					let homecategories			= response.data.categories.list;
+					let homecategoriesNum		= Object.keys(homecategories).length;
+					
+					let homepopularitems		= response.data.popularitems.list;
+					let homepopularitemsNum		= Object.keys(homepopularitems).length;
+		
+					if(homebannersNum > 0)
+					{
+						hasbanner	= true;
+					}
+		
+					if(homecategoriesNum > 0)
+					{
+						hasfeaturedcategory	= true;
+					}
+					if(homepopularitemsNum > 0)
+					{
+						haspopularitem	= true;
+					}
+		
+					this.setState(()=>{
+						return{
+							banners:homebanners,
+							hasbanner:hasbanner,
+							featuredcategory:homecategories,
+							hasfeaturedcategory:hasfeaturedcategory,
+							popularitems:homepopularitems,
+							haspopularitem:haspopularitem,
+							bannerheading:response.data.banners.title,
+							categoryheading:response.data.categories.title,
+							popularitemheading:response.data.popularitems.title,
+							isdataloaded:true,
+						};
+					});
+				})
+				.catch(function (error) {
+					console.log(error);
+				});				
 
-			this.setState(()=>{
-				return{
-					banners:homebanners,
-					hasbanner:hasbanner,
-					featuredcategory:homecategories,
-					hasfeaturedcategory:hasfeaturedcategory,
-					popularitems:homepopularitems,
-					haspopularitem:haspopularitem,
-					bannerheading:response.data.banners.title,
-					categoryheading:response.data.categories.title,
-					popularitemheading:response.data.popularitems.title,
-					isdataloaded:true,
-				};
-			});
-		})
-		.catch(function (error) {
-			console.log(error);
-		});		
+			},1000);
+		});
 	}
 
 	setAppAllCategories = async () => {
@@ -128,6 +144,58 @@ class ProductProvider extends Component{
 		.catch(function (error) {
 			console.log(error);
 		});		
+	}
+
+	setAllItems = async () => {
+
+		this.setState(()=>{
+			return{
+				isdataloaded:false,
+				haspopularitem:false,
+			}
+		},()=>{
+			setTimeout(()=>{
+
+				let temphasitems		= false;
+
+				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+		
+				if(!restaurantid)
+				{
+					return;
+				}
+		
+				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=popular`) // api url
+				.then( response => {
+								
+					let allitems		= response.data.popularitems.list;
+					let allitemsNum		= Object.keys(allitems).length;
+		
+					if(allitemsNum > 0)
+					{
+						temphasitems	= true;
+					}
+		
+					this.setState(()=>{
+						return{
+							/*allitems:allitems,
+							hasitems:temphasitems,
+							allitemsheading:response.data.popularitems.title,
+							isitemloaded:true,*/
+							popularitems:allitems,
+							haspopularitem:temphasitems,
+							allitemsheading:response.data.popularitems.title,
+							popularitemheading:response.data.popularitems.title,
+							isdataloaded:true,
+						};
+					});
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
+			},1000);
+		});	
 	}
 
 	getItem = (id) =>{
@@ -213,6 +281,7 @@ class ProductProvider extends Component{
 			...this.state,
                 setAppHomeData:this.setAppHomeData,
                 setAppAllCategories:this.setAppAllCategories,
+                setAllItems:this.setAllItems,
 				handleUserInput:this.handleUserInput,
 				showHideSearch:this.showHideSearch,
 				handleChange:this.handleChange,

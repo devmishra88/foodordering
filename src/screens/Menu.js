@@ -11,17 +11,13 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
         };
     }
     componentDidMount(){
 
-        setTimeout(()=>{
-
-            this.context.setAppHomeData();
-
-        },1500);
-
+        this.context.setAppHomeData();
+        
     }
 
     render(){
@@ -33,7 +29,7 @@ class Menu extends Component {
                 <Banner />
                 <Menusearch />
                 <HomeCategory />
-                <ItemsList />
+                <ItemsList showtitle={true} />
             </Fragment>
         )
     }

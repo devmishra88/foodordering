@@ -297,17 +297,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemLoading() {
+export default function ItemLoading(props) {
   const classes = useStyles();
 
   return (
     <Fragment>
+    {
+        props.showtitle ? (
         <div className={classes.titlewrapper}>
             <Typography variant="h6" className={classes.title}>
                 <Skeleton width="100%" /> 
             </Typography>
             <div className={classes.viewalltitle}><Skeleton width={120} height={40} /></div>
         </div>
+        ):null
+    }
         <div className={classes.root}>
         <Container maxWidth="lg" className={classes.itelist}>
         <div>

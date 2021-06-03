@@ -8,31 +8,31 @@ import {PublicPage, PrivatePage, LoginPage, Menu, AllCategories, AllItems, Itemd
 export default function App() {
   return (
       <Switch>
-        <Route path="/public">
+        <Route exact path="/public">
           <PublicPage />
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <LoginPage />
         </Route>
-        <PrivateRoute path="/">
+        <PrivateRoute exact path="/">
           <Menu />
         </PrivateRoute>
-        <PrivateRoute path="/protected">
+        <PrivateRoute exact path="/protected">
           <PrivatePage />
         </PrivateRoute>
-        <PrivateRoute path="/menu">
+        {/*<PrivateRoute path="/menu">
           <Menu />
-        </PrivateRoute>
-        <PrivateRoute path="/allcategories">
+        </PrivateRoute>*/}
+        <PrivateRoute exact path="/allcategories">
           <AllCategories />
         </PrivateRoute>
-        <PrivateRoute path="/allitems">
+        <PrivateRoute exact path="/allitems">
           <AllItems />
         </PrivateRoute>
-        <PrivateRoute path="/itemdetail:id">
+        <PrivateRoute exact path="/itemdetail:id">
           <Itemdetail />
         </PrivateRoute>
-        <PrivateRoute path="/cartdetail">
+        <PrivateRoute exact path="/cartdetail">
           <CartDetail />
         </PrivateRoute>
       </Switch>
@@ -70,6 +70,7 @@ function PrivateRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
+      
         auth.restaurantid ? (
           children
         ) : (

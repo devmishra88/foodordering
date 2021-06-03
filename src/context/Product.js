@@ -20,6 +20,11 @@ class ProductProvider extends Component{
 		haspopularitem:false,
 		isdataloaded:false,
 		searchkeyword:'',
+		
+		allcategoryheading:"",
+		iscategoryloaded:false,
+		hascategory:false,
+		allcategories:[],
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -81,6 +86,42 @@ class ProductProvider extends Component{
 					categoryheading:response.data.categories.title,
 					popularitemheading:response.data.popularitems.title,
 					isdataloaded:true,
+				};
+			});
+		})
+		.catch(function (error) {
+			console.log(error);
+		});		
+	}
+
+	setAppAllCategories = async () => {
+
+		let temphascategory	= false;
+
+		let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+
+		if(!restaurantid)
+		{
+			return;
+		}
+
+		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=category`) // api url
+		.then( response => {
+			
+			let categories		= response.data.categories.list;
+			let categoriesNum	= Object.keys(categories).length;
+			
+			if(categoriesNum > 0)
+			{
+				temphascategory	= true;
+			}
+
+			this.setState(()=>{
+				return{
+					iscategoryloaded:true,
+					hascategory:temphascategory,
+					allcategories:categories,
+					allcategoryheading:response.data.categories.title,
 				};
 			});
 		})
@@ -171,6 +212,7 @@ class ProductProvider extends Component{
 			<ProductContext.Provider value={{
 			...this.state,
                 setAppHomeData:this.setAppHomeData,
+                setAppAllCategories:this.setAppAllCategories,
 				handleUserInput:this.handleUserInput,
 				showHideSearch:this.showHideSearch,
 				handleChange:this.handleChange,

@@ -1,8 +1,71 @@
 import React,{Component, Fragment} from 'react';
+import {ProductConsumer} from '../context/Product';
+
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 import { ProductContext } from '../context/Product';
 
 import {Header} from '../components';
+
+const useStyles = (theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  gridList:{
+    justifyContent:'space-between',
+    marginTop:theme.spacing(1),
+  },
+  dfjlEy : {
+    borderRadius: '0.4rem',
+    overflow: 'hidden',
+	visibility: 'visible',
+    transition: 'all 0.12s ease 0s',
+    position: 'relative',
+    maxWidth: '100%',
+    width: '8.5rem',
+    height: '8.5rem',
+  },
+  cattitle:{
+    position:'absolute',
+    left:'0',
+    right:'0',
+    bottom: '2.5rem',
+    zIndex:'1',
+    color:'#ffffff',
+    padding:'.2rem .5rem',
+    borderRadius:'5px',
+    textAlign: 'center',
+    fontWeight: '500',
+    fontSize: '1.5rem',    
+  },
+  dqsEmh : {
+      width: '95%',
+      height: '95%',
+      position: 'absolute',
+      top: '0px',
+      right:'0px',
+      bottom:'0px',
+      left: '0px',
+      background: 'linear-gradient(to right, rgb(248, 248, 248) 0%, rgb(255, 255, 255) 10%, rgb(248, 248, 248) 40%, rgb(248, 248, 248) 100%) no-repeat rgb(248, 248, 248)',
+      opacity: '0',
+      transition: 'opacity 0.25s ease-out 0s',
+      willChange: 'opacity',
+      borderRadius: 'inherit',
+  },
+  hppEfq : {
+      width: '95%',
+      height: '95%',
+      objectFit: 'cover',
+      transform: 'none',
+      opacity: '1',
+      willChange: 'transform, opacity',
+      borderRadius: 'inherit',
+      filter: 'unset',
+      transition: 'opacity 0.25s ease 0s, transform 0.25s ease 0s',
+      margin:'auto'
+  }
+});
 
 class AllCategories extends Component {
 
@@ -17,17 +80,55 @@ class AllCategories extends Component {
     }
     componentDidMount(){
 
+        setTimeout(()=>{
+
+            this.context.setAppAllCategories();
+
+        },1500);
+
     }
 
     render(){
+
+        const { classes } = this.props;
         
         return (
 
-            <Fragment>
-                <Header title="Categories"/>
-            </Fragment>
+            <ProductConsumer>
+                {(value) => {
+
+                    const{allcategoryheading, iscategoryloaded, hascategory, allcategories} = value;
+
+                    return (
+                        <div className={classes.root}>
+                            <Header title={allcategoryheading}/>
+                            {
+                                iscategoryloaded ? (<div>
+                                {
+                                    hascategory ? (<Grid container spacing={1} className={classes.gridList}>
+                                        
+                                        {allcategories.map((category, i) => {
+                                            return(
+                                                <Grid item xs={6} className={classes.dfjlEy}  key={i}>
+                                                    <div className={classes.cattitle}>{category.category_name}</div>
+                                                    <div className={classes.dqsEmh}></div>
+                                                    <img alt={`${category.category_name} - Category`} src={category.image_url} className={classes.hppEfq} />
+                                                </Grid>
+                                            );
+                                        })
+                                        }
+                                        </Grid>
+                                    ):null
+                                }
+                                </div>
+                                ):null
+                            }
+                        </div>
+                    );
+                }}
+            </ProductConsumer>
         )
     }
 }
 
-export default AllCategories;
+export default withStyles(useStyles, { withTheme: true })(AllCategories);

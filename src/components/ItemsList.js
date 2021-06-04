@@ -234,7 +234,7 @@ const useStyles = (theme) => ({
     width: '6rem',
     height: '2rem',
     border: '1px solid #00B970',
-    borderRadius: '0.6rem',
+    borderRadius: '0.2rem',
     overflow: 'hidden',
     cursor: 'initial',
     userSelect: 'none',
@@ -297,6 +297,10 @@ class ItemsList extends Component {
 
         }
 	}
+
+  componentDidMount(){
+
+  }
   
     render() {
       const { classes } = this.props;
@@ -306,7 +310,7 @@ class ItemsList extends Component {
             {(value) => {
 
                 const{isdataloaded, haspopularitem, popularitems, popularitemheading, id} = value;
-                const{decrement, increment} = value;
+                const{decrement, increment, addtocart, toggleItemOption, toggleItemRepeatOption, toggleRemoveItemOption} = value;
 
                 return (
                     <Fragment>
@@ -351,30 +355,38 @@ class ItemsList extends Component {
                                             <div className={classes.jOoliK}>
                                               <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price}</span>
                                             </div>
-                                            {/*<div className={classes.fJNrek}>
-                                              <div className={classes.cBmpNp}>
-                                                <span className={classes.fTsfFl}>Add</span>
-                                                <i className={classes.MxLSp} size="14" color="#ED5A6B">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="#ED5A6B" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.hoSSCx}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg>
-                                                </i>
-                                              </div>
-                                            </div>*/}
-                                            <div className={classes.qtychildin}>
-
-                                                  <div className={classes.cMipmx}>
-                                                      <div className={classes.hTzRFw} onClick={()=>decrement(id)}>
-                                                          <Remove />
-                                                      </div>
-                                                      <div className={classes.iQCkqv}>
-                                                          <span className={classes.qtytitle} style={{
-                                                              color:'#FFF6F7'
-                                                          }}>1</span>
-                                                      </div>
-                                                      <div className={classes.hTzRFw} onClick={()=>increment(id)}>
-                                                          <Plus />
-                                                      </div>
+                                            {
+                                              !item.inCart ? (
+                                                <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}><div className={classes.fJNrek}>
+                                                  <div className={classes.cBmpNp}>
+                                                    <span className={classes.fTsfFl}>Add</span>
+                                                    <i className={classes.MxLSp} size="14" color="#00B970">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="#00B970" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.hoSSCx}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg>
+                                                    </i>
                                                   </div>
-                                          </div>
+                                                </div></Link>
+                                              ):(
+                                              <div className={classes.qtychildin}>
+                                                    <div className={classes.cMipmx}>
+                                                      <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                                        <div className={classes.hTzRFw}>
+                                                            <Remove />
+                                                        </div>
+                                                      </Link>
+                                                        <div className={classes.iQCkqv}>
+                                                            <span className={classes.qtytitle} style={{
+                                                                color:'#FFF6F7'
+                                                            }}>{item.count}</span>
+                                                        </div>
+                                                        <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                                          <div className={classes.hTzRFw}>
+                                                              <Plus />
+                                                          </div>
+                                                        </Link>
+                                                    </div>
+                                              </div>
+                                              )
+                                            }
                                           </div>
                                         </div>
                                       </div>

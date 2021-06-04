@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import axios from "axios";
 
+import IDB from '../idb';
+
 const ProductContext = React.createContext();
 //Provider
 //Consumer
@@ -9,6 +11,7 @@ const ProductContext = React.createContext();
 class ProductProvider extends Component{
 
 	state = {
+		db:new IDB('nosh_v1')/*jshint ignore:line*/,
 		banners:[],
 		featuredcategory:[],
 		popularitems:[],
@@ -40,7 +43,7 @@ class ProductProvider extends Component{
 		return false;
 	}	
 
-	setAppHomeData = async () => {
+	setAppHomeData = () => {
 
 		this.setState(()=>{
 			return{
@@ -48,7 +51,10 @@ class ProductProvider extends Component{
 				haspopularitem:false,
 			}
 		},()=>{
-			setTimeout(()=>{
+			setTimeout(async()=>{
+
+				let tempProducts 		= [];
+				let tempCart			= [];
 
 				let hasbanner			= false;
 				let hasfeaturedcategory	= false;
@@ -60,7 +66,18 @@ class ProductProvider extends Component{
 				{
 					return;
 				}
-		
+
+				const cartdetails	= await this.state.db.fetchAllCartItem();
+
+				if(cartdetails)
+				{
+					cartdetails.forEach(item => {
+						const singleCartItem = {...item, tempinstock:true};
+	
+						tempCart = [...tempCart, singleCartItem];
+					});
+				}
+
 				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}`) // api url
 				.then( response => {
 		
@@ -82,9 +99,52 @@ class ProductProvider extends Component{
 					{
 						hasfeaturedcategory	= true;
 					}
+
 					if(homepopularitemsNum > 0)
 					{
 						haspopularitem	= true;
+
+						let item;
+						for(item in homepopularitems)
+						{
+							let singleItem	= homepopularitems[item];
+
+							const id		= singleItem.id;
+							const price		= singleItem.price;
+
+							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
+
+							singleItem		= {...singleItem, busy:false, canuseoption:false, canrepeatoption:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+
+							if(cartProduct)
+							{
+								if(singleItem.iscustomization)
+								{
+									let tempcount	= 0;
+	
+									const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+	
+									customizationTempCart.forEach((customizeitem)=>{
+	
+										const singlecustomizeitem = {...customizeitem};
+	
+										tempcount	+= singlecustomizeitem.count;
+									});
+	
+									singleItem.count	= tempcount;
+									singleItem.total	= cartProduct.total;
+								}
+								else
+								{
+									singleItem.count	= cartProduct.count;
+									singleItem.total	= cartProduct.total;
+								}
+
+								singleItem.inCart	= true;
+							}
+
+							tempProducts = [...tempProducts, singleItem];
+						}
 					}
 		
 					this.setState(()=>{
@@ -93,7 +153,7 @@ class ProductProvider extends Component{
 							hasbanner:hasbanner,
 							featuredcategory:homecategories,
 							hasfeaturedcategory:hasfeaturedcategory,
-							popularitems:homepopularitems,
+							popularitems:tempProducts,
 							haspopularitem:haspopularitem,
 							bannerheading:response.data.banners.title,
 							categoryheading:response.data.categories.title,
@@ -146,7 +206,7 @@ class ProductProvider extends Component{
 		});		
 	}
 
-	setAllItems = async () => {
+	setAllItems = () => {
 
 		this.setState(()=>{
 			return{
@@ -154,7 +214,10 @@ class ProductProvider extends Component{
 				haspopularitem:false,
 			}
 		},()=>{
-			setTimeout(()=>{
+			setTimeout(async()=>{
+
+				let tempProducts 		= [];
+				let tempCart			= [];
 
 				let temphasitems		= false;
 
@@ -164,7 +227,18 @@ class ProductProvider extends Component{
 				{
 					return;
 				}
-		
+				
+				const cartdetails	= await this.state.db.fetchAllCartItem();
+
+				if(cartdetails)
+				{
+					cartdetails.forEach(item => {
+						const singleCartItem = {...item, tempinstock:true};
+	
+						tempCart = [...tempCart, singleCartItem];
+					});
+				}
+				
 				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=popular`) // api url
 				.then( response => {
 								
@@ -174,6 +248,48 @@ class ProductProvider extends Component{
 					if(allitemsNum > 0)
 					{
 						temphasitems	= true;
+
+						let item;
+						for(item in allitems)
+						{
+							let singleItem	= allitems[item];
+
+							const id		= singleItem.id;
+							const price		= singleItem.price;
+
+							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
+
+							singleItem		= {...singleItem, busy:false, canuseoption:false, canrepeatoption:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+
+							if(cartProduct)
+							{
+								if(singleItem.iscustomization)
+								{
+									let tempcount	= 0;
+	
+									const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+	
+									customizationTempCart.forEach((customizeitem)=>{
+	
+										const singlecustomizeitem = {...customizeitem};
+	
+										tempcount	+= singlecustomizeitem.count;
+									});
+	
+									singleItem.count	= tempcount;
+									singleItem.total	= cartProduct.total;
+								}
+								else
+								{
+									singleItem.count	= cartProduct.count;
+									singleItem.total	= cartProduct.total;
+								}
+
+								singleItem.inCart	= true;
+							}
+
+							tempProducts = [...tempProducts, singleItem];
+						}
 					}
 		
 					this.setState(()=>{
@@ -182,7 +298,7 @@ class ProductProvider extends Component{
 							hasitems:temphasitems,
 							allitemsheading:response.data.popularitems.title,
 							isitemloaded:true,*/
-							popularitems:allitems,
+							popularitems:tempProducts,
 							haspopularitem:temphasitems,
 							allitemsheading:response.data.popularitems.title,
 							popularitemheading:response.data.popularitems.title,

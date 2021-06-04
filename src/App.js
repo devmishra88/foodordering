@@ -29,7 +29,7 @@ export default function App() {
         <PrivateRoute exact path="/allitems">
           <AllItems />
         </PrivateRoute>
-        <PrivateRoute exact path="/itemdetail:id">
+        <PrivateRoute exact path="/itemdetail/:id">
           <Itemdetail />
         </PrivateRoute>
         <PrivateRoute exact path="/cartdetail">

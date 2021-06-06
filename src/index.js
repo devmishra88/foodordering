@@ -3,6 +3,8 @@ import React from 'react';
 import {ProvideAuth} from './context/Auth';
 import {ProductProvider} from './context/Product';
 
+import './assets/css/custom.css';
+
 import {
   BrowserRouter as Router
 } from "react-router-dom";

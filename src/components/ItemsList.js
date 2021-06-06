@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -309,8 +309,7 @@ class ItemsList extends Component {
         <ProductConsumer>
             {(value) => {
 
-                const{isdataloaded, haspopularitem, popularitems, popularitemheading, id} = value;
-                const{decrement, increment, addtocart, toggleItemOption, toggleItemRepeatOption, toggleRemoveItemOption} = value;
+                const{isdataloaded, haspopularitem, popularitems, popularitemheading} = value;
 
                 return (
                     <Fragment>
@@ -367,23 +366,23 @@ class ItemsList extends Component {
                                                 </div></Link>
                                               ):(
                                               <div className={classes.qtychildin}>
-                                                    <div className={classes.cMipmx}>
+                                                  <div className={classes.cMipmx}>
+                                                    <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                                      <div className={classes.hTzRFw}>
+                                                          <Remove />
+                                                      </div>
+                                                    </Link>
+                                                      <div className={classes.iQCkqv}>
+                                                          <span className={classes.qtytitle} style={{
+                                                              color:'#FFF6F7'
+                                                          }}>{item.count}</span>
+                                                      </div>
                                                       <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                                         <div className={classes.hTzRFw}>
-                                                            <Remove />
+                                                            <Plus />
                                                         </div>
                                                       </Link>
-                                                        <div className={classes.iQCkqv}>
-                                                            <span className={classes.qtytitle} style={{
-                                                                color:'#FFF6F7'
-                                                            }}>{item.count}</span>
-                                                        </div>
-                                                        <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
-                                                          <div className={classes.hTzRFw}>
-                                                              <Plus />
-                                                          </div>
-                                                        </Link>
-                                                    </div>
+                                                  </div>
                                               </div>
                                               )
                                             }
@@ -409,4 +408,4 @@ class ItemsList extends Component {
     }
 }
 
-export default withStyles(useStyles, { withTheme: true })(ItemsList);
+export default withRouter(withStyles(useStyles, { withTheme: true })(ItemsList));

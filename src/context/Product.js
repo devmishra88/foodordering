@@ -33,6 +33,10 @@ class ProductProvider extends Component{
 		hasitems:false,
 		allitemsheading:"",
 		isitemloaded:false,
+
+		itemdetail:[],
+		hasitemdetail:false,
+		isdetailloaded:false,
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -241,7 +245,7 @@ class ProductProvider extends Component{
 				
 				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=popular`) // api url
 				.then( response => {
-								
+
 					let allitems		= response.data.popularitems.list;
 					let allitemsNum		= Object.keys(allitems).length;
 		
@@ -317,12 +321,117 @@ class ProductProvider extends Component{
 	getItem = (id) =>{
 		const product = this.state.products.find(item => item.id === id);
 		return product;
-	};
+	}
 
 	getLiveItem = (id) =>{
 		const product = this.state.allproducts.find(item => item.id === id);
 		return product;
-	};
+	}
+
+	getItemDetail = (id) =>{
+
+		this.setState(()=>{
+			return{
+				itemdetail:[],
+				hasitemdetail:false,
+				isdetailloaded:false,
+			}
+		},()=>{
+			setTimeout(async()=>{
+
+				let tempDetail 		= [];
+				let tempCart		= [];
+
+				let temphasitemdetail	= false;
+
+				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+		
+				if(!restaurantid)
+				{
+					return;
+				}
+				
+				const cartdetails	= await this.state.db.fetchAllCartItem();
+
+				if(cartdetails)
+				{
+					cartdetails.forEach(item => {
+						const singleCartItem = {...item, tempinstock:true};
+	
+						tempCart = [...tempCart, singleCartItem];
+					});
+				}
+				
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant_item?mid=${restaurantid}&iid=${id}`) // api url
+				.then( response => {
+					
+					let orgitemdetail	= response.data[0];
+					let itemdetailNum	= Object.keys(orgitemdetail).length;
+		
+					if(itemdetailNum > 0)
+					{
+						temphasitemdetail	= true;
+
+						let item;
+						/*for(item in allitems)
+						{
+							let singleItem	= allitems[item];
+
+							const id		= singleItem.id;
+							const price		= singleItem.price;
+
+							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
+
+							singleItem		= {...singleItem, busy:false, canuseoption:false, canrepeatoption:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+
+							if(cartProduct)
+							{
+								if(singleItem.iscustomization)
+								{
+									let tempcount	= 0;
+	
+									const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+	
+									customizationTempCart.forEach((customizeitem)=>{
+	
+										const singlecustomizeitem = {...customizeitem};
+	
+										tempcount	+= singlecustomizeitem.count;
+									});
+	
+									singleItem.count	= tempcount;
+									singleItem.total	= cartProduct.total;
+								}
+								else
+								{
+									singleItem.count	= cartProduct.count;
+									singleItem.total	= cartProduct.total;
+								}
+
+								singleItem.inCart	= true;
+							}
+
+							tempProducts = [...tempProducts, singleItem];
+						}*/
+					}
+
+					let tempitemdetail	= orgitemdetail;
+
+					this.setState(()=>{
+						return{
+							isdetailloaded:true,
+							hasitemdetail:temphasitemdetail,
+							itemdetail:tempitemdetail,
+						};
+					});
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
+			},1000);
+		});
+	}
 
 	handleUserInput = (e) =>{
 		const name	= e.target.name;
@@ -398,6 +507,7 @@ class ProductProvider extends Component{
                 setAppHomeData:this.setAppHomeData,
                 setAppAllCategories:this.setAppAllCategories,
                 setAllItems:this.setAllItems,
+                getItemDetail:this.getItemDetail,
 				handleUserInput:this.handleUserInput,
 				showHideSearch:this.showHideSearch,
 				handleChange:this.handleChange,

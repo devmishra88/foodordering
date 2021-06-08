@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useContext} from 'react';
 import {Link} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -21,6 +21,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { MenuItem, Badge } from '@material-ui/core';
 
+import {ProductContext} from '../context/Product';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header(props) {
+
+  const glbproduct = useContext(ProductContext);
+
   const classes = useStyles();
 
   const [isopen, setMobileOpen] = useState(false);
@@ -94,8 +98,8 @@ export default function Header(props) {
           {/*<Button color="inherit">Login</Button>*/}
           <MenuItem>
             <Link to="/cartdetail" style={{textDecoration:'none',color:'#ffffff'}}>
-              <IconButton aria-label="show 5 new notifications" color="inherit">
-                <Badge badgeContent={5} color="secondary">
+              <IconButton aria-label={`show ${glbproduct.cartTotalItem} new items`} color="inherit">
+                <Badge badgeContent={glbproduct.cartTotalItem} color="secondary">
                 <ShoppingCartIcon />
                 </Badge>
               </IconButton>

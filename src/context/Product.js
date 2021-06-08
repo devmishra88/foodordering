@@ -37,6 +37,13 @@ class ProductProvider extends Component{
 		itemdetail:[],
 		hasitemdetail:false,
 		isdetailloaded:false,
+
+		cartSubTotal:0,
+		cartTax:0,
+		cartTotal:0,
+		cartTotalItem:0,
+		cart:[],
+
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -492,12 +499,482 @@ class ProductProvider extends Component{
 
 	}
 
-	decrement = ()=>{
+	showBusy=(id)=>{
 
 	}
 
-	increment = ()=>{
+	hideBusy=(id)=>{
 
+	}
+
+	getItem = (id) =>{
+		const product = this.state.products.find(item => item.id === id);
+		return product;
+	};
+
+	addToCart = (id, hasoption) =>{
+
+		Promise.all([this.showBusy(id)])
+        .then(async () => {
+
+			let tempProducts	= [...this.state.products];
+
+			const index			= tempProducts.indexOf(this.getItem(id));
+			const product		= tempProducts[index];
+
+			product.inCart		= true;
+			const price			= product.price;
+
+			if(hasoption === false)
+			{
+				product.count	= 1;
+				product.total	= price;
+			}
+			else
+			{
+				product.canuseoption	= false;
+				product.canrepeatoption	= false;
+
+				let tempcount	= product.customitemqty;
+
+				product.count	= tempcount;
+				product.total	= price * tempcount;
+			}
+
+			await this.state.db.addNewItemInCart(product);
+
+			this.setState(()=>{
+				return {
+					canuseoption:false,
+					canrepeatoption:false,
+					singlecustomizableitem:[],
+					isduplicateorder:false,
+					products:tempProducts,
+					cart:[...this.state.cart, product]
+				};
+			},()=>{
+
+				this.setProducts();
+			})
+    	})
+	}
+
+	increment = (id) => {
+
+		Promise.all([this.showBusy(id)])
+        .then(async () => {
+
+			let tempProduct			= [...this.state.products];
+			let tempCart			= [...this.state.cart];
+
+			const selectedCartProduct	= tempCart.find(cartitem=>cartitem.id === id);
+
+			const cartindex		= tempCart.indexOf(selectedCartProduct);
+			let cartproduct		= [];
+
+			let latestcartitem	= [];
+
+			let tempcount	= 0;
+
+			if(Number(selectedCartProduct.iscustomization) === 1)
+			{
+				const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+
+				customizationTempCart.forEach((customizeitem)=>{
+
+					const singlecustomizeitem = {...customizeitem};
+
+					latestcartitem	= singlecustomizeitem;
+
+					tempcount	+= singlecustomizeitem.count;
+				});
+			}
+			else
+			{
+				latestcartitem	= tempCart[cartindex];
+				tempcount		= latestcartitem.count;
+			}
+
+			cartproduct	= latestcartitem;
+
+			cartproduct.count	= cartproduct.count + 1;
+			cartproduct.total	= cartproduct.price * cartproduct.count;
+
+			const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
+			const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
+			const storeproduct			= tempProduct[storeitemindex];
+
+			storeproduct.count	= tempcount+1;
+			storeproduct.total	= latestcartitem.total;
+
+			storeproduct.canuseoption		= false;
+			storeproduct.canrepeatoption	= false;
+
+			await this.state.db.updateCartItem(cartproduct);
+
+			this.setState(
+				()=>{
+					return{
+						isduplicateorder:false,
+						canplaceorder:false,
+						canuseoption:false,
+						canrepeatoption:false,
+					};
+				},
+				()=>{
+					this.setProducts();
+				}
+			);
+
+		})
+		.then(()=>{
+			this.hideBusy(id);
+		})
+	}
+
+	decrement = async (id) => {
+
+		let tempCart			= [...this.state.cart];
+		let tempProduct			= [...this.state.products];
+
+		const selectedCartProduct	= tempCart.find(item=>item.id === id);
+
+		const cartindex		= tempCart.indexOf(selectedCartProduct);
+		const cartproduct	= tempCart[cartindex];
+
+		cartproduct.count	= cartproduct.count - 1;
+
+		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
+		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
+		const storeproduct			= tempProduct[storeitemindex];
+
+		storeproduct.count	= cartproduct.count;
+
+		if(cartproduct.count === 0)
+		{
+			this.removeItem(id);
+		}
+		else
+		{
+			cartproduct.total	= cartproduct.price * cartproduct.count;
+
+			storeproduct.total	= cartproduct.total;
+
+			await this.state.db.updateCartItem(cartproduct);
+
+			this.setState(
+				()=>{
+					return{
+						isduplicateorder:false,
+						canplaceorder:false,
+						products:[...tempProduct],
+						cart:[...tempCart]
+					};
+				},
+				()=>{
+					this.hideBusy(id);
+					this.addTotals();
+				}
+			);
+		}
+	}
+
+	removeItem = async (id) => {
+
+		this.showBusy(id);
+
+		let tempProducts	= [...this.state.products];
+		let tempCart		= [...this.state.cart];
+
+		tempCart	= tempCart.filter(item => item.id !== id);
+		const index	= tempProducts.indexOf(this.getItem(id));
+
+		let removedProduct	= tempProducts[index];
+
+		removedProduct.inCart	= false;
+		removedProduct.count	= 0;
+		removedProduct.total	= 0;
+
+		await this.state.db.deleteCartItem(removedProduct);
+
+		this.setState(
+			()=>{
+				return{
+					isduplicateorder:false,
+					canplaceorder:false,
+					cart:[...tempCart],
+					products:[...tempProducts]
+				};
+			},
+			()=>{
+				this.hideBusy(id);
+				this.addTotals();
+			}
+		);
+	}
+
+	incrementCustomOption = async(tempcartid) => {
+
+		let tempCart			= [...this.state.cart];
+
+		const cartproduct	= tempCart.find(cartitem=>cartitem.tempcartid === tempcartid);
+
+		cartproduct.count	= cartproduct.count + 1;
+		cartproduct.total	= cartproduct.price * cartproduct.count;
+
+		await this.state.db.updateCartItem(cartproduct);
+
+		this.setState(
+			()=>{
+				return{
+					isduplicateorder:false,
+					canplaceorder:false,
+					canuseoption:false,
+					canrepeatoption:false,
+				};
+			},
+			()=>{
+				document.body.style.overflow = "auto";
+				this.setProducts();
+			}
+		);
+	}
+
+	decrementCustomOption = async (tempcartid) => {
+
+		let tempCart			= [...this.state.cart];
+
+		const selectedCartProduct	= tempCart.find(item=>item.tempcartid === tempcartid);
+
+		const cartindex		= tempCart.indexOf(selectedCartProduct);
+		const cartproduct	= tempCart[cartindex];
+
+		let tempcount	= cartproduct.count - 1;
+
+		if(tempcount === 0)
+		{
+			this.removeItemCustomOption(tempcartid);
+		}
+		else
+		{
+			/*cartproduct.count	= cartproduct.count - 1;*/
+			if(tempcount < 1)
+			{
+				tempcount	= 1;
+			}
+			cartproduct.count	= tempcount;
+
+			cartproduct.total	= cartproduct.price * cartproduct.count;
+
+			await this.state.db.updateCartItem(cartproduct);
+
+			this.setState(
+				()=>{
+					return{
+						isduplicateorder:false,
+						canplaceorder:false,
+						cart:[...tempCart]
+					};
+				},
+				()=>{
+					document.body.style.overflow = "auto";
+					this.setProducts();
+				}
+			);
+		}
+	}
+
+	removeItemCustomOption = async (tempcartid) => {
+
+		let tempCart	= [...this.state.cart];
+
+		const removedProduct	= tempCart.find(item => item.tempcartid === tempcartid);
+
+		removedProduct.inCart	= false;
+		removedProduct.count	= 0;
+		removedProduct.total	= 0;
+
+		await this.state.db.deleteCartItemOption(removedProduct);
+
+		this.setState(
+			()=>{
+				return{
+					isduplicateorder:false,
+					canplaceorder:false,
+				};
+			},
+			()=>{
+				this.setProducts();
+			}
+		);
+	}
+
+	handleOptionSelection = (id, categoryid, optionid, type) =>{
+
+		let tempProducts	= [...this.state.products];
+		const index			= tempProducts.indexOf(this.getItem(id));
+		const product		= tempProducts[index];
+
+		let hasselectedoption	= false;
+
+		let tempOptionGroup	= product.itemoptions.find(optiongroup => optiongroup.customcatid === categoryid);
+		let tempOption		= [...tempOptionGroup.options];
+
+		if(type === 'radio')
+		{
+			tempOption.forEach((item)=>{
+				item.checked = false;
+			});
+		}
+
+		let tempItemOption	= tempOption.find(itemoption => itemoption.optionid === optionid);
+
+		tempItemOption.checked	= !tempItemOption.checked;
+
+		tempOption.forEach((option)=>{
+
+			if(option.checked === true)
+			{
+				hasselectedoption = true;				
+			}
+		})
+
+		let tempoptionprice	= 0;
+
+		product.itemoptions.forEach((optiongroup)=>{
+
+			optiongroup.options.forEach((option)=>{
+
+				if(option.checked)
+				{
+					tempoptionprice	+= option.optionprice;
+				}
+			})
+		})
+
+		product.optiontotal	= tempoptionprice;
+		product.price		= product.baseprice + tempoptionprice;
+
+		tempOptionGroup.selected	= hasselectedoption;
+
+		this.setState(()=>{
+			return {
+				products:tempProducts,
+			};
+		})
+	}
+
+	incrementCustomItem = (id) => {
+
+		let tempProduct			= [...this.state.products];
+
+		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
+		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
+		const storeproduct			= tempProduct[storeitemindex];
+
+		storeproduct.customitemqty	= storeproduct.customitemqty + 1;
+		storeproduct.price			= storeproduct.baseprice + storeproduct.optiontotal;
+
+		this.setState(
+			()=>{
+				return{
+					products:[...tempProduct],
+				};
+			}
+		);
+	}
+
+	decrementCustomItem = (id) => {
+
+		let tempProduct			= [...this.state.products];
+
+		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
+		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
+		const storeproduct			= tempProduct[storeitemindex];
+
+		const checkqty				= storeproduct.customitemqty;
+
+		if(checkqty > 1)
+		{
+			storeproduct.customitemqty	= storeproduct.customitemqty -1;
+			storeproduct.price			= storeproduct.baseprice + storeproduct.optiontotal;
+
+			this.setState(
+				()=>{
+					return{
+						products:[...tempProduct],
+					};
+				}
+			);
+		}
+		else
+		{
+			storeproduct.canuseoption		= false;
+			storeproduct.canrepeatoption	= false;
+
+			this.setState(()=>{
+				return{
+					products:[...tempProduct],
+				};
+			},()=>{
+				document.body.style.overflow = "auto";
+			});
+		}
+	}
+
+	clearCart = async () => {
+		this.state.db.deleteAllCartItem();
+
+		this.setState(()=>{
+			return { cart:[] };
+		},
+		()=>{
+			this.setProducts();
+			this.addTotals();
+		});
+	}
+
+	addTotals = () => {
+		let subTotal = 0;
+		let cartItem = 0;
+
+		this.state.cart.map(item=>{
+			return{
+				subTotal: subTotal += item.total,
+				cartItem: cartItem += item.count
+			};
+		});
+
+		const tempTax	= subTotal * 0; /*here 0.1 is temp tax and can be dynamic*/
+		const tax		= parseFloat(tempTax.toFixed(2));
+		const total		= subTotal + tax;
+
+		this.setState(()=>{
+			return{
+				cartSubTotal:subTotal,
+				cartTax:tax,
+				cartTotal:total,
+				cartTotalItem:cartItem
+			}
+		},async()=>{
+
+			const cartdetails	= await this.state.db.fetchAllCartItem();
+
+			let tempCart	= [];
+
+			if(cartdetails)
+			{
+				cartdetails.forEach(item => {
+					const singleCartItem = {...item};
+
+					tempCart = [...tempCart, singleCartItem];
+				});
+
+				this.setState({
+					cart:tempCart,
+				})
+			}
+		})
 	}
 
 	render(){
@@ -511,8 +988,18 @@ class ProductProvider extends Component{
 				handleUserInput:this.handleUserInput,
 				showHideSearch:this.showHideSearch,
 				handleChange:this.handleChange,
-				decrement:this.decrement,
+				addToCart:this.addToCart,
 				increment:this.increment,
+				decrement:this.decrement,
+				removeItem:this.removeItem,
+				incrementCustomOption:this.incrementCustomOption,
+				decrementCustomOption:this.decrementCustomOption,
+				removeItemCustomOption:this.removeItemCustomOption,
+				handleOptionSelection:this.handleOptionSelection,
+				incrementCustomItem:this.incrementCustomItem,
+				decrementCustomItem:this.decrementCustomItem,
+				clearCart:this.clearCart,
+				addTotals:this.addTotals,
 			}}
 			>
 			{this.props.children}

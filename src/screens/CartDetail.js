@@ -4,6 +4,7 @@ import {ProductConsumer, ProductContext} from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {Container} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 import {Header} from '../components';
 
@@ -172,7 +173,8 @@ const useStyles = (theme) => ({
   },
   cCiQWA:{
       fontSize: '1.2rem',
-      color: 'rgb(28, 28, 28)',
+      color: '#00B970',
+      fontWeight:'600',
   },
   fJNrek:{
       display: 'flex',
@@ -270,6 +272,115 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     cursor: 'pointer',
   },
+
+
+
+  teiDS:{
+      height: '2.8rem',
+      width:'100%',
+      display: 'flex',
+      position: 'fixed',
+      bottom: '0px',
+      background: '#EDEDEE',
+      borderRadius: '1rem 1rem 0px 0px',
+      padding:'1rem 0',
+      justifyContent:'space-between',
+  },
+
+    ipHtgH:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '5.5rem',
+        height: '2.5rem',
+        border: '1px solid rgb(28, 28, 28)',
+        borderRadius: '0.6rem',
+        overflow: 'hidden',
+        cursor: 'initial',
+        userSelect: 'none',
+        background: '#ecf9f4',
+    },
+
+
+    iNGntN:{
+        display: 'flex',
+        /*-webkit-box-align: center;*/
+        alignItems: 'center',
+        cursor: 'inherit',
+        marginTop: '0.2rem',
+    },
+    listicon:{
+        display: 'inline-block',
+        verticalAlign: 'middle',
+        lineHeight: '1',
+        width: '15px',
+        height: '15px',
+    },
+    fTsfFl:{
+        color: 'rgb(28, 28, 28)',
+        fontSize: '1.2rem',
+        margin: '0px 0.5rem',
+        fontWeight: '500',
+    },
+    iconmargin:{
+        marginTop: '0rem',
+    },
+    elxuhW:{
+        width:'98%',
+        minWidth: '12rem',
+        minHeight: '44px',
+        display: 'block',
+        /*-webkit-box-align: 'stretch',*/
+        alignItems: 'stretch',
+        borderRadius: '0.6rem',
+        background: 'transparent',
+        padding: '0px',
+        border: 'none',
+        cursor: 'pointer',
+    },
+    bXdRxo:{
+        display: 'inline-flex',
+        verticalAlign: 'middle',
+        /*-webkit-box-align: 'center',
+        -webkit-box-pack: 'center',*/
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        /*width: '100%',*/
+        minWidth: '10rem',
+        minHeight: '44px',
+        lineHeight: '44px',
+        marginTop: '0px',
+        marginLeft: '0px',
+        whiteSpace: 'nowrap',
+        fontSize: '1.2rem',
+        fontWeight: '300',
+        color: '#ffffff',
+        opacity: '1',
+        background: 'border-box #00B970',
+        borderColor: '#00B970',
+        borderWidth: '0px',
+        borderStyle: 'solid',
+        borderRadius: '0.3rem',
+        padding: '0px 1.6rem',
+        transition: 'transform 0.25s ease 0s, opacity 0.25s ease 0s, box-shadow 0.25s ease 0s',
+        outline: 'none !important',
+    },
+    dkwpEa:{
+        display: 'inline-block',
+        verticalAlign: 'middle',
+        lineHeight: 'normal',
+        fontSize: 'inherit',
+        transition: 'transform 0.4s ease 0s',
+    },
+    eYrDjb:{
+        display: 'flex',
+        /*-webkit-box-align: 'center',*/
+        alignItems: 'center',
+    },
+    btgzzv:{
+        marginLeft: '0.6rem',
+    },
 });
 
 class CartDetail extends Component {
@@ -349,6 +460,15 @@ class CartDetail extends Component {
                                   </Container>
                                 );
                             })}
+                            </div>
+                            <div className={classes.teiDS}>
+                                <Button variant="contained" color="primary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#FFA401'}}>
+                                    Add More
+                                </Button>
+                                &nbsp;
+                                <Button variant="contained" color="secondary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#00B970'}}>
+                                    Checkout
+                                </Button>
                             </div>
                         </Fragment>
                     )

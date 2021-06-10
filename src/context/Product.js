@@ -14,13 +14,13 @@ class ProductProvider extends Component{
 		db:new IDB('nosh_v1')/*jshint ignore:line*/,
 		banners:[],
 		featuredcategory:[],
-		popularitems:[],
+		products:[],
 		bannerheading:"",
 		categoryheading:"",
-		popularitemheading:"",
+		itemheading:"",
 		hasbanner:false,
 		hasfeaturedcategory:false,
-		haspopularitem:false,
+		hasproducts:false,
 		isdataloaded:false,
 		searchkeyword:'',
 
@@ -28,11 +28,6 @@ class ProductProvider extends Component{
 		iscategoryloaded:false,
 		hascategory:false,
 		allcategories:[],
-
-		allitems:[],
-		hasitems:false,
-		allitemsheading:"",
-		isitemloaded:false,
 
 		itemdetail:[],
 		hasitemdetail:false,
@@ -43,7 +38,6 @@ class ProductProvider extends Component{
 		cartTotal:0,
 		cartTotalItem:0,
 		cart:[],
-
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -56,12 +50,12 @@ class ProductProvider extends Component{
 
 	setAppHomeData = () => {
 
-		this.setState(()=>{
+		/*this.setState(()=>{
 			return{
 				isdataloaded:false,
-				haspopularitem:false,
+				hasproducts:false,
 			}
-		},()=>{
+		},()=>{*/
 			setTimeout(async()=>{
 
 				let tempProducts 		= [];
@@ -69,7 +63,7 @@ class ProductProvider extends Component{
 
 				let hasbanner			= false;
 				let hasfeaturedcategory	= false;
-				let haspopularitem		= false;
+				let hasproducts		= false;
 		
 				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
 		
@@ -98,8 +92,8 @@ class ProductProvider extends Component{
 					let homecategories			= response.data.categories.list;
 					let homecategoriesNum		= Object.keys(homecategories).length;
 					
-					let homepopularitems		= response.data.popularitems.list;
-					let homepopularitemsNum		= Object.keys(homepopularitems).length;
+					let products		= response.data.popularitems.list;
+					let productsNum		= Object.keys(products).length;
 		
 					if(homebannersNum > 0)
 					{
@@ -111,45 +105,26 @@ class ProductProvider extends Component{
 						hasfeaturedcategory	= true;
 					}
 
-					if(homepopularitemsNum > 0)
+					if(productsNum > 0)
 					{
-						haspopularitem	= true;
+						hasproducts	= true;
 
 						let item;
-						for(item in homepopularitems)
+						for(item in products)
 						{
-							let singleItem	= homepopularitems[item];
+							let singleItem	= products[item];
 
 							const id		= singleItem.id;
 							const price		= singleItem.price;
 
 							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
 
-							singleItem		= {...singleItem, busy:false, canuseoption:false, canrepeatoption:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+							singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
 
 							if(cartProduct)
 							{
-								if(singleItem.iscustomization)
-								{
-									let tempcount	= 0;
-	
-									const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
-	
-									customizationTempCart.forEach((customizeitem)=>{
-	
-										const singlecustomizeitem = {...customizeitem};
-	
-										tempcount	+= singlecustomizeitem.count;
-									});
-	
-									singleItem.count	= tempcount;
-									singleItem.total	= cartProduct.total;
-								}
-								else
-								{
-									singleItem.count	= cartProduct.count;
-									singleItem.total	= cartProduct.total;
-								}
+								singleItem.count	= cartProduct.count;
+								singleItem.total	= cartProduct.total;
 
 								singleItem.inCart	= true;
 							}
@@ -164,13 +139,16 @@ class ProductProvider extends Component{
 							hasbanner:hasbanner,
 							featuredcategory:homecategories,
 							hasfeaturedcategory:hasfeaturedcategory,
-							popularitems:tempProducts,
-							haspopularitem:haspopularitem,
+							cart:tempCart,
+							products:tempProducts,
+							hasproducts:hasproducts,
 							bannerheading:response.data.banners.title,
 							categoryheading:response.data.categories.title,
-							popularitemheading:response.data.popularitems.title,
+							itemheading:response.data.popularitems.title,
 							isdataloaded:true,
 						};
+					},()=>{
+						this.addTotals();
 					});
 				})
 				.catch(function (error) {
@@ -178,7 +156,7 @@ class ProductProvider extends Component{
 				});				
 
 			},1000);
-		});
+		/*});*/
 	}
 
 	setAppAllCategories = async () => {
@@ -219,12 +197,12 @@ class ProductProvider extends Component{
 
 	setAllItems = () => {
 
-		this.setState(()=>{
+		/*this.setState(()=>{
 			return{
 				isdataloaded:false,
-				haspopularitem:false,
+				hasproducts:false,
 			}
-		},()=>{
+		},()=>{*/
 			setTimeout(async()=>{
 
 				let tempProducts 		= [];
@@ -253,48 +231,29 @@ class ProductProvider extends Component{
 				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=popular`) // api url
 				.then( response => {
 
-					let allitems		= response.data.popularitems.list;
-					let allitemsNum		= Object.keys(allitems).length;
+					let products		= response.data.popularitems.list;
+					let productsNum		= Object.keys(products).length;
 		
-					if(allitemsNum > 0)
+					if(productsNum > 0)
 					{
 						temphasitems	= true;
 
 						let item;
-						for(item in allitems)
+						for(item in products)
 						{
-							let singleItem	= allitems[item];
+							let singleItem	= products[item];
 
 							const id		= singleItem.id;
 							const price		= singleItem.price;
 
 							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
 
-							singleItem		= {...singleItem, busy:false, canuseoption:false, canrepeatoption:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+							singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
 
 							if(cartProduct)
 							{
-								if(singleItem.iscustomization)
-								{
-									let tempcount	= 0;
-	
-									const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
-	
-									customizationTempCart.forEach((customizeitem)=>{
-	
-										const singlecustomizeitem = {...customizeitem};
-	
-										tempcount	+= singlecustomizeitem.count;
-									});
-	
-									singleItem.count	= tempcount;
-									singleItem.total	= cartProduct.total;
-								}
-								else
-								{
-									singleItem.count	= cartProduct.count;
-									singleItem.total	= cartProduct.total;
-								}
+								singleItem.count	= cartProduct.count;
+								singleItem.total	= cartProduct.total;
 
 								singleItem.inCart	= true;
 							}
@@ -305,16 +264,14 @@ class ProductProvider extends Component{
 		
 					this.setState(()=>{
 						return{
-							/*allitems:allitems,
-							hasitems:temphasitems,
-							allitemsheading:response.data.popularitems.title,
-							isitemloaded:true,*/
-							popularitems:tempProducts,
-							haspopularitem:temphasitems,
-							allitemsheading:response.data.popularitems.title,
-							popularitemheading:response.data.popularitems.title,
+							cart:tempCart,
+							products:tempProducts,
+							hasproducts:temphasitems,
+							itemheading:response.data.popularitems.title,
 							isdataloaded:true,
 						};
+					},()=>{
+						this.addTotals();
 					});
 				})
 				.catch(function (error) {
@@ -322,16 +279,11 @@ class ProductProvider extends Component{
 				});
 
 			},1000);
-		});	
+		/*});*/
 	}
 
 	getItem = (id) =>{
 		const product = this.state.products.find(item => item.id === id);
-		return product;
-	}
-
-	getLiveItem = (id) =>{
-		const product = this.state.allproducts.find(item => item.id === id);
 		return product;
 	}
 
@@ -346,7 +298,6 @@ class ProductProvider extends Component{
 		},()=>{
 			setTimeout(async()=>{
 
-				let tempDetail 		= [];
 				let tempCart		= [];
 
 				let temphasitemdetail	= false;
@@ -379,58 +330,55 @@ class ProductProvider extends Component{
 					{
 						temphasitemdetail	= true;
 
-						let item;
-						/*for(item in allitems)
-						{
-							let singleItem	= allitems[item];
+							let singleItem	= orgitemdetail;
 
 							const id		= singleItem.id;
 							const price		= singleItem.price;
 
-							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
+							let tempExtraItem	= [];
 
-							singleItem		= {...singleItem, busy:false, canuseoption:false, canrepeatoption:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+							singleItem.extras.extra_items.forEach((option, i)=>{
+
+								const singleoption = {...option, checked:false, optionid:`${id}_${i+1}`};
+
+								tempExtraItem	= [...tempExtraItem, singleoption];
+							});
+
+							singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false, extraoptions:tempExtraItem};
+
+							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
 
 							if(cartProduct)
 							{
-								if(singleItem.iscustomization)
-								{
-									let tempcount	= 0;
-	
-									const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
-	
-									customizationTempCart.forEach((customizeitem)=>{
-	
-										const singlecustomizeitem = {...customizeitem};
-	
-										tempcount	+= singlecustomizeitem.count;
-									});
-	
-									singleItem.count	= tempcount;
-									singleItem.total	= cartProduct.total;
-								}
-								else
-								{
-									singleItem.count	= cartProduct.count;
-									singleItem.total	= cartProduct.total;
-								}
+								/*let tempcount	= 0;
 
-								singleItem.inCart	= true;
+								const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+
+								customizationTempCart.forEach((customizeitem)=>{
+
+									const singlecustomizeitem = {...customizeitem};
+
+									tempcount	+= singlecustomizeitem.count;
+								});
+
+								singleItem.count	= tempcount;
+								singleItem.total	= cartProduct.total;
+
+								singleItem.inCart	= true;*/
 							}
 
-							tempProducts = [...tempProducts, singleItem];
-						}*/
+						/*let tempitemdetail	= orgitemdetail;*/
+
+						this.setState(()=>{
+							return{
+								isdetailloaded:true,
+								hasitemdetail:temphasitemdetail,
+								itemdetail:singleItem,
+								cart:tempCart,
+							};
+						});
+
 					}
-
-					let tempitemdetail	= orgitemdetail;
-
-					this.setState(()=>{
-						return{
-							isdetailloaded:true,
-							hasitemdetail:temphasitemdetail,
-							itemdetail:tempitemdetail,
-						};
-					});
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -517,10 +465,14 @@ class ProductProvider extends Component{
 		Promise.all([this.showBusy(id)])
         .then(async () => {
 
-			let tempProducts	= [...this.state.products];
+			let tempCart		= [...this.state.cart];
+
+			/*let tempProducts	= [...this.state.products];
 
 			const index			= tempProducts.indexOf(this.getItem(id));
-			const product		= tempProducts[index];
+			const product		= tempProducts[index];*/
+
+			let product			= this.state.itemdetail;
 
 			product.inCart		= true;
 			const price			= product.price;
@@ -532,185 +484,91 @@ class ProductProvider extends Component{
 			}
 			else
 			{
-				product.canuseoption	= false;
-				product.canrepeatoption	= false;
-
 				let tempcount	= product.customitemqty;
 
 				product.count	= tempcount;
 				product.total	= price * tempcount;
 			}
 
-			await this.state.db.addNewItemInCart(product);
+			let tempproduct	= {};
 
-			this.setState(()=>{
-				return {
-					canuseoption:false,
-					canrepeatoption:false,
-					singlecustomizableitem:[],
-					isduplicateorder:false,
-					products:tempProducts,
-					cart:[...this.state.cart, product]
-				};
-			},()=>{
+			tempproduct.id				= product.id;
+			tempproduct.merchant_id		= product.merchant_id;
+			tempproduct.baseprice		= product.baseprice;
+			tempproduct.category		= product.category;
+			tempproduct.count			= Number(product.count);
+			tempproduct.customitemqty	= Number(product.customitemqty);
+			tempproduct.description		= product.description;
+			tempproduct.image_url		= product.image_url;
+			tempproduct.inCart			= product.inCart;
+			tempproduct.item_name		= product.item_name;
+			tempproduct.optiontotal		= product.optiontotal;
+			tempproduct.price			= product.price;
+			tempproduct.total			= Number(product.total);
 
-				this.setProducts();
+			let tempselectedoption		= [];
+
+			let checkstr				= "";
+
+			product.extraoptions.forEach((option)=>{
+
+				if(option.checked)
+				{
+					const singleOption	= {item:option.item, price:option.price};
+					tempselectedoption	= [...tempselectedoption, singleOption];
+
+					checkstr	+= option.item+" ";
+				}
 			})
-    	})
-	}
 
-	increment = (id) => {
+			checkstr	= checkstr.split(' ').join('').toLowerCase();
 
-		Promise.all([this.showBusy(id)])
-        .then(async () => {
+			tempproduct.selectedoption	= tempselectedoption;
+			tempproduct.checkoptionstr	= checkstr;
 
-			let tempProduct			= [...this.state.products];
-			let tempCart			= [...this.state.cart];
+			const selectedCartProduct	= tempCart.find(item=>item.checkoptionstr === checkstr && item.id === id);
 
-			const selectedCartProduct	= tempCart.find(cartitem=>cartitem.id === id);
+			/*console.log(tempCart);
+			console.log(selectedCartProduct);
+			return;*/
 
-			const cartindex		= tempCart.indexOf(selectedCartProduct);
-			let cartproduct		= [];
-
-			let latestcartitem	= [];
-
-			let tempcount	= 0;
-
-			if(Number(selectedCartProduct.iscustomization) === 1)
+			if(selectedCartProduct === undefined || selectedCartProduct === null)
 			{
-				const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
-
-				customizationTempCart.forEach((customizeitem)=>{
-
-					const singlecustomizeitem = {...customizeitem};
-
-					latestcartitem	= singlecustomizeitem;
-
-					tempcount	+= singlecustomizeitem.count;
-				});
+				await this.state.db.addNewItemInCart(tempproduct);
 			}
 			else
 			{
-				latestcartitem	= tempCart[cartindex];
-				tempcount		= latestcartitem.count;
+				tempproduct.tempcartid		= selectedCartProduct.tempcartid;
+				tempproduct.count			+= Number(selectedCartProduct.count);
+				tempproduct.customitemqty	+= Number(selectedCartProduct.customitemqty);
+				tempproduct.total			+= Number(selectedCartProduct.total);
+
+				tempproduct.total			= tempproduct.total;
+
+				await this.state.db.updateCartItem(tempproduct);
 			}
 
-			cartproduct	= latestcartitem;
+			const cartdetails	= await this.state.db.fetchAllCartItem();
 
-			cartproduct.count	= cartproduct.count + 1;
-			cartproduct.total	= cartproduct.price * cartproduct.count;
+			if(cartdetails)
+			{
+				cartdetails.forEach(item => {
+					const singleCartItem = {...item, tempinstock:true};
 
-			const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
-			const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
-			const storeproduct			= tempProduct[storeitemindex];
+					tempCart = [...tempCart, singleCartItem];
+				});
+			}
 
-			storeproduct.count	= tempcount+1;
-			storeproduct.total	= latestcartitem.total;
-
-			storeproduct.canuseoption		= false;
-			storeproduct.canrepeatoption	= false;
-
-			await this.state.db.updateCartItem(cartproduct);
-
-			this.setState(
-				()=>{
-					return{
-						isduplicateorder:false,
-						canplaceorder:false,
-						canuseoption:false,
-						canrepeatoption:false,
-					};
-				},
-				()=>{
-					this.setProducts();
-				}
-			);
-
-		})
-		.then(()=>{
-			this.hideBusy(id);
-		})
-	}
-
-	decrement = async (id) => {
-
-		let tempCart			= [...this.state.cart];
-		let tempProduct			= [...this.state.products];
-
-		const selectedCartProduct	= tempCart.find(item=>item.id === id);
-
-		const cartindex		= tempCart.indexOf(selectedCartProduct);
-		const cartproduct	= tempCart[cartindex];
-
-		cartproduct.count	= cartproduct.count - 1;
-
-		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
-		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
-		const storeproduct			= tempProduct[storeitemindex];
-
-		storeproduct.count	= cartproduct.count;
-
-		if(cartproduct.count === 0)
-		{
-			this.removeItem(id);
-		}
-		else
-		{
-			cartproduct.total	= cartproduct.price * cartproduct.count;
-
-			storeproduct.total	= cartproduct.total;
-
-			await this.state.db.updateCartItem(cartproduct);
-
-			this.setState(
-				()=>{
-					return{
-						isduplicateorder:false,
-						canplaceorder:false,
-						products:[...tempProduct],
-						cart:[...tempCart]
-					};
-				},
-				()=>{
-					this.hideBusy(id);
-					this.addTotals();
-				}
-			);
-		}
-	}
-
-	removeItem = async (id) => {
-
-		this.showBusy(id);
-
-		let tempProducts	= [...this.state.products];
-		let tempCart		= [...this.state.cart];
-
-		tempCart	= tempCart.filter(item => item.id !== id);
-		const index	= tempProducts.indexOf(this.getItem(id));
-
-		let removedProduct	= tempProducts[index];
-
-		removedProduct.inCart	= false;
-		removedProduct.count	= 0;
-		removedProduct.total	= 0;
-
-		await this.state.db.deleteCartItem(removedProduct);
-
-		this.setState(
-			()=>{
-				return{
-					isduplicateorder:false,
-					canplaceorder:false,
-					cart:[...tempCart],
-					products:[...tempProducts]
+			this.setState(()=>{
+				return {
+					/*products:tempProducts,
+					cart:[...this.state.cart, tempproduct],*/
+					cart:tempCart,
 				};
-			},
-			()=>{
-				this.hideBusy(id);
+			},()=>{
 				this.addTotals();
-			}
-		);
+			})
+    	})
 	}
 
 	incrementCustomOption = async(tempcartid) => {
@@ -729,12 +587,9 @@ class ProductProvider extends Component{
 				return{
 					isduplicateorder:false,
 					canplaceorder:false,
-					canuseoption:false,
-					canrepeatoption:false,
 				};
 			},
 			()=>{
-				document.body.style.overflow = "auto";
 				this.setProducts();
 			}
 		);
@@ -809,68 +664,49 @@ class ProductProvider extends Component{
 		);
 	}
 
-	handleOptionSelection = (id, categoryid, optionid, type) =>{
+	handleOptionSelection = (id, optionid) =>{
 
-		let tempProducts	= [...this.state.products];
-		const index			= tempProducts.indexOf(this.getItem(id));
-		const product		= tempProducts[index];
+		/*let tempProducts	= [...this.state.products];
+		const index		= tempProducts.indexOf(this.getItem(id));*/
+		/*const product		= tempProducts[index];
+		const product		= tempProducts[index];*/
 
-		let hasselectedoption	= false;
+		let product		= this.state.itemdetail;
 
-		let tempOptionGroup	= product.itemoptions.find(optiongroup => optiongroup.customcatid === categoryid);
-		let tempOption		= [...tempOptionGroup.options];
-
-		if(type === 'radio')
-		{
-			tempOption.forEach((item)=>{
-				item.checked = false;
-			});
-		}
+		let tempOption	= [...product.extraoptions];
 
 		let tempItemOption	= tempOption.find(itemoption => itemoption.optionid === optionid);
 
 		tempItemOption.checked	= !tempItemOption.checked;
 
-		tempOption.forEach((option)=>{
-
-			if(option.checked === true)
-			{
-				hasselectedoption = true;				
-			}
-		})
-
 		let tempoptionprice	= 0;
 
-		product.itemoptions.forEach((optiongroup)=>{
+		tempOption.forEach((option)=>{
 
-			optiongroup.options.forEach((option)=>{
-
-				if(option.checked)
-				{
-					tempoptionprice	+= option.optionprice;
-				}
-			})
+			if(option.checked)
+			{
+				tempoptionprice	+= option.price;
+			}
 		})
 
 		product.optiontotal	= tempoptionprice;
 		product.price		= product.baseprice + tempoptionprice;
 
-		tempOptionGroup.selected	= hasselectedoption;
-
 		this.setState(()=>{
 			return {
-				products:tempProducts,
+				itemdetail:product,
 			};
 		})
 	}
 
 	incrementCustomItem = (id) => {
 
-		let tempProduct			= [...this.state.products];
+		/*let tempProduct			= [...this.state.products];
 
 		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
 		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
-		const storeproduct			= tempProduct[storeitemindex];
+		const storeproduct			= tempProduct[storeitemindex];*/
+		let storeproduct			= this.state.itemdetail;
 
 		storeproduct.customitemqty	= storeproduct.customitemqty + 1;
 		storeproduct.price			= storeproduct.baseprice + storeproduct.optiontotal;
@@ -878,7 +714,8 @@ class ProductProvider extends Component{
 		this.setState(
 			()=>{
 				return{
-					products:[...tempProduct],
+					/*products:[...tempProduct],*/
+					itemdetail:storeproduct,
 				};
 			}
 		);
@@ -886,11 +723,12 @@ class ProductProvider extends Component{
 
 	decrementCustomItem = (id) => {
 
-		let tempProduct			= [...this.state.products];
+		/*let tempProduct			= [...this.state.products];
 
 		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
 		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
-		const storeproduct			= tempProduct[storeitemindex];
+		const storeproduct			= tempProduct[storeitemindex];*/
+		let storeproduct			= this.state.itemdetail;
 
 		const checkqty				= storeproduct.customitemqty;
 
@@ -902,22 +740,19 @@ class ProductProvider extends Component{
 			this.setState(
 				()=>{
 					return{
-						products:[...tempProduct],
+						/*products:[...tempProduct],*/
+						itemdetail:storeproduct,
 					};
 				}
 			);
 		}
 		else
 		{
-			storeproduct.canuseoption		= false;
-			storeproduct.canrepeatoption	= false;
-
 			this.setState(()=>{
 				return{
-					products:[...tempProduct],
+					/*products:[...tempProduct],*/
+					itemdetail:storeproduct,
 				};
-			},()=>{
-				document.body.style.overflow = "auto";
 			});
 		}
 	}
@@ -934,47 +769,50 @@ class ProductProvider extends Component{
 		});
 	}
 
-	addTotals = () => {
+	addTotals = async() => {
+
 		let subTotal = 0;
 		let cartItem = 0;
 
-		this.state.cart.map(item=>{
-			return{
-				subTotal: subTotal += item.total,
-				cartItem: cartItem += item.count
-			};
-		});
+		const cartdetails	= await this.state.db.fetchAllCartItem();
 
-		const tempTax	= subTotal * 0; /*here 0.1 is temp tax and can be dynamic*/
-		const tax		= parseFloat(tempTax.toFixed(2));
-		const total		= subTotal + tax;
+		let tempCart	= [];
 
-		this.setState(()=>{
-			return{
-				cartSubTotal:subTotal,
-				cartTax:tax,
-				cartTotal:total,
-				cartTotalItem:cartItem
-			}
-		},async()=>{
+		if(cartdetails)
+		{
+			cartdetails.forEach(item => {
+				const singleCartItem = {...item};
 
-			const cartdetails	= await this.state.db.fetchAllCartItem();
+				tempCart = [...tempCart, singleCartItem];
+			});
 
-			let tempCart	= [];
+			this.setState({
 
-			if(cartdetails)
-			{
-				cartdetails.forEach(item => {
-					const singleCartItem = {...item};
+				cart:tempCart,
 
-					tempCart = [...tempCart, singleCartItem];
+			},()=>{
+
+				this.state.cart.map(item=>{
+					return{
+						subTotal: subTotal += item.total,
+						cartItem: cartItem += item.count
+					};
 				});
 
-				this.setState({
-					cart:tempCart,
+				const tempTax	= subTotal * 0; /*here 0.1 is temp tax and can be dynamic*/
+				const tax		= parseFloat(tempTax.toFixed(2));
+				const total		= subTotal + tax;
+
+				this.setState(()=>{
+					return{
+						cartSubTotal:subTotal,
+						cartTax:tax,
+						cartTotal:total,
+						cartTotalItem:cartItem
+					}
 				})
-			}
-		})
+			})
+		}
 	}
 
 	render(){
@@ -989,10 +827,6 @@ class ProductProvider extends Component{
 				showHideSearch:this.showHideSearch,
 				handleChange:this.handleChange,
 				addToCart:this.addToCart,
-				increment:this.increment,
-				decrement:this.decrement,
-				removeItem:this.removeItem,
-				incrementCustomOption:this.incrementCustomOption,
 				decrementCustomOption:this.decrementCustomOption,
 				removeItemCustomOption:this.removeItemCustomOption,
 				handleOptionSelection:this.handleOptionSelection,

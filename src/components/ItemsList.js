@@ -221,8 +221,8 @@ const useStyles = (theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '6rem',
-    height: '2rem',
+    width: '5.2rem',
+    height: '1.8rem',
     border: '1px solid #00B970',
     borderRadius: '0.2rem',
     overflow: 'hidden',
@@ -236,6 +236,7 @@ const useStyles = (theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
+    justifyContent:'space-between',
   },
   iQCkqv:{
     position: 'relative',
@@ -293,38 +294,38 @@ class ItemsList extends Component {
         <ProductConsumer>
             {(value) => {
 
-                const{isdataloaded, haspopularitem, popularitems, popularitemheading} = value;
+                const{isdataloaded, hasproducts, products, itemheading} = value;
 
                 return (
                     <Fragment>
             {
                 isdataloaded ? (<Fragment>
                 {
-                    haspopularitem ? (
+                    hasproducts ? (
                         <Fragment>
                         {
                           this.props.showtitle ? (
                             <div className={classes.titlewrapper}>
                                 <Typography variant="h6" className={classes.title}>
-                                    {popularitemheading}
+                                    {itemheading}
                                 </Typography>
                                 <Link to="/allitems" style={{textDecoration:'none'}}><div className={classes.viewalltitle}>View all</div></Link>
                             </div>
                           ):null
                         }
                             <div>
-                            {popularitems.map((item, i) => {
+                            {products.map((item, i) => {
                                 return(
                                   <Container maxWidth="lg" className={classes.itelist} key={i}>
                                     <div>
                                       <div className={classes.bGrnCu}>
                                         <div className={classes.bckjvf}>
-											<Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
-											  <div className={classes.jlQqiv}>
-												<div src="" className={classes.dqsEmh}></div>
-												<img alt="Veggie Paradise" src={item.image_url} className={classes.hppEfq} />
-											  </div>
-											</Link>
+                                          <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                            <div className={classes.jlQqiv}>
+                                            <div src="" className={classes.dqsEmh}></div>
+                                            <img alt="Veggie Paradise" src={item.image_url} className={classes.hppEfq} />
+                                            </div>
+                                          </Link>
                                         </div>
                                         <div className={classes.cYSFTJ}>
                                           <div className={classes.cYGeYt}>
@@ -347,21 +348,21 @@ class ItemsList extends Component {
                                               ):(
                                               <div className={classes.qtychildin}>
                                                   <div className={classes.cMipmx}>
-                                                    <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                                       <div className={classes.hTzRFw}>
+                                                        <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                                           <Remove />
+                                                        </Link>
                                                       </div>
-                                                    </Link>
                                                       <div className={classes.iQCkqv}>
                                                           <span className={classes.qtytitle} style={{
                                                               color:'#FFF6F7'
                                                           }}>{item.count}</span>
                                                       </div>
-                                                      <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                                         <div className={classes.hTzRFw}>
+                                                          <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                                             <Plus />
+                                                          </Link>
                                                         </div>
-                                                      </Link>
                                                   </div>
                                               </div>
                                               )

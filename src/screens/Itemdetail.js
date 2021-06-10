@@ -33,6 +33,7 @@ const useStyles = (theme) => ({
         position:'absolute',
         bottom:'0',
         height:'55vh',
+        width:'92%',
         background:'#ffffff',
     },
     lrgclr: {
@@ -183,6 +184,16 @@ const useStyles = (theme) => ({
         fill: 'rgb(255, 255, 255)',
         flexShrink: '0',
     },
+    cmcsiK:{
+        flexShrink: '0',
+        fill: '#00B970',
+    },
+    kTfLuB:{
+        flexShrink: '0',
+        stroke: '#00B970',
+        strokeWidth: '1px',
+        fill: 'rgb(255, 255, 255)',
+    },
     jUrwkH:{
         paddingTop: '0.2rem',
         cursor: 'pointer',
@@ -287,7 +298,7 @@ const useStyles = (theme) => ({
     },
     fTsfFl:{
         color: 'rgb(28, 28, 28)',
-        fontSize: '1.4rem',
+        fontSize: '1.2rem',
         margin: '0px 0.5rem',
         fontWeight: '500',
     },
@@ -295,6 +306,7 @@ const useStyles = (theme) => ({
         marginTop: '0rem',
     },
     elxuhW:{
+        width:'98%',
         minWidth: '12rem',
         minHeight: '44px',
         display: 'block',
@@ -314,7 +326,7 @@ const useStyles = (theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        width: '100%',
+        /*width: '100%',*/
         minWidth: '10rem',
         minHeight: '44px',
         lineHeight: '44px',
@@ -359,7 +371,7 @@ class Itemdetail extends Component {
         super(props);
 
         this.state = {
-
+            iid:this.props.match.params.iid
         };
     }
 
@@ -377,12 +389,15 @@ class Itemdetail extends Component {
     render(){
 
         const { classes } = this.props;
+
+        const { iid } = this.state;
         
         return (
             <ProductConsumer>
             {(value) => {
 
                 const{itemdetail, hasitemdetail, isdetailloaded} = value;
+                const{ handleOptionSelection, incrementCustomItem, decrementCustomItem, addToCart } = value;
 
                 return (
                     <Fragment>
@@ -403,7 +418,7 @@ class Itemdetail extends Component {
                                                 <div className={classes.devdet}>
                                                     <section className={classes.eggzWm}>
                                                         <Typography color="textPrimary" variant="h5">{itemdetail.item_name}</Typography>
-                                                        <Typography color="textPrimary" variant="h6"><i className="fa fa-inr"></i> {itemdetail.price}</Typography>
+                                                        <Typography color="textPrimary" variant="h6"><i className="fa fa-inr"></i> {itemdetail.baseprice}</Typography>
                                                     </section>
                                                     <section className={classes.eggzWm}>
                                                         <Typography color="textPrimary" variant="subtitle1">{itemdetail.extras.extra_description}</Typography>
@@ -419,13 +434,25 @@ class Itemdetail extends Component {
                                                                 </div>
                                                                 <div className={classes.fABuGy}>
                                                         {
-                                                            itemdetail.extras.extra_items.map((option, i)=>{
+                                                            itemdetail.extraoptions.map((option, i)=>{
                                                                 return(
                                                                     <div className={classes.bmBDqp} key={i}>
                                                                         <div className={classes.dUGYrj}>
                                                                             <section className={classes.irrWnt}>
-                                                                                <label className={classes.jrHtYr}><input name="itemoption" className={classes.jlsszO} type="radio" value="1" /><svg viewBox="0 0 20 20" id="circle" className={classes.bIPSGt}><circle cx="10" cy="10" r="8" className={classes.iszoyV}></circle></svg><span className={classes.jUrwkH}></span></label>
-                                                                                <Typography gutterBottom color="textSecondary">{option.item}</Typography>
+                                                                                <label className={classes.jrHtYr}><input name="itemoption" className={classes.jlsszO} type="radio" value="1" />
+                                                                                
+                                                                                {
+                                                                                    option.checked ? (
+                                                                                        <svg viewBox="0 0 20 20" id="circle" className={classes.bIPSGt}><circle cx="10" cy="10" r="8" className={classes.kTfLuB} onClick={()=>{handleOptionSelection(iid, option.optionid)}}></circle><circle cx="10" cy="10" r="5" className={classes.cmcsiK} onClick={()=>{handleOptionSelection(iid, option.optionid)}}></circle></svg>
+                                                                                    ):(
+                                                                                        <svg viewBox="0 0 20 20" id="circle" className={classes.bIPSGt}><circle cx="10" cy="10" r="8" className={classes.iszoyV} onClick={()=>{handleOptionSelection(iid, option.optionid)}}></circle></svg>
+                                                                                    )
+                                                                                }
+                                                                                
+                                                                                <span className={classes.jUrwkH}></span></label>
+                                                                                <Typography gutterBottom color="textSecondary" style={{
+																					fontWeight:`${option.checked ?'600':'500'}`
+																				}}>{option.item}</Typography>
                                                                             </section>
                                                                             <div className={classes.ggJkFu}>
                                                                                 <div className={classes.jiHnaU} style={{fontWeight: '500', display: 'flex', alignItems: 'center', minWidth: '3.5rem', justifyContent: 'space-between'}}>
@@ -448,20 +475,20 @@ class Itemdetail extends Component {
                                                 <div className={classes.fJNrek}>
                                                     <div className={classes.ipHtgH}>
                                                         <div className={classes.cMipmx}>
-                                                            <div className={classes.hTzRFw}>
+                                                            <div className={classes.hTzRFw} onClick={()=>{decrementCustomItem(iid)}}>
                                                                 <i className={classes.iNGntN} size="14" color="#00B970"><svg xmlns="http://www.w3.org/2000/svg" fill="#00B970" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>remove</title><path d="M10.96 10.96h4.28c0.53 0 0.96-0.43 0.96-0.96s-0.43-0.96-0.96-0.96v0h-10.48c-0.53 0-0.96 0.43-0.96 0.96s0.43 0.96 0.96 0.96v0h6.2z"></path></svg></i>
                                                             </div>
                                                             <div className={classes.iQCkqv} style={{color: "rgb(0, 0, 0)"}}>
-                                                                <span className={classes.fTsfFl}>1</span>
+                                                                <span className={classes.fTsfFl}>{itemdetail.customitemqty}</span>
                                                             </div>
-                                                            <div className={classes.hTzRFw}>
+                                                            <div className={classes.hTzRFw} onClick={()=>{incrementCustomItem(iid)}}>
                                                                 <i className={classes.iconblk} size="14" color="#00B970"><svg xmlns="http://www.w3.org/2000/svg" fill="#00B970" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg></i>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button role="button" className={classes.elxuhW}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {itemdetail.price}</div></div></span></span></button>
-                                            </div>                                            
+                                                <button role="button" className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
+                                            </div>
                                         </Fragment>):null
                                     }
                                 </Fragment>

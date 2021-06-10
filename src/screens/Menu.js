@@ -12,12 +12,24 @@ class Menu extends Component {
         super(props);
         this.state = {
 
+            isloaded:false
+
         };
     }
     componentDidMount(){
 
-        this.context.setAppHomeData();
+        if(!this.state.isloaded)
+        {
+            this.setState({
 
+                isloaded:true
+
+            },()=>{
+
+                this.context.setAppHomeData();
+
+            })
+        }
     }
 
     render(){

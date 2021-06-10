@@ -5,8 +5,8 @@ export default class IDB {
         this.DB = new Dexie(name);
 
         this.DB.version(1).stores({
-            cart:"++tempcartid,merchant_id,id,item_name,category,description,image_url,price,inCart,count,total,extra_items",
-            items:"++tempcartid,merchant_id,id,item_name,category,description,image_url,price,inCart,count,total,extra_items",
+            cart:"++tempcartid,id,merchant_id,baseprice,category,count,customitemqty,description,image_url,inCart,item_name,optiontotal,price,total,selectedoption,checkoptionstr",
+            items:"++tempcartid,id,merchant_id,baseprice,category,count,customitemqty,description,image_url,inCart,item_name,optiontotal,price,total,selectedoption,checkoptionstr",
         });
 
         this.DB.open();
@@ -14,15 +14,15 @@ export default class IDB {
 
     async addNewItemInCart(cartitem) {
 
-        cartitem.createdon  = Date.now();
-        cartitem.updatedon  = Date.now();
-                
+        /*cartitem.createdon  = Date.now();
+        cartitem.updatedon  = Date.now();*/
+
         this.DB.cart.add({...cartitem});
     }
 
     async updateCartItem(cartitem) {
 
-        cartitem.updatedon  = Date.now();
+        /*cartitem.updatedon  = Date.now();*/
 
         await this.DB.cart.update(cartitem.tempcartid, {...cartitem}).then(function (updated) {
         if (updated)
@@ -56,36 +56,6 @@ export default class IDB {
     async fetchAllCartItem() {
 
         let result    = await this.DB.cart.toArray();
-
-        return result;
-    }
-
-    async addLastOrderedCart() {
-
-        let cartdetails = await this.DB.cart.toArray();
-
-        if(cartdetails)
-        {
-            this.DB.lastorderedcart.clear();
-                        
-            cartdetails.forEach(item => {
-                const cartitem = {...item};
-
-                this.DB.lastorderedcart.add({...cartitem});
-            });
-        }
-    }
-
-    async fetchAllLastOrderItem() {
-
-        let result    = await this.DB.lastorderedcart.toArray();
-
-        return result;
-    }
-
-    async deleteAllLastCartItem() {
-
-        let result    = await this.DB.lastorderedcart.clear();
 
         return result;
     }

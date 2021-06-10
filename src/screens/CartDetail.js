@@ -1,8 +1,6 @@
 import React,{Component, Fragment} from 'react';
 import {ProductConsumer, ProductContext} from '../context/Product';
-
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import {Container} from '@material-ui/core';
 import { Button } from '@material-ui/core';
 
@@ -18,24 +16,6 @@ const useStyles = (theme) => ({
     marginBottom:theme.spacing(1.5),
     paddingBottom:theme.spacing(1.5),
     borderBottom:'1px solid #dcd8d8',
-  },
-  titlewrapper:{
-    justifyContent:'space-between',
-    display:'flex',
-    alignItems:'center'
-  },
-  viewalltitle:{
-    color:'#00B970',
-    fontWeight:'bold',
-    marginRight:theme.spacing(1)
-  },
-  title: {
-    flexGrow: 1,
-    fontSize:'1.5rem',
-    marginRight:theme.spacing(1),
-    marginLeft:theme.spacing(1),
-    marginTop:theme.spacing(1.5),
-    marginBottom:theme.spacing(1.5),
   },
   bGrnCu:{
       display: 'flex',
@@ -81,28 +61,6 @@ const useStyles = (theme) => ({
       filter: 'unset',
       transition: 'opacity 0.25s ease 0s, transform 0.25s ease 0s',
   },
-  bXZAXS:{
-      width: '1.3rem',
-      height: '1.3rem',
-      border: '1px solid rgb(80, 181, 71)',
-      borderRadius: '2px',
-      display: 'flex',
-      /*-webkit-box-align: 'center',
-      -webkit-box-pack: 'center',*/
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'rgb(255, 255, 255)',
-      flexShrink: '0',
-      position: 'absolute',
-      top: '0.6rem',
-      right: '0.6rem',
-  },
-  kEJKBm:{
-      width: '0.7rem',
-      height: '0.7rem',
-      background: 'rgb(80, 181, 71)',
-      borderRadius: '50%',
-  },
   cYSFTJ:{
       width: '100%',
       minWidth: '1%',
@@ -124,48 +82,6 @@ const useStyles = (theme) => ({
       color: 'rgb(28, 28, 28)',
       margin: '0px',
   },
-  dpXgPd:{
-      display: 'flex',
-      flexWrap: 'wrap',
-      margin: '0.5rem 0px',
-  },
-  jYdcVk:{
-      marginRight: '0.5rem',
-      marginBottom: '0.2rem',
-  },
-  GCkMO:{
-      height: 'max-content',
-      width: 'max-content',
-      background: 'rgb(244, 162, 102)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '4px',
-      color: 'rgb(255, 255, 255)',
-      fontSize: '1rem',
-      border: 'none',
-      padding: '0.2rem 0.5rem',
-  },
-  cgvpvS:{
-      display: 'flex',
-      alignItems: 'center',
-      margin: '0.3rem 0px',
-  },
-  daaTtj:{
-      display: 'flex',
-  },
-  MxLSp:{
-      display: 'flex',
-      alignItems: 'center',
-      cursor: 'inherit',
-      marginRight: '0.2rem',
-  },
-  kNMtU:{
-      marginLeft: '0.7rem',
-      fontSize: '1.4rem',
-      color: 'rgb(156, 156, 156)',
-      marginTop: '0.2rem',
-  },
   jOoliK:{
       display: 'flex',
       alignItems: 'center',
@@ -175,25 +91,6 @@ const useStyles = (theme) => ({
       fontSize: '1.2rem',
       color: '#00B970',
       fontWeight:'600',
-  },
-  fJNrek:{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-  },
-  cBmpNp:{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '5.2rem',
-      height: '1.8rem',
-      border: '1px solid rgb(181, 181, 181)',
-      borderRadius: '0.2rem',
-      overflow: 'hidden',
-      cursor: 'pointer',
-      userSelect: 'none',
-      background: '#00B970',
-      color: '#ffffff',
   },
   frTalr:{
       lineHeight: '1.2rem',
@@ -209,15 +106,6 @@ const useStyles = (theme) => ({
       margin: '0px',
       overflowWrap: 'break-word',
       color:'#868686',
-  },
-  qtychild:{
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-    position: 'absolute',
-    bottom: '-3rem',
-    zIndex:'9',
   },
   qtychildin:{
     display: 'flex',
@@ -272,9 +160,6 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     cursor: 'pointer',
   },
-
-
-
   teiDS:{
       height: '2.8rem',
       width:'100%',
@@ -286,101 +171,6 @@ const useStyles = (theme) => ({
       padding:'1rem 0',
       justifyContent:'space-between',
   },
-
-    ipHtgH:{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '5.5rem',
-        height: '2.5rem',
-        border: '1px solid rgb(28, 28, 28)',
-        borderRadius: '0.6rem',
-        overflow: 'hidden',
-        cursor: 'initial',
-        userSelect: 'none',
-        background: '#ecf9f4',
-    },
-
-
-    iNGntN:{
-        display: 'flex',
-        /*-webkit-box-align: center;*/
-        alignItems: 'center',
-        cursor: 'inherit',
-        marginTop: '0.2rem',
-    },
-    listicon:{
-        display: 'inline-block',
-        verticalAlign: 'middle',
-        lineHeight: '1',
-        width: '15px',
-        height: '15px',
-    },
-    fTsfFl:{
-        color: 'rgb(28, 28, 28)',
-        fontSize: '1.2rem',
-        margin: '0px 0.5rem',
-        fontWeight: '500',
-    },
-    iconmargin:{
-        marginTop: '0rem',
-    },
-    elxuhW:{
-        width:'98%',
-        minWidth: '12rem',
-        minHeight: '44px',
-        display: 'block',
-        /*-webkit-box-align: 'stretch',*/
-        alignItems: 'stretch',
-        borderRadius: '0.6rem',
-        background: 'transparent',
-        padding: '0px',
-        border: 'none',
-        cursor: 'pointer',
-    },
-    bXdRxo:{
-        display: 'inline-flex',
-        verticalAlign: 'middle',
-        /*-webkit-box-align: 'center',
-        -webkit-box-pack: 'center',*/
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        /*width: '100%',*/
-        minWidth: '10rem',
-        minHeight: '44px',
-        lineHeight: '44px',
-        marginTop: '0px',
-        marginLeft: '0px',
-        whiteSpace: 'nowrap',
-        fontSize: '1.2rem',
-        fontWeight: '300',
-        color: '#ffffff',
-        opacity: '1',
-        background: 'border-box #00B970',
-        borderColor: '#00B970',
-        borderWidth: '0px',
-        borderStyle: 'solid',
-        borderRadius: '0.3rem',
-        padding: '0px 1.6rem',
-        transition: 'transform 0.25s ease 0s, opacity 0.25s ease 0s, box-shadow 0.25s ease 0s',
-        outline: 'none !important',
-    },
-    dkwpEa:{
-        display: 'inline-block',
-        verticalAlign: 'middle',
-        lineHeight: 'normal',
-        fontSize: 'inherit',
-        transition: 'transform 0.4s ease 0s',
-    },
-    eYrDjb:{
-        display: 'flex',
-        /*-webkit-box-align: 'center',*/
-        alignItems: 'center',
-    },
-    btgzzv:{
-        marginLeft: '0.6rem',
-    },
 });
 
 class CartDetail extends Component {
@@ -400,6 +190,11 @@ class CartDetail extends Component {
 
     }
 
+    goBack=()=>{
+
+        this.props.history.goBack();
+    }
+
     render(){
         
         const { classes } = this.props;
@@ -410,12 +205,10 @@ class CartDetail extends Component {
 
                     const{cart} = value;
 
-                    console.log(cart);
-
                     return (
                         <Fragment>
                             <Header title="Cart"/>
-                            <div>
+                            <div style={{marginBottom:'5rem'}}>
                             {cart.map((item, i) => {
                                 return(
                                   <Container maxWidth="lg" className={classes.itelist} key={i}>
@@ -424,7 +217,7 @@ class CartDetail extends Component {
                                         <div className={classes.bckjvf}>
                                             <div className={classes.jlQqiv}>
                                             <div src="" className={classes.dqsEmh}></div>
-                                            <img alt="Veggie Paradise" src={item.image_url} className={classes.hppEfq} />
+                                            <img alt={`${item.item_name} preview`} src={item.image_url} className={classes.hppEfq} />
                                             </div>
                                         </div>
                                         <div className={classes.cYSFTJ}>
@@ -462,7 +255,7 @@ class CartDetail extends Component {
                             })}
                             </div>
                             <div className={classes.teiDS}>
-                                <Button variant="contained" color="primary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#FFA401'}}>
+                                <Button variant="contained" color="primary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#FFA401'}} onClick={this.goBack}>
                                     Add More
                                 </Button>
                                 &nbsp;

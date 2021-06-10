@@ -22,6 +22,7 @@ class ProductProvider extends Component{
 		hasfeaturedcategory:false,
 		hasproducts:false,
 		isdataloaded:false,
+		isdataloadedhome:false,
 		searchkeyword:'',
 
 		allcategoryheading:"",
@@ -49,6 +50,11 @@ class ProductProvider extends Component{
 	}	
 
 	setAppHomeData = () => {
+
+		if(this.state.isdataloadedhome)
+		{
+			return;
+		}
 
 		/*this.setState(()=>{
 			return{
@@ -146,6 +152,7 @@ class ProductProvider extends Component{
 							categoryheading:response.data.categories.title,
 							itemheading:response.data.popularitems.title,
 							isdataloaded:true,
+							isdataloadedhome:true,
 						};
 					},()=>{
 						this.addTotals();
@@ -466,6 +473,7 @@ class ProductProvider extends Component{
         .then(async () => {
 
 			let tempCart		= [...this.state.cart];
+			let tempProducts	= [...this.state.products];
 
 			/*let tempProducts	= [...this.state.products];
 
@@ -555,6 +563,15 @@ class ProductProvider extends Component{
 				cartdetails.forEach(item => {
 					const singleCartItem = {...item, tempinstock:true};
 
+					const singletempProducts	= tempProducts.find(item=>item.id === singleCartItem.id);
+
+					if(singletempProducts !== undefined && singletempProducts !== null)
+					{
+						singletempProducts.count			= singleCartItem.count;
+						singletempProducts.customitemqty	= singleCartItem.customitemqty;
+						singletempProducts.inCart			= singleCartItem.inCart;
+					}
+
 					tempCart = [...tempCart, singleCartItem];
 				});
 			}
@@ -564,6 +581,7 @@ class ProductProvider extends Component{
 					/*products:tempProducts,
 					cart:[...this.state.cart, tempproduct],*/
 					cart:tempCart,
+					products:tempProducts,
 				};
 			},()=>{
 				this.addTotals();

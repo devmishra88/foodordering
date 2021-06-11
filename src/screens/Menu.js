@@ -37,7 +37,7 @@ class Menu extends Component {
         return (
 
             <Fragment>
-                <Header title="Menu"/>
+                <Header title="Menu" showdrawer={true} />
                 <Banner />
                 <Menusearch />
                 <HomeCategory />

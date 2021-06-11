@@ -323,7 +323,7 @@ class ItemsList extends Component {
                                           <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                             <div className={classes.jlQqiv}>
                                             <div src="" className={classes.dqsEmh}></div>
-                                            <img alt="Veggie Paradise" src={item.image_url} className={classes.hppEfq} />
+                                            <img alt={`${item.item_name} Preview`} src={item.image_url} className={classes.hppEfq} />
                                             </div>
                                           </Link>
                                         </div>
@@ -349,7 +349,7 @@ class ItemsList extends Component {
                                               <div className={classes.qtychildin}>
                                                   <div className={classes.cMipmx}>
                                                       <div className={classes.hTzRFw}>
-                                                        <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                                        <Link to={`/removecartitem`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                                           <Remove />
                                                         </Link>
                                                       </div>

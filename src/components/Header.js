@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import clsx from 'clsx';
 import Divider from '@material-ui/core/Divider';
@@ -82,16 +83,23 @@ export default function Header(props) {
         ))}
       </List>
     </div>
-  );  
-
+  );
 
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
         <Toolbar>
+      {
+        props.showdrawer ? (
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer" onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
+        ):(
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer" onClick={()=>{props.history.goBack()}}>
+            <ArrowBackIcon />
+          </IconButton>              
+        )
+      }
           <Typography variant="h6" className={classes.title}>
             {props.title}
           </Typography>

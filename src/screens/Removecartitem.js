@@ -3,7 +3,6 @@ import {withRouter} from "react-router-dom";
 import {ProductConsumer, ProductContext} from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
 import {Container} from '@material-ui/core';
-import { Button } from '@material-ui/core';
 
 import {Header} from '../components';
 
@@ -161,17 +160,6 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     cursor: 'pointer',
   },
-  teiDS:{
-      height: '2.8rem',
-      width:'100%',
-      display: 'flex',
-      position: 'fixed',
-      bottom: '0px',
-      background: '#EDEDEE',
-      borderRadius: '1rem 1rem 0px 0px',
-      padding:'1rem 0',
-      justifyContent:'space-between',
-  },
 });
 
 class CartDetail extends Component {
@@ -208,7 +196,7 @@ class CartDetail extends Component {
 
                     return (
                         <Fragment>
-                            <Header title="Cart" showdrawer={false} history={this.props.history}/>
+                            <Header title="Remove your items" showdrawer={false} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
                             {cart.map((item, i) => {
                                 return(
@@ -254,15 +242,6 @@ class CartDetail extends Component {
                                   </Container>
                                 );
                             })}
-                            </div>
-                            <div className={classes.teiDS}>
-                                <Button variant="contained" color="primary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#FFA401'}} onClick={this.goBack}>
-                                    Add More
-                                </Button>
-                                &nbsp;
-                                <Button variant="contained" color="secondary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#00B970'}}>
-                                    Checkout
-                                </Button>
                             </div>
                         </Fragment>
                     )

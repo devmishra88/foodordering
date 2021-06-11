@@ -99,7 +99,7 @@ class AllCategories extends Component {
 
                     return (
                         <div className={classes.root}>
-                            <Header title={allcategoryheading}/>
+                            <Header title={allcategoryheading} showdrawer={false} history={this.props.history}/>
                             {
                                 iscategoryloaded ? (<div>
                                 {

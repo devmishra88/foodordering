@@ -6,6 +6,7 @@ import AllCategories from './AllCategories';
 import AllItems from './AllItems';
 import Itemdetail from './Itemdetail';
 import CartDetail from './CartDetail';
+import Removecartitem from './Removecartitem';
 
 export {
     PublicPage,
@@ -16,4 +17,5 @@ export {
     AllItems,
     Itemdetail,
     CartDetail,
+    Removecartitem,
 }

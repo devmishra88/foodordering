@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {withRouter} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -43,7 +44,7 @@ class AllItems extends Component {
 
                     return (
                         <div className={classes.root}>
-                            <Header title={allitemsheading}/>
+                            <Header title="All Items" showdrawer={false} history={this.props.history}/>
                             <ItemsList showtitle={false} />
                         </div>
                     );
@@ -53,4 +54,4 @@ class AllItems extends Component {
     }
 }
 
-export default withStyles(useStyles, { withTheme: true })(AllItems);
+export default withRouter(withStyles(useStyles, { withTheme: true })(AllItems));

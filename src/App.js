@@ -3,7 +3,7 @@ import {Switch, Route, Redirect, useHistory} from "react-router-dom";
 
 import {authContext} from './context/Auth';
 
-import {PublicPage, PrivatePage, LoginPage, Menu, AllCategories, AllItems, Itemdetail, CartDetail} from './screens';
+import {PublicPage, PrivatePage, LoginPage, Menu, AllCategories, AllItems, Itemdetail, CartDetail, Removecartitem} from './screens';
 
 export default function App() {
   return (
@@ -20,17 +20,12 @@ export default function App() {
         <PrivateRoute exact path="/protected">
           <PrivatePage />
         </PrivateRoute>
-        <PrivateRoute path="/menu">
-          <Menu />
-        </PrivateRoute>
-        <PrivateRoute exact path="/allcategories">
-          <AllCategories />
-        </PrivateRoute>
-        <PrivateRoute exact path="/allitems">
-          <AllItems />
-        </PrivateRoute>
+        <Route exact path="/menu" component={Menu} />
+        <Route exact path="/allcategories" component={AllCategories} />
+        <Route exact path="/allitems" component={AllItems} />
         <Route exact path="/itemdetail/:iid" component={Itemdetail} />
         <Route exact path="/cartdetail" component={CartDetail} />
+        <Route exact path="/removecartitem" component={Removecartitem} />
         {/*<PrivateRoute exact path="/itemdetail">
           <Itemdetail />
         </PrivateRoute>

@@ -296,6 +296,8 @@ class ItemsList extends Component {
 
                 const{isdataloaded, hasproducts, products, itemheading} = value;
 
+                const tempProducts  = products.filter(tempproduct => tempproduct.group == this.props.group);
+
                 return (
                     <Fragment>
             {
@@ -314,7 +316,7 @@ class ItemsList extends Component {
                           ):null
                         }
                             <div>
-                            {products.map((item, i) => {
+                            {tempProducts.map((item, i) => {
                                 return(
                                   <Container maxWidth="lg" className={classes.itelist} key={i}>
                                     <div>

@@ -47,16 +47,63 @@ class ProductProvider extends Component{
 			if(haystack[i] === needle) return true;
 		}
 		return false;
-	}	
+	}
 
-	setAppHomeData = () => {
+	setAppAllCategories = async () => {
 
-		if(this.state.isdataloadedhome)
+		let temphascategory	= false;
+
+		let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+
+		if(!restaurantid)
 		{
 			return;
 		}
 
-		/*this.setState(()=>{
+		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=category`) // api url
+		.then( response => {
+			
+			let categories		= response.data.categories.list;
+			let categoriesNum	= Object.keys(categories).length;
+			
+			if(categoriesNum > 0)
+			{
+				temphascategory	= true;
+			}
+
+			this.setState(()=>{
+				return{
+					iscategoryloaded:true,
+					hascategory:temphascategory,
+					allcategories:categories,
+					allcategoryheading:response.data.categories.title,
+				};
+			});
+		})
+		.catch(function (error) {
+			console.log(error);
+		});		
+	}
+
+	setAppHomeData = () => {
+
+		const tempProducts	= [...this.state.products];
+
+		const tempProductList	= tempProducts.filter(tempproduct => tempproduct.group == 'home');
+
+		const tempProductsNum	= Object.keys(tempProductList).length;
+
+		if(tempProductsNum > 0)
+		{
+			return false;
+		}
+
+		/*if(this.state.isdataloadedhome)
+		{
+			return;
+		}
+
+		this.setState(()=>{
 			return{
 				isdataloaded:false,
 				hasproducts:false,
@@ -64,15 +111,15 @@ class ProductProvider extends Component{
 		},()=>{*/
 			setTimeout(async()=>{
 
-				let tempProducts 		= [];
+				let tempProducts 		= [...this.state.products];
 				let tempCart			= [];
 
 				let hasbanner			= false;
 				let hasfeaturedcategory	= false;
-				let hasproducts		= false;
-		
+				let hasproducts			= false;
+
 				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
-		
+
 				if(!restaurantid)
 				{
 					return;
@@ -125,11 +172,22 @@ class ProductProvider extends Component{
 
 							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
 
-							singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+							const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+
+							singleItem		= {...singleItem, group:'home', busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
 
 							if(cartProduct)
 							{
-								singleItem.count	= cartProduct.count;
+								let tempcount	= 0;
+
+								customizationTempCart.forEach((customizeitem)=>{
+
+									const singlecustomizeitem = {...customizeitem};
+
+									tempcount	+= singlecustomizeitem.count;
+								});
+
+								singleItem.count	= tempcount;
 								singleItem.total	= cartProduct.total;
 
 								singleItem.inCart	= true;
@@ -166,43 +224,20 @@ class ProductProvider extends Component{
 		/*});*/
 	}
 
-	setAppAllCategories = async () => {
-
-		let temphascategory	= false;
-
-		let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
-
-		if(!restaurantid)
-		{
-			return;
-		}
-
-		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=category`) // api url
-		.then( response => {
-			
-			let categories		= response.data.categories.list;
-			let categoriesNum	= Object.keys(categories).length;
-			
-			if(categoriesNum > 0)
-			{
-				temphascategory	= true;
-			}
-
-			this.setState(()=>{
-				return{
-					iscategoryloaded:true,
-					hascategory:temphascategory,
-					allcategories:categories,
-					allcategoryheading:response.data.categories.title,
-				};
-			});
-		})
-		.catch(function (error) {
-			console.log(error);
-		});		
-	}
-
 	setAllItems = () => {
+
+		const tempProducts	= [...this.state.products];
+
+		console.log(tempProducts);
+
+		const tempProductList	= tempProducts.filter(tempproduct => tempproduct.group == 'popular');
+
+		const tempProductsNum	= Object.keys(tempProductList).length;
+
+		if(tempProductsNum > 0)
+		{
+			return false;
+		}
 
 		/*this.setState(()=>{
 			return{
@@ -212,7 +247,7 @@ class ProductProvider extends Component{
 		},()=>{*/
 			setTimeout(async()=>{
 
-				let tempProducts 		= [];
+				let tempProducts 		= [...this.state.products];
 				let tempCart			= [];
 
 				let temphasitems		= false;
@@ -255,11 +290,22 @@ class ProductProvider extends Component{
 
 							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
 
-							singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+							const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+
+							singleItem		= {...singleItem, group:'popular', busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
 
 							if(cartProduct)
 							{
-								singleItem.count	= cartProduct.count;
+								let tempcount	= 0;
+
+								customizationTempCart.forEach((customizeitem)=>{
+
+									const singlecustomizeitem = {...customizeitem};
+
+									tempcount	+= singlecustomizeitem.count;
+								});
+
+								singleItem.count	= tempcount;
 								singleItem.total	= cartProduct.total;
 
 								singleItem.inCart	= true;

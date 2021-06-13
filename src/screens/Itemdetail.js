@@ -2,10 +2,9 @@ import React,{Component, Fragment} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Typography } from '@material-ui/core';
+import {Container} from '@material-ui/core';
 
 import { ProductContext, ProductConsumer } from '../context/Product';
-
-import {Header} from '../components';
 
 const useStyles = (theme) => ({
     hyQzCb: {

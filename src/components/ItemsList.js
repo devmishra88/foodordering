@@ -349,7 +349,7 @@ class ItemsList extends Component {
                                               <div className={classes.qtychildin}>
                                                   <div className={classes.cMipmx}>
                                                       <div className={classes.hTzRFw}>
-                                                        <Link to={`/removecartitem`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                                        <Link to={`/removecartitem/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
                                                           <Remove />
                                                         </Link>
                                                       </div>

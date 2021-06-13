@@ -25,7 +25,7 @@ export default function App() {
         <Route exact path="/allitems" component={AllItems} />
         <Route exact path="/itemdetail/:iid" component={Itemdetail} />
         <Route exact path="/cartdetail" component={CartDetail} />
-        <Route exact path="/removecartitem" component={Removecartitem} />
+        <Route exact path="/removecartitem/:iid" component={Removecartitem} />
         {/*<PrivateRoute exact path="/itemdetail">
           <Itemdetail />
         </PrivateRoute>

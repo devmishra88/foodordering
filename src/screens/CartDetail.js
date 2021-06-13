@@ -204,7 +204,9 @@ class CartDetail extends Component {
             <ProductConsumer>
                 {(value) => {
 
-                    const{cart} = value;
+                    const{ cart } = value;
+
+                    const{ incrementCustomOption, decrementCustomOption } = value;
 
                     return (
                         <Fragment>
@@ -237,12 +239,12 @@ class CartDetail extends Component {
                                                       <div className={classes.hTzRFw}>
                                                           <Remove />
                                                       </div>
-                                                      <div className={classes.iQCkqv}>
+                                                      <div className={classes.iQCkqv} onClick={()=>decrementCustomOption(item.tempcartid)}>
                                                           <span className={classes.qtytitle} style={{
                                                               color:'#FFF6F7'
                                                           }}>{item.count}</span>
                                                       </div>
-                                                        <div className={classes.hTzRFw}>
+                                                        <div className={classes.hTzRFw} onClick={()=>incrementCustomOption(item.tempcartid)}>
                                                             <Plus />
                                                         </div>
                                                   </div>

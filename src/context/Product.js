@@ -591,24 +591,24 @@ class ProductProvider extends Component{
 
 	incrementCustomOption = async(tempcartid) => {
 
-		let tempCart			= [...this.state.cart];
+		let tempCart		= [...this.state.cart];
 
 		const cartproduct	= tempCart.find(cartitem=>cartitem.tempcartid === tempcartid);
 
-		cartproduct.count	= cartproduct.count + 1;
-		cartproduct.total	= cartproduct.price * cartproduct.count;
+		cartproduct.count			= cartproduct.count + 1;
+		cartproduct.customitemqty	= cartproduct.customitemqty + 1;
+		cartproduct.total			= cartproduct.price * cartproduct.count;
 
 		await this.state.db.updateCartItem(cartproduct);
 
 		this.setState(
 			()=>{
 				return{
-					isduplicateorder:false,
 					canplaceorder:false,
 				};
 			},
 			()=>{
-				this.setProducts();
+				/*this.setProducts();*/
 			}
 		);
 	}
@@ -630,12 +630,12 @@ class ProductProvider extends Component{
 		}
 		else
 		{
-			/*cartproduct.count	= cartproduct.count - 1;*/
 			if(tempcount < 1)
 			{
 				tempcount	= 1;
 			}
-			cartproduct.count	= tempcount;
+			cartproduct.count			= tempcount;
+			cartproduct.customitemqty	= tempcount;
 
 			cartproduct.total	= cartproduct.price * cartproduct.count;
 
@@ -644,14 +644,11 @@ class ProductProvider extends Component{
 			this.setState(
 				()=>{
 					return{
-						isduplicateorder:false,
-						canplaceorder:false,
 						cart:[...tempCart]
 					};
 				},
 				()=>{
-					document.body.style.overflow = "auto";
-					this.setProducts();
+					/*this.setProducts();*/
 				}
 			);
 		}
@@ -672,7 +669,6 @@ class ProductProvider extends Component{
 		this.setState(
 			()=>{
 				return{
-					isduplicateorder:false,
 					canplaceorder:false,
 				};
 			},
@@ -720,7 +716,6 @@ class ProductProvider extends Component{
 	incrementCustomItem = (id) => {
 
 		/*let tempProduct			= [...this.state.products];
-
 		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
 		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
 		const storeproduct			= tempProduct[storeitemindex];*/
@@ -742,7 +737,6 @@ class ProductProvider extends Component{
 	decrementCustomItem = (id) => {
 
 		/*let tempProduct			= [...this.state.products];
-
 		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
 		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
 		const storeproduct			= tempProduct[storeitemindex];*/
@@ -845,9 +839,10 @@ class ProductProvider extends Component{
 				showHideSearch:this.showHideSearch,
 				handleChange:this.handleChange,
 				addToCart:this.addToCart,
-				decrementCustomOption:this.decrementCustomOption,
 				removeItemCustomOption:this.removeItemCustomOption,
 				handleOptionSelection:this.handleOptionSelection,
+				incrementCustomOption:this.incrementCustomOption,
+				decrementCustomOption:this.decrementCustomOption,
 				incrementCustomItem:this.incrementCustomItem,
 				decrementCustomItem:this.decrementCustomItem,
 				clearCart:this.clearCart,

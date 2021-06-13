@@ -43,3 +43,16 @@
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
+.optionname::after{
+	content: ", ";
+}
+
+.optionname:last-child::after{
+	content: "";
+}
+
+.optionname.small{
+    color:#868686;
+    font-size: 1rem;
+    font-weight: 600;
+}

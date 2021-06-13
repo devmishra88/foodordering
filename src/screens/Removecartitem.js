@@ -194,11 +194,15 @@ class CartDetail extends Component {
 
                     const{cart} = value;
 
+                    const{ incrementCustomOption, decrementCustomOption } = value;
+
+                    const tempcart  = cart.filter(cartitem => cartitem.id === this.props.match.params.iid);
+
                     return (
                         <Fragment>
                             <Header title="Remove your items" showdrawer={false} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
-                            {cart.map((item, i) => {
+                            {tempcart.map((item, i) => {
                                 return(
                                   <Container maxWidth="lg" className={classes.itelist} key={i}>
                                     <div>
@@ -215,6 +219,13 @@ class CartDetail extends Component {
                                               <h4 className={classes.iSmBPS}>{item.item_name}</h4>
                                             </div>
                                           </div>
+                                          <div>
+                                          {
+                                              item.selectedoption.map((option, optionloop)=>{
+                                                return <span key={optionloop} className="optionname small">{option.item}</span>
+                                              })
+                                          }
+                                          </div>
                                           <p className={classes.hcROsL}>{item.description}</p>
                                           <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
                                             <div className={classes.jOoliK}>
@@ -225,12 +236,12 @@ class CartDetail extends Component {
                                                       <div className={classes.hTzRFw}>
                                                           <Remove />
                                                       </div>
-                                                      <div className={classes.iQCkqv}>
+                                                      <div className={classes.iQCkqv} onClick={()=>decrementCustomOption(item.tempcartid)}>
                                                           <span className={classes.qtytitle} style={{
                                                               color:'#FFF6F7'
                                                           }}>{item.count}</span>
                                                       </div>
-                                                        <div className={classes.hTzRFw}>
+                                                        <div className={classes.hTzRFw} onClick={()=>incrementCustomOption(item.tempcartid)}>
                                                             <Plus />
                                                         </div>
                                                   </div>

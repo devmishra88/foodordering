@@ -119,7 +119,7 @@ class AllCategories extends Component {
                                     ):null
                                 }
                                 </div>
-                                ):(<div style={{display:'flex',alignItems:'center',justifyContent:'center',flexGrow: 1}}>
+                                ):(<div style={{display:'flex',alignItems:'center',justifyContent:'center',flexGrow: 1, height:'90vh'}}>
                                     <CircularProgress disableShrink />
                                 </div>)
                             }

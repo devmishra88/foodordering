@@ -78,6 +78,8 @@ class ProductProvider extends Component{
 					allcategories:categories,
 					allcategoryheading:response.data.categories.title,
 				};
+			},()=>{
+				this.addTotals();
 			});
 		})
 		.catch(function (error) {

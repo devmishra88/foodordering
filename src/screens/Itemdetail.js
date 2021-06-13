@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import {Container} from '@material-ui/core';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { ProductContext, ProductConsumer } from '../context/Product';
 
 const useStyles = (theme) => ({
@@ -491,7 +493,9 @@ class Itemdetail extends Component {
                                         </Fragment>):null
                                     }
                                 </Fragment>
-                            ):(<div>Loading.....</div>)
+                            ):(<div style={{display:'flex',alignItems:'center',justifyContent:'center',flexGrow: 1, height:'90vh'}}>
+                                    <CircularProgress disableShrink />
+                            </div>)
                         }
                     </Fragment>
                 );

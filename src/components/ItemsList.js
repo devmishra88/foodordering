@@ -296,7 +296,7 @@ class ItemsList extends Component {
 
                 const{isdataloaded, hasproducts, products, itemheading} = value;
 
-                const tempProducts  = products.filter(tempproduct => tempproduct.group == this.props.group);
+                const tempProducts  = products.filter(tempproduct => tempproduct.group === this.props.group);
 
                 return (
                     <Fragment>

@@ -229,10 +229,17 @@ class CartDetail extends Component {
                                               <h4 className={classes.iSmBPS}>{item.item_name}</h4>
                                             </div>
                                           </div>
+                                          <div>
+                                          {
+                                              item.selectedoption.map((option, optionloop)=>{
+                                                return <span key={optionloop} className="optionname small">{option.item}</span>
+                                              })
+                                          }
+                                          </div>
                                           <p className={classes.hcROsL}>{item.description}</p>
                                           <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
                                             <div className={classes.jOoliK}>
-                                              <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price}</span>
+                                              <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price.toFixed(2)}</span>
                                             </div>
                                               <div className={classes.qtychildin}>
                                                   <div className={classes.cMipmx}>

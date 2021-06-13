@@ -89,7 +89,7 @@ class ProductProvider extends Component{
 
 		const tempProducts	= [...this.state.products];
 
-		const tempProductList	= tempProducts.filter(tempproduct => tempproduct.group == 'home');
+		const tempProductList	= tempProducts.filter(tempproduct => tempproduct.group === 'home');
 
 		const tempProductsNum	= Object.keys(tempProductList).length;
 
@@ -98,17 +98,12 @@ class ProductProvider extends Component{
 			return false;
 		}
 
-		/*if(this.state.isdataloadedhome)
-		{
-			return;
-		}
-
 		this.setState(()=>{
 			return{
 				isdataloaded:false,
 				hasproducts:false,
 			}
-		},()=>{*/
+		},()=>{
 			setTimeout(async()=>{
 
 				let tempProducts 		= [...this.state.products];
@@ -221,16 +216,14 @@ class ProductProvider extends Component{
 				});				
 
 			},1000);
-		/*});*/
+		});
 	}
 
 	setAllItems = () => {
 
 		const tempProducts	= [...this.state.products];
 
-		console.log(tempProducts);
-
-		const tempProductList	= tempProducts.filter(tempproduct => tempproduct.group == 'popular');
+		const tempProductList	= tempProducts.filter(tempproduct => tempproduct.group === 'popular');
 
 		const tempProductsNum	= Object.keys(tempProductList).length;
 
@@ -239,12 +232,12 @@ class ProductProvider extends Component{
 			return false;
 		}
 
-		/*this.setState(()=>{
+		this.setState(()=>{
 			return{
 				isdataloaded:false,
 				hasproducts:false,
 			}
-		},()=>{*/
+		},()=>{
 			setTimeout(async()=>{
 
 				let tempProducts 		= [...this.state.products];
@@ -332,7 +325,7 @@ class ProductProvider extends Component{
 				});
 
 			},1000);
-		/*});*/
+		});
 	}
 
 	getItem = (id) =>{
@@ -383,44 +376,21 @@ class ProductProvider extends Component{
 					{
 						temphasitemdetail	= true;
 
-							let singleItem	= orgitemdetail;
+						let singleItem	= orgitemdetail;
 
-							const id		= singleItem.id;
-							const price		= singleItem.price;
+						const id		= singleItem.id;
+						const price		= singleItem.price;
 
-							let tempExtraItem	= [];
+						let tempExtraItem	= [];
 
-							singleItem.extras.extra_items.forEach((option, i)=>{
+						singleItem.extras.extra_items.forEach((option, i)=>{
 
-								const singleoption = {...option, checked:false, optionid:`${id}_${i+1}`};
+							const singleoption = {...option, checked:false, optionid:`${id}_${i+1}`};
 
-								tempExtraItem	= [...tempExtraItem, singleoption];
-							});
+							tempExtraItem	= [...tempExtraItem, singleoption];
+						});
 
-							singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false, extraoptions:tempExtraItem};
-
-							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
-
-							if(cartProduct)
-							{
-								/*let tempcount	= 0;
-
-								const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
-
-								customizationTempCart.forEach((customizeitem)=>{
-
-									const singlecustomizeitem = {...customizeitem};
-
-									tempcount	+= singlecustomizeitem.count;
-								});
-
-								singleItem.count	= tempcount;
-								singleItem.total	= cartProduct.total;
-
-								singleItem.inCart	= true;*/
-							}
-
-						/*let tempitemdetail	= orgitemdetail;*/
+						singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false, extraoptions:tempExtraItem};
 
 						this.setState(()=>{
 							return{
@@ -521,11 +491,6 @@ class ProductProvider extends Component{
 			let tempCart		= [...this.state.cart];
 			let tempProducts	= [...this.state.products];
 
-			/*let tempProducts	= [...this.state.products];
-
-			const index			= tempProducts.indexOf(this.getItem(id));
-			const product		= tempProducts[index];*/
-
 			let product			= this.state.itemdetail;
 
 			product.inCart		= true;
@@ -582,10 +547,6 @@ class ProductProvider extends Component{
 
 			const selectedCartProduct	= tempCart.find(item=>item.checkoptionstr === checkstr && item.id === id);
 
-			/*console.log(tempCart);
-			console.log(selectedCartProduct);
-			return;*/
-
 			if(selectedCartProduct === undefined || selectedCartProduct === null)
 			{
 				await this.state.db.addNewItemInCart(tempproduct);
@@ -624,8 +585,6 @@ class ProductProvider extends Component{
 
 			this.setState(()=>{
 				return {
-					/*products:tempProducts,
-					cart:[...this.state.cart, tempproduct],*/
 					cart:tempCart,
 					products:tempProducts,
 				};
@@ -647,16 +606,7 @@ class ProductProvider extends Component{
 
 		await this.state.db.updateCartItem(cartproduct);
 
-		this.setState(
-			()=>{
-				return{
-					canplaceorder:false,
-				};
-			},
-			()=>{
-				/*this.setProducts();*/
-			}
-		);
+		this.addTotals();
 	}
 
 	decrementCustomOption = async (tempcartid) => {
@@ -694,7 +644,7 @@ class ProductProvider extends Component{
 					};
 				},
 				()=>{
-					/*this.setProducts();*/
+					this.addTotals();
 				}
 			);
 		}
@@ -719,17 +669,12 @@ class ProductProvider extends Component{
 				};
 			},
 			()=>{
-				this.setProducts();
+				this.addTotals();
 			}
 		);
 	}
 
 	handleOptionSelection = (id, optionid) =>{
-
-		/*let tempProducts	= [...this.state.products];
-		const index		= tempProducts.indexOf(this.getItem(id));*/
-		/*const product		= tempProducts[index];
-		const product		= tempProducts[index];*/
 
 		let product		= this.state.itemdetail;
 
@@ -761,10 +706,6 @@ class ProductProvider extends Component{
 
 	incrementCustomItem = (id) => {
 
-		/*let tempProduct			= [...this.state.products];
-		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
-		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
-		const storeproduct			= tempProduct[storeitemindex];*/
 		let storeproduct			= this.state.itemdetail;
 
 		storeproduct.customitemqty	= storeproduct.customitemqty + 1;
@@ -773,7 +714,6 @@ class ProductProvider extends Component{
 		this.setState(
 			()=>{
 				return{
-					/*products:[...tempProduct],*/
 					itemdetail:storeproduct,
 				};
 			}
@@ -782,13 +722,8 @@ class ProductProvider extends Component{
 
 	decrementCustomItem = (id) => {
 
-		/*let tempProduct			= [...this.state.products];
-		const selectedStoreProduct	= tempProduct.find(item=>item.id === id);
-		const storeitemindex		= tempProduct.indexOf(selectedStoreProduct);
-		const storeproduct			= tempProduct[storeitemindex];*/
-		let storeproduct			= this.state.itemdetail;
-
-		const checkqty				= storeproduct.customitemqty;
+		let storeproduct	= this.state.itemdetail;
+		const checkqty		= storeproduct.customitemqty;
 
 		if(checkqty > 1)
 		{
@@ -798,7 +733,6 @@ class ProductProvider extends Component{
 			this.setState(
 				()=>{
 					return{
-						/*products:[...tempProduct],*/
 						itemdetail:storeproduct,
 					};
 				}
@@ -808,7 +742,6 @@ class ProductProvider extends Component{
 		{
 			this.setState(()=>{
 				return{
-					/*products:[...tempProduct],*/
 					itemdetail:storeproduct,
 				};
 			});
@@ -822,7 +755,6 @@ class ProductProvider extends Component{
 			return { cart:[] };
 		},
 		()=>{
-			this.setProducts();
 			this.addTotals();
 		});
 	}
@@ -832,9 +764,12 @@ class ProductProvider extends Component{
 		let subTotal = 0;
 		let cartItem = 0;
 
+		let tempProducts 	= [...this.state.products];
 		const cartdetails	= await this.state.db.fetchAllCartItem();
 
 		let tempCart	= [];
+
+		let tempNewProducts	= [];
 
 		if(cartdetails)
 		{
@@ -857,6 +792,34 @@ class ProductProvider extends Component{
 					};
 				});
 
+				tempProducts.forEach(item => {
+					const singleItem	= {...item};
+
+					const id		= singleItem.id;
+
+					const cartProduct			= this.state.cart.find(cartitem => cartitem.id === id);
+					const customizationTempCart	= this.state.cart.filter(tempcartitem => tempcartitem.id === id);
+
+					if(cartProduct)
+					{
+						let tempcount	= 0;
+
+						customizationTempCart.forEach((customizeitem)=>{
+
+							const singlecustomizeitem = {...customizeitem};
+
+							tempcount	+= singlecustomizeitem.count;
+						});
+
+						singleItem.count	= tempcount;
+						singleItem.total	= cartProduct.total;
+
+						singleItem.inCart	= true;
+					}
+
+					tempNewProducts = [...tempNewProducts, singleItem];
+				});
+
 				const tempTax	= subTotal * 0; /*here 0.1 is temp tax and can be dynamic*/
 				const tax		= parseFloat(tempTax.toFixed(2));
 				const total		= subTotal + tax;
@@ -866,9 +829,32 @@ class ProductProvider extends Component{
 						cartSubTotal:subTotal,
 						cartTax:tax,
 						cartTotal:total,
-						cartTotalItem:cartItem
+						cartTotalItem:cartItem,
+						products:tempNewProducts
 					}
 				})
+			})
+		}
+		else
+		{
+			tempProducts.forEach(item => {
+				const singleItem	= {...item};
+
+				singleItem.count	= 1;
+				singleItem.total	= singleItem.price;
+				singleItem.inCart	= false;
+
+				tempNewProducts = [...tempNewProducts, singleItem];
+			});
+
+			this.setState(()=>{
+				return{
+					cartSubTotal:0,
+					cartTax:0,
+					cartTotal:0,
+					cartTotalItem:0,
+					products:tempNewProducts
+				}
 			})
 		}
 	}

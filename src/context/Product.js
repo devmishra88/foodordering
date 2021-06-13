@@ -34,6 +34,10 @@ class ProductProvider extends Component{
 		hasitemdetail:false,
 		isdetailloaded:false,
 
+		cartsuccess:false,
+		vertical: 'bottom',
+		horizontal: 'center',
+
 		cartSubTotal:0,
 		cartTax:0,
 		cartTotal:0,
@@ -585,10 +589,23 @@ class ProductProvider extends Component{
 				});
 			}
 
+			product.count			= 1;
+			product.customitemqty	= 1;
+			product.price			= product.baseprice;
+			product.total			= product.baseprice;
+
+			product.extraoptions.forEach((option)=>{
+
+				option.checked	= false;
+
+			})
+
 			this.setState(()=>{
 				return {
 					cart:tempCart,
 					products:tempProducts,
+					product:product,
+					cartsuccess:true,
 				};
 			},()=>{
 				this.addTotals();
@@ -861,6 +878,16 @@ class ProductProvider extends Component{
 		}
 	}
 
+	closeSuccessCart=()=>{
+
+		this.setState({
+
+			cartsuccess:false
+
+		})
+
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -881,6 +908,7 @@ class ProductProvider extends Component{
 				decrementCustomItem:this.decrementCustomItem,
 				clearCart:this.clearCart,
 				addTotals:this.addTotals,
+				closeSuccessCart:this.closeSuccessCart,
 			}}
 			>
 			{this.props.children}

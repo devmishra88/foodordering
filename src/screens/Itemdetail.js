@@ -1,4 +1,6 @@
 import React,{Component, Fragment} from 'react';
+import { ProductContext, ProductConsumer } from '../context/Product';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import { Typography } from '@material-ui/core';
@@ -6,10 +8,14 @@ import {Container} from '@material-ui/core';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { ProductContext, ProductConsumer } from '../context/Product';
+import Snackbar from '@material-ui/core/Snackbar';
+
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = (theme) => ({
-    hyQzCb: {
+    root: {
+        width: '100%',
         backgroundColor: '#ffffff',
         height: '90vh',
         transform: 'translate3d(0px, 0px, 0px)',
@@ -397,8 +403,8 @@ class Itemdetail extends Component {
             <ProductConsumer>
             {(value) => {
 
-                const{itemdetail, hasitemdetail, isdetailloaded} = value;
-                const{ handleOptionSelection, incrementCustomItem, decrementCustomItem, addToCart } = value;
+                const{itemdetail, hasitemdetail, isdetailloaded, cartsuccess, vertical, horizontal} = value;
+                const{ handleOptionSelection, incrementCustomItem, decrementCustomItem, addToCart, closeSuccessCart } = value;
 
                 return (
                     <Fragment>
@@ -408,7 +414,7 @@ class Itemdetail extends Component {
                                 <Fragment>
                                     {
                                         hasitemdetail ? (<Fragment>
-                                            <div className={classes.hyQzCb}>
+                                            <div className={classes.root}>
                                                 <div className="close-button" onClick={()=>{
                                                     this.goBack();
                                                 }}></div>
@@ -490,6 +496,18 @@ class Itemdetail extends Component {
                                                 </div>
                                                 <button role="button" className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
                                             </div>
+                                            <Snackbar autoHideDuration={3000} anchorOrigin={{vertical, horizontal}} open={cartsuccess} onClose={closeSuccessCart} message="Item added in cart successfully" key={vertical + horizontal}
+                                            action={
+                                                  <IconButton
+                                                    aria-label="close"
+                                                    color="inherit"
+                                                    className={classes.close}
+                                                    onClick={closeSuccessCart}
+                                                  >
+                                                    <CloseIcon />
+                                                  </IconButton>
+                                              }
+                                            />
                                         </Fragment>):null
                                     }
                                 </Fragment>

@@ -64,7 +64,7 @@ class ProductProvider extends Component{
 			return;
 		}
 
-		axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=category`) // api url
+		axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}&all=category`) // api url
 		.then( response => {
 			
 			let categories		= response.data.categories.list;
@@ -137,7 +137,7 @@ class ProductProvider extends Component{
 					});
 				}
 
-				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}`) // api url
 				.then( response => {
 		
 					let homebanners				= response.data.banners.list;
@@ -269,7 +269,7 @@ class ProductProvider extends Component{
 					});
 				}
 				
-				axios.get(`${process.env.REACT_APP_API_URL}/app_home?mid=${restaurantid}&all=popular`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}&all=popular`) // api url
 				.then( response => {
 
 					let products		= response.data.popularitems.list;
@@ -372,7 +372,7 @@ class ProductProvider extends Component{
 					});
 				}
 				
-				axios.get(`${process.env.REACT_APP_API_URL}/merchant_item?mid=${restaurantid}&iid=${id}`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=${id}`) // api url
 				.then( response => {
 					
 					let orgitemdetail	= response.data[0];

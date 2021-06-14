@@ -512,7 +512,7 @@ class Itemdetail extends Component {
                                     }
                                 </Fragment>
                             ):(<div style={{display:'flex',alignItems:'center',justifyContent:'center',flexGrow: 1, height:'90vh'}}>
-                                    <CircularProgress disableShrink />
+                                <CircularProgress disableShrink />
                             </div>)
                         }
                     </Fragment>

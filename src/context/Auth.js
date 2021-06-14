@@ -4,7 +4,7 @@ const authContext = createContext();
 
 const fakeAuth = {
   isAuthenticated: false,
-  signin(restaurantid, cb) {
+  signin(restaurantid, user, cb) {
 
     fakeAuth.isAuthenticated = true;
     setTimeout(cb, 100); // fake async
@@ -17,13 +17,19 @@ const fakeAuth = {
 
 function useProvideAuth() {
   const [restaurantid, setRestaurant] = useState(localStorage.getItem('restaurantid'));
+  const [user, setUser] = useState(localStorage.getItem('user'));
+  const [isagree, setIsAgree] = useState(localStorage.getItem('isagree'));
 
-  const signin = (restaurantid, cb) => {
-    return fakeAuth.signin(restaurantid, () => {
+  const signin = (restaurantid, user, isagree, cb) => {
+    return fakeAuth.signin(restaurantid, user, () => {
 
 		localStorage.setItem(`restaurantid`,restaurantid);
+		localStorage.setItem(`user`, user);
+		localStorage.setItem(`isagree`, isagree);
 
 		setRestaurant(restaurantid);
+		setUser(user);
+		setIsAgree(isagree);
 		cb();
     });
   };
@@ -32,14 +38,20 @@ function useProvideAuth() {
     return fakeAuth.signout(() => {
 
 		localStorage.setItem(`restaurantid`,'');
+		localStorage.setItem(`user`,'');
+		localStorage.setItem(`isagree`,'');
 
 		setRestaurant(null);
+		setUser(null);
+		setIsAgree(null);
 		cb();
     });
   };
 
   return {
     restaurantid,
+    user,
+    isagree,
     signin,
     signout
   };

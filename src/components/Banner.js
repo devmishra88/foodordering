@@ -67,10 +67,10 @@ class Banner extends Component {
                 {
                     hasbanner ? (
                         <Carousel responsive={responsive} infinite={true} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType}>
-                        {banners.map((banner) => {
+                        {banners.map((banner, index) => {
                             return(
-                                <div key={banner.id}>
-                                    <img src={banner.image_url} alt={banner.id} style={{width:'100%'}} />
+                                <div key={index}>
+                                    <img src={banner.image_url} alt={`Banner ${Number(banner.index)+1}`} style={{width:'100%'}} />
                                 </div>
                             );
                         })

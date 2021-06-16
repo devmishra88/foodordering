@@ -888,6 +888,85 @@ class ProductProvider extends Component{
 
 	}
 
+	placeOrder = async() => {
+
+		const { cartTotal, cartTotalItem } = this.state;
+
+		const cartdetails	= await this.state.db.fetchAllCartItem();
+
+		let marketing	= false;
+
+		if(Number(localStorage.getItem('isagree')) > 0)
+		{
+			marketing	= true;
+		}
+
+		let cartItem	= [];
+
+		if(cartdetails)
+		{
+			cartdetails.forEach(item => {
+
+				const { id, item_name, category, description, image_url, price, total, count, selectedoption }	= item;
+
+				let singleitem	= {};
+
+				singleitem.item_id		= id;
+				singleitem.item_name	= item_name;
+				singleitem.category		= category;
+				singleitem.description	= description;
+				singleitem.image_url	= image_url;
+				singleitem.price		= price;
+				singleitem.total		= total;
+				singleitem.quantity		= count;
+				singleitem.extra_items	= selectedoption;
+
+				cartItem	= [...cartItem, singleitem];
+			});
+		}
+
+		let cartItemNum		= Object.keys(cartItem).length;
+
+		let restaurantid	= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+
+		if(!restaurantid || cartItemNum < 1)
+		{
+			return;
+		}
+
+		const bodyFormData = {
+			"merchant_id": localStorage.getItem('restaurantid'),
+			"customer_id": localStorage.getItem('user'),
+			"marketing": marketing,
+			"country_code": "IN",
+			"table_no": 1,
+			"total_amount": cartTotal,
+			"total_quantity": cartTotalItem,
+			"discount_coupon": "ABC123",
+			"discount_amount": 5,
+			"items": cartItem,
+		};
+
+        axios({
+            method: 'post',
+			url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${restaurantid}`,
+            data: bodyFormData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(response=>{
+
+			console.log(response);
+
+			return false;
+
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });		
+
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -909,6 +988,7 @@ class ProductProvider extends Component{
 				clearCart:this.clearCart,
 				addTotals:this.addTotals,
 				closeSuccessCart:this.closeSuccessCart,
+				placeOrder:this.placeOrder,
 			}}
 			>
 			{this.props.children}

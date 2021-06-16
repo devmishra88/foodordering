@@ -206,7 +206,7 @@ class CartDetail extends Component {
 
                     const{ cart } = value;
 
-                    const{ incrementCustomOption, decrementCustomOption } = value;
+                    const{ incrementCustomOption, decrementCustomOption, placeOrder } = value;
 
                     return (
                         <Fragment>
@@ -269,7 +269,7 @@ class CartDetail extends Component {
                                     Add More
                                 </Button>
                                 &nbsp;
-                                <Button variant="contained" color="secondary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#00B970'}}>
+                                <Button variant="contained" color="secondary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#00B970'}} onClick={placeOrder}>
                                     Checkout
                                 </Button>
                             </div>

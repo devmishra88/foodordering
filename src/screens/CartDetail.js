@@ -220,7 +220,7 @@ class CartDetail extends Component {
                         <Fragment>
                             {(()=>{
                                 if (redirecttomenu) {
-                                    return <Redirect to = {{ pathname: "/menu" }} />;
+                                    return <Redirect to = {{ pathname: "/" }} />;
                                 }
                             })()}
                             <Header title="Cart" showdrawer={false} history={this.props.history}/>

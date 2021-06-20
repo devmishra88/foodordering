@@ -41,8 +41,6 @@ class AllItems extends Component {
             <ProductConsumer>
                 {(value) => {
 
-                    const{allitemsheading} = value;
-
                     return (
                         <div className={classes.root}>
                             <Header title="All Items" showdrawer={false} history={this.props.history}/>

@@ -502,10 +502,8 @@ class Itemdetail extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button role="button" className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
+                                                    <button className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
                                                 </div>
-                                                    
-
                                             </div>
                                             <Snackbar autoHideDuration={3000} anchorOrigin={{vertical, horizontal}} open={cartsuccess} onClose={closeSuccessCart} message="Item added in cart successfully" key={vertical + horizontal}
                                             action={

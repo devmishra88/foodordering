@@ -222,14 +222,14 @@ class ProductProvider extends Component{
 						{
 							let singleItem	= orderedproducts[item];
 
-							const id		= singleItem.id;
+							const id		= singleItem.item_id;
 							const price		= singleItem.price;
 
 							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
 
 							const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
 
-							singleItem		= {...singleItem, group:'ordereditems', busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+							singleItem		= {...singleItem, group:'ordereditems', busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false, id:id};
 
 							if(cartProduct)
 							{

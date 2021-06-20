@@ -4,7 +4,6 @@ import { ProductContext, ProductConsumer } from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
-import {Container} from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -30,7 +29,6 @@ const useStyles = (theme) => ({
         maxWidth: '100%',
         width: '100%',
         overflow: 'hidden',
-        /*borderRadius: '0.8rem',*/
         visibility: 'visible',
         height: "18rem",
     },
@@ -44,9 +42,6 @@ const useStyles = (theme) => ({
         height:'55vh',
         width:'92%',
         background:'#ffffff',
-    },
-    devdet:{
-        borderRadius: "1.5rem 1.5rem 0px 0px",
     },
     lrgclr: {
         width: '100%',
@@ -321,7 +316,6 @@ const useStyles = (theme) => ({
         display: 'block',
         alignItems: 'stretch',
         borderRadius: '0.6rem',
-        background: 'transparent',
         padding: '0px',
         border: 'none',
         cursor: 'pointer',
@@ -395,6 +389,7 @@ class Itemdetail extends Component {
 
     componentDidMount(){
 
+        this.context.resetRedirectToMenu();
         this.context.getItemDetail(this.props.match.params.iid);
         
     }

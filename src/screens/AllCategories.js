@@ -80,6 +80,7 @@ class AllCategories extends Component {
 
         setTimeout(()=>{
 
+            this.context.resetRedirectToMenu();
             this.context.setAppAllCategories();
 
         },1500);

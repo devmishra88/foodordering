@@ -1,9 +1,12 @@
 import React,{Component, Fragment} from 'react';
-import {withRouter} from "react-router-dom";
+import {withRouter, Redirect} from "react-router-dom";
 import {ProductConsumer, ProductContext} from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
-import {Container} from '@material-ui/core';
-import { Button } from '@material-ui/core';
+
+import Alert from '@material-ui/lab/Alert';
+import CloseIcon from '@material-ui/icons/Close';
+
+import { Container, Button, Backdrop, CircularProgress, IconButton, Collapse } from '@material-ui/core';
 
 import {Header} from '../components';
 
@@ -172,6 +175,10 @@ const useStyles = (theme) => ({
       padding:'1rem 0',
       justifyContent:'space-between',
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 });
 
 class CartDetail extends Component {
@@ -187,6 +194,7 @@ class CartDetail extends Component {
     }
     componentDidMount(){
 
+        this.context.resetRedirectToMenu();
         this.context.addTotals();        
 
     }
@@ -204,14 +212,40 @@ class CartDetail extends Component {
             <ProductConsumer>
                 {(value) => {
 
-                    const{ cart } = value;
+                    const{ cart, isorderadding, isalertopen, cartseverity, redirecttomenu, orderaddedmsg } = value;
 
-                    const{ incrementCustomOption, decrementCustomOption, placeOrder } = value;
+                    const{ incrementCustomOption, decrementCustomOption, placeOrder, closeCartAlert } = value;
 
                     return (
                         <Fragment>
+                            {(()=>{
+                                if (redirecttomenu) {
+                                    return <Redirect to = {{ pathname: "/menu" }} />;
+                                }
+                            })()}
                             <Header title="Cart" showdrawer={false} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
+
+                            <Collapse in={isalertopen}>
+                                <Alert
+                                    severity={`${cartseverity}`}
+                                    action={
+                                    <IconButton
+                                        aria-label="close"
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            closeCartAlert();
+                                        }}
+                                    >
+                                        <CloseIcon fontSize="inherit" />
+                                    </IconButton>
+                                    }
+                                >
+                                    {orderaddedmsg}
+                                </Alert>
+                            </Collapse>
+
                             {cart.map((item, i) => {
                                 return(
                                   <Container maxWidth="lg" className={classes.itelist} key={i}>
@@ -273,6 +307,9 @@ class CartDetail extends Component {
                                     Checkout
                                 </Button>
                             </div>
+                            <Backdrop className={classes.backdrop} open={isorderadding}>
+                                <CircularProgress color="inherit" />
+                            </Backdrop>
                         </Fragment>
                     )
                 }}

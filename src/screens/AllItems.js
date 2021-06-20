@@ -27,6 +27,7 @@ class AllItems extends Component {
     }
     componentDidMount(){
 
+        this.context.resetRedirectToMenu();
         this.context.setAllItems();
 
     }

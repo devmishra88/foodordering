@@ -175,7 +175,8 @@ class CartDetail extends Component {
     }
     componentDidMount(){
 
-        this.context.addTotals();        
+      this.context.resetRedirectToMenu();
+      this.context.addTotals();        
 
     }
 

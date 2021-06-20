@@ -298,11 +298,13 @@ class ItemsList extends Component {
 
                 let temphasproducts = hasproducts;
                 let tempitemheading = itemheading;
+                let showviewall     = true;
 
                 if(this.props.group === 'ordereditems')
                 {
                   temphasproducts = hasorderedproducts;
                   tempitemheading = orderedproductsheading;
+                  showviewall     = false;
                 }
 
                 const tempProducts  = products.filter(tempproduct => tempproduct.group === this.props.group);
@@ -320,7 +322,11 @@ class ItemsList extends Component {
                                 <Typography variant="h6" className={classes.title}>
                                     {tempitemheading}
                                 </Typography>
-                                <Link to="/allitems" style={{textDecoration:'none'}}><div className={classes.viewalltitle}>View all</div></Link>
+                                {
+                                  showviewall ? (
+                                    <Link to="/allitems" style={{textDecoration:'none'}}><div className={classes.viewalltitle}>View all</div></Link>
+                                  ):null
+                                }
                             </div>
                           ):null
                         }

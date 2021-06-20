@@ -45,6 +45,12 @@ class ProductProvider extends Component{
 		cartTotal:0,
 		cartTotalItem:0,
 		cart:[],
+
+		isorderadding:false,
+		cartseverity:"info",
+		isalertopen:false,
+		redirecttomenu:false,
+		orderaddedmsg:'',
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -990,37 +996,98 @@ class ProductProvider extends Component{
 			return;
 		}
 
-		const bodyFormData = {
-			"merchant_id": localStorage.getItem('restaurantid'),
-			"customer_id": localStorage.getItem('user'),
-			"marketing": marketing,
-			"country_code": "IN",
-			"table_no": 1,
-			"total_amount": cartTotal,
-			"total_quantity": cartTotalItem,
-			"discount_coupon": "ABC123",
-			"discount_amount": 5,
-			"items": cartItem,
-		};
+		this.setState(()=>{
+			return{
+				isorderadding:true,
+				cartseverity:"info",
+				isalertopen:false,
+			}
+		},()=>{
 
-        axios({
-            method: 'post',
-			url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${restaurantid}`,
-            data: bodyFormData,
-            config: { headers: {'Content-Type': 'multipart/form-data' }}
-        })
-        .then(response=>{
+			setTimeout(()=>{
 
-			console.log(response);
+				const bodyFormData = {
+					"merchant_id": localStorage.getItem('restaurantid'),
+					"customer_id": localStorage.getItem('user'),
+					"marketing": marketing,
+					"country_code": "IN",
+					"table_no": 1,
+					"total_amount": cartTotal,
+					"total_quantity": cartTotalItem,
+					"discount_coupon": "ABC123",
+					"discount_amount": 5,
+					"items": cartItem,
+				};
+		
+				axios({
+					method: 'post',
+					url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${restaurantid}`,
+					data: bodyFormData,
+					config: { headers: {'Content-Type': 'multipart/form-data' }}
+				})
+				.then(response=>{
+		
+					if(response.status === 200)
+					{
+						this.setState(()=>{
+							return{
+								isorderadding:false,
+								cartseverity:"success",
+								isalertopen:true,
+								orderaddedmsg:'Your order added successfully',
+							}
+						},()=>{
+							this.clearCart();
+							setTimeout(()=>{
+								this.setState({
+									cartseverity:"info",
+									isalertopen:false,
+									orderaddedmsg:'',
+									redirecttomenu:true,
+								});
+							},3000);
+						})
+					}
+					else
+					{
+						this.setState(()=>{
+							return{
+								isorderadding:false,
+								cartseverity:"error",
+								isalertopen:true,
+								orderaddedmsg:'Oops! somthing went wrong, please try latter',
+							}
+						},()=>{
+							setTimeout(()=>{
+								this.setState({
+									cartseverity:"info",
+									isalertopen:false,
+									orderaddedmsg:'',
+									redirecttomenu:false
+								});
+							},3000);
+						})
+					}
+				})
+				.catch(function (response) {
+					//handle error
+					console.log(response);
+				});					
 
-			return false;
+			},1500);
+		})
+	}
 
-        })
-        .catch(function (response) {
-            //handle error
-            console.log(response);
-        });		
+	closeCartAlert=()=>{
+		this.setState({
+			isalertopen:false
+		})
+	}
 
+	resetRedirectToMenu=()=>{
+		this.setState({
+			redirecttomenu:false
+		})
 	}
 
 	render(){
@@ -1045,6 +1112,8 @@ class ProductProvider extends Component{
 				addTotals:this.addTotals,
 				closeSuccessCart:this.closeSuccessCart,
 				placeOrder:this.placeOrder,
+				closeCartAlert:this.closeCartAlert,
+				resetRedirectToMenu:this.resetRedirectToMenu,
 			}}
 			>
 			{this.props.children}

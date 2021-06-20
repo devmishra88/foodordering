@@ -21,6 +21,8 @@ class ProductProvider extends Component{
 		hasbanner:false,
 		hasfeaturedcategory:false,
 		hasproducts:false,
+		hasorderedproducts:false,
+		orderedproductsheading:'',
 		isdataloaded:false,
 		isdataloadedhome:false,
 		searchkeyword:'',
@@ -108,6 +110,7 @@ class ProductProvider extends Component{
 			return{
 				isdataloaded:false,
 				hasproducts:false,
+				hasorderedproducts:false,
 			}
 		},()=>{
 			setTimeout(async()=>{
@@ -118,8 +121,17 @@ class ProductProvider extends Component{
 				let hasbanner			= false;
 				let hasfeaturedcategory	= false;
 				let hasproducts			= false;
+				let hasorderedproducts	= false;
 
-				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+				let tempuser	= "";
+
+				let restaurantid	= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+				const user			= localStorage.getItem('user');
+
+				if(user !== "guest")
+				{
+					tempuser	= `&cid=${user}`;
+				}
 
 				if(!restaurantid)
 				{
@@ -137,7 +149,7 @@ class ProductProvider extends Component{
 					});
 				}
 
-				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}${tempuser}`) // api url
 				.then( response => {
 		
 					let homebanners				= response.data.banners.list;
@@ -146,9 +158,12 @@ class ProductProvider extends Component{
 					let homecategories			= response.data.categories.list;
 					let homecategoriesNum		= Object.keys(homecategories).length;
 					
-					let products		= response.data.popularitems.list;
-					let productsNum		= Object.keys(products).length;
-		
+					let products			= response.data.popularitems.list;
+					let productsNum			= Object.keys(products).length;
+
+					let orderedproducts		= response.data.orders.list;
+					let orderedProductsNum	= Object.keys(orderedproducts).length;
+
 					if(homebannersNum > 0)
 					{
 						hasbanner	= true;
@@ -197,6 +212,45 @@ class ProductProvider extends Component{
 							tempProducts = [...tempProducts, singleItem];
 						}
 					}
+
+					if(orderedProductsNum > 0)
+					{
+						hasorderedproducts	= true;
+
+						let item;
+						for(item in orderedproducts)
+						{
+							let singleItem	= orderedproducts[item];
+
+							const id		= singleItem.id;
+							const price		= singleItem.price;
+
+							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
+
+							const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+
+							singleItem		= {...singleItem, group:'ordereditems', busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+
+							if(cartProduct)
+							{
+								let tempcount	= 0;
+
+								customizationTempCart.forEach((customizeitem)=>{
+
+									const singlecustomizeitem = {...customizeitem};
+
+									tempcount	+= singlecustomizeitem.count;
+								});
+
+								singleItem.count	= tempcount;
+								singleItem.total	= cartProduct.total;
+
+								singleItem.inCart	= true;
+							}
+
+							tempProducts = [...tempProducts, singleItem];
+						}
+					}
 		
 					this.setState(()=>{
 						return{
@@ -207,6 +261,8 @@ class ProductProvider extends Component{
 							cart:tempCart,
 							products:tempProducts,
 							hasproducts:hasproducts,
+							hasorderedproducts:hasorderedproducts,
+							orderedproductsheading:response.data.orders.title,
 							bannerheading:response.data.banners.title,
 							categoryheading:response.data.categories.title,
 							itemheading:response.data.popularitems.title,

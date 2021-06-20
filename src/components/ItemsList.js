@@ -294,7 +294,16 @@ class ItemsList extends Component {
         <ProductConsumer>
             {(value) => {
 
-                const{isdataloaded, hasproducts, products, itemheading} = value;
+                const{isdataloaded, hasproducts, products, itemheading, hasorderedproducts, orderedproductsheading} = value;
+
+                let temphasproducts = hasproducts;
+                let tempitemheading = itemheading;
+
+                if(this.props.group === 'ordereditems')
+                {
+                  temphasproducts = hasorderedproducts;
+                  tempitemheading = orderedproductsheading;
+                }
 
                 const tempProducts  = products.filter(tempproduct => tempproduct.group === this.props.group);
 
@@ -303,13 +312,13 @@ class ItemsList extends Component {
             {
                 isdataloaded ? (<Fragment>
                 {
-                    hasproducts ? (
+                    temphasproducts ? (
                         <Fragment>
                         {
                           this.props.showtitle ? (
                             <div className={classes.titlewrapper}>
                                 <Typography variant="h6" className={classes.title}>
-                                    {itemheading}
+                                    {tempitemheading}
                                 </Typography>
                                 <Link to="/allitems" style={{textDecoration:'none'}}><div className={classes.viewalltitle}>View all</div></Link>
                             </div>

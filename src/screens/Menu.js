@@ -41,6 +41,7 @@ class Menu extends Component {
                 <Banner />
                 <Menusearch />
                 <HomeCategory />
+                <ItemsList showtitle={true} group="ordereditems" />
                 <ItemsList showtitle={true} group="home" />
             </Fragment>
         )

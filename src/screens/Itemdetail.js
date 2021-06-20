@@ -391,7 +391,7 @@ class Itemdetail extends Component {
 
         this.context.resetRedirectToMenu();
         this.context.getItemDetail(this.props.match.params.iid);
-        
+
     }
 
     goBack=()=>{

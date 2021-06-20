@@ -3,7 +3,7 @@ import {Switch, Route, Redirect} from "react-router-dom";
 
 import {authContext} from './context/Auth';
 
-import {LoginPage, Menu, AllCategories, AllItems, Itemdetail, CartDetail, Removecartitem} from './screens';
+import {LoginPage, Menu, AllCategories, AllItems, Itemdetail, CartDetail, Removecartitem, Categorydetail} from './screens';
 
 export default function App() {
   return (
@@ -14,9 +14,6 @@ export default function App() {
         <PrivateRoute exact path="/">
           <Menu />
         </PrivateRoute>
-        <PrivateRoute exact path="/allcategories">
-          <AllCategories />
-        </PrivateRoute>
         <PrivateRoute exact path="/allitems">
           <AllItems />
         </PrivateRoute>
@@ -24,8 +21,10 @@ export default function App() {
           <CartDetail />
         </PrivateRoute>
         <Route exact path="/menu" component={Menu} />
+        <Route exact path="/allcategories" component={AllCategories} />
         <Route exact path="/itemdetail/:iid" component={Itemdetail} />
         <Route exact path="/removecartitem/:iid" component={Removecartitem} />
+        <Route exact path="/category/:catname" component={Categorydetail} />
       </Switch>
   );
 }

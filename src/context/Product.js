@@ -265,8 +265,6 @@ class ProductProvider extends Component{
 							tempProducts = [...tempProducts, singleItem];
 						}
 					}
-
-					console.log(this.state.isdataloaded);
 		
 					this.setState(()=>{
 						return{
@@ -406,6 +404,114 @@ class ProductProvider extends Component{
 		});
 	}
 
+	setItemsByCategory = (catname) => {
+
+		const tempProducts	= [...this.state.products];
+
+		const tempProductList	= tempProducts.filter(tempproduct => tempproduct.group === catname);
+
+		const tempProductsNum	= Object.keys(tempProductList).length;
+
+		if(tempProductsNum > 0)
+		{
+			return false;
+		}
+
+		this.setState(()=>{
+			return{
+				isdataloaded:false,
+				hasproducts:false,
+			}
+		},()=>{
+			setTimeout(async()=>{
+
+				let tempProducts 		= [...this.state.products];
+				let tempCart			= [];
+
+				let temphasitems		= false;
+
+				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+		
+				if(!restaurantid)
+				{
+					return;
+				}
+				
+				const cartdetails	= await this.state.db.fetchAllCartItem();
+
+				if(cartdetails)
+				{
+					cartdetails.forEach(item => {
+						const singleCartItem = {...item, tempinstock:true};
+	
+						tempCart = [...tempCart, singleCartItem];
+					});
+				}
+				
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${catname}`) // api url
+				.then( response => {
+
+					let products		= response.data;
+					let productsNum		= Object.keys(products).length;
+		
+					if(productsNum > 0)
+					{
+						temphasitems	= true;
+
+						let item;
+						for(item in products)
+						{
+							let singleItem	= products[item];
+
+							const id		= singleItem.id;
+							const price		= singleItem.price;
+
+							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
+
+							const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+
+							singleItem		= {...singleItem, group:catname, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+
+							if(cartProduct)
+							{
+								let tempcount	= 0;
+
+								customizationTempCart.forEach((customizeitem)=>{
+
+									const singlecustomizeitem = {...customizeitem};
+
+									tempcount	+= singlecustomizeitem.count;
+								});
+
+								singleItem.count	= tempcount;
+								singleItem.total	= cartProduct.total;
+
+								singleItem.inCart	= true;
+							}
+
+							tempProducts = [...tempProducts, singleItem];
+						}
+					}
+		
+					this.setState(()=>{
+						return{
+							cart:tempCart,
+							products:tempProducts,
+							hasproducts:temphasitems,
+							isdataloaded:true,
+						};
+					},()=>{
+						this.addTotals();
+					});
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
+			},1000);
+		});
+	}
+
 	getItem = (id) =>{
 		const product = this.state.products.find(item => item.id === id);
 		return product;
@@ -444,7 +550,7 @@ class ProductProvider extends Component{
 					});
 				}
 				
-				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=${id}`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=${id}&cat=NA`) // api url
 				.then( response => {
 					
 					let orgitemdetail	= response.data[0];
@@ -1104,13 +1210,13 @@ class ProductProvider extends Component{
 		return (
 			<ProductContext.Provider value={{
 			...this.state,
+                handleChange:this.handleChange,
                 setAppHomeData:this.setAppHomeData,
                 setAppAllCategories:this.setAppAllCategories,
                 setAllItems:this.setAllItems,
                 getItemDetail:this.getItemDetail,
 				handleUserInput:this.handleUserInput,
 				showHideSearch:this.showHideSearch,
-				handleChange:this.handleChange,
 				addToCart:this.addToCart,
 				removeItemCustomOption:this.removeItemCustomOption,
 				handleOptionSelection:this.handleOptionSelection,
@@ -1124,6 +1230,7 @@ class ProductProvider extends Component{
 				placeOrder:this.placeOrder,
 				closeCartAlert:this.closeCartAlert,
 				resetRedirectToMenu:this.resetRedirectToMenu,
+				setItemsByCategory:this.setItemsByCategory,
 			}}
 			>
 			{this.props.children}

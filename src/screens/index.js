@@ -5,6 +5,7 @@ import AllItems from './AllItems';
 import Itemdetail from './Itemdetail';
 import CartDetail from './CartDetail';
 import Removecartitem from './Removecartitem';
+import Categorydetail from './Categorydetail';
 
 export {
     LoginPage,
@@ -14,4 +15,5 @@ export {
     Itemdetail,
     CartDetail,
     Removecartitem,
+    Categorydetail,
 }

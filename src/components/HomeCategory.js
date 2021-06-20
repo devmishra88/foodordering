@@ -142,11 +142,13 @@ class HomeCategory extends Component {
                             <Carousel responsive={responsive} infinite={false} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
                             {featuredcategory.map((category, i) => {
                                 return(
-                                  <div className={classes.dfjlEy} key={i}>
-                                    <div className={classes.cattitle}>{category.category_name}</div>
-                                    <div className={classes.dqsEmh}></div>
-                                    <img alt={category.category_name} src={category.image_url} className={classes.hppEfq} />
-                                  </div>
+                                  <Link to={`/category/${category.category_name.split(' ').join('-').toLowerCase()}`} style={{textDecoration:'none'}} key={i}>
+                                    <div className={classes.dfjlEy}>
+                                      <div className={classes.cattitle}>{category.category_name}</div>
+                                      <div className={classes.dqsEmh}></div>
+                                      <img alt={category.category_name} src={category.image_url} className={classes.hppEfq} />
+                                    </div>
+                                  </Link>
                                 );
                             })}
                             </Carousel>

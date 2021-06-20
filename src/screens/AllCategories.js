@@ -108,7 +108,9 @@ class AllCategories extends Component {
                                         
                                         {allcategories.map((category, i) => {
                                             return(
-                                                <Grid item xs={6} className={classes.dfjlEy}  key={i}>
+                                                <Grid item xs={6} className={classes.dfjlEy} key={i} onClick={()=>{
+                                                    this.props.history.push(`/category/${category.category_name.split(' ').join('-').toLowerCase()}`);
+                                                }}>
                                                     <div className={classes.cattitle}>{category.category_name}</div>
                                                     <div className={classes.dqsEmh}></div>
                                                     <img alt={`${category.category_name} - Category`} src={category.image_url} className={classes.hppEfq} />

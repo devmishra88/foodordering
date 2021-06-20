@@ -3,8 +3,9 @@ import { ProductContext, ProductConsumer } from '../context/Product';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import { Typography } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import {Container} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -16,13 +17,12 @@ import CloseIcon from '@material-ui/icons/Close';
 const useStyles = (theme) => ({
     root: {
         width: '100%',
+        height:'100vh',
         backgroundColor: '#ffffff',
-        height: '90vh',
         transform: 'translate3d(0px, 0px, 0px)',
         opacity: 1,
         zIndex: 1,
         display: 'block',
-        padding: '0 0 1rem 0',
         position:'relative',
     },
     dYbSLL: {
@@ -34,14 +34,19 @@ const useStyles = (theme) => ({
         visibility: 'visible',
         height: "18rem",
     },
-    devdet:{
+    devdetorg:{
         padding: "1rem",
         borderRadius: "1.5rem 1.5rem 0px 0px",
         position:'absolute',
+        left:'0',
+        right:'0',
         bottom:'0',
         height:'55vh',
         width:'92%',
         background:'#ffffff',
+    },
+    devdet:{
+        borderRadius: "1.5rem 1.5rem 0px 0px",
     },
     lrgclr: {
         width: '100%',
@@ -67,10 +72,7 @@ const useStyles = (theme) => ({
         filter: 'unset',
     },
     eggzWm: {
-        width: 'calc(100% + 0.5rem)',
         display: 'flex',
-        /*-webkit-box-pack: 'justify',
-        -webkit-box-align: 'center',*/
         justifyContent: 'space-between',
         alignItems: 'center',
         margin: '0px',
@@ -87,7 +89,7 @@ const useStyles = (theme) => ({
         overflow: 'initial',
     },
     idQvOD:{
-        maxHeight: '35vh',
+        maxHeight: '40vh',
         overflow: 'hidden scroll',
     },
     hPCrWT:{
@@ -216,14 +218,14 @@ const useStyles = (theme) => ({
     teiDS:{
         height: '2.5rem',
         display: 'flex',
-        /*-webkit-box-align: center,*/
         alignItems: 'center',
+        justifyContent:'space-between',
         position: 'fixed',
         bottom: '0px',
         width: '100%',
         background: '#ffffff',
         left: '0px',
-        padding: '1rem',
+        padding: '1rem 0',
         boxShadow: 'rgb(0 0 0 / 10%) 0px -1px 20px',
         zIndex: '1000',
         borderRadius: '0px 0px 0.6rem 0.6rem',
@@ -317,24 +319,20 @@ const useStyles = (theme) => ({
         minWidth: '12rem',
         minHeight: '44px',
         display: 'block',
-        /*-webkit-box-align: 'stretch',*/
         alignItems: 'stretch',
         borderRadius: '0.6rem',
         background: 'transparent',
         padding: '0px',
         border: 'none',
         cursor: 'pointer',
+        background:'#00B970',
     },
     bXdRxo:{
         display: 'inline-flex',
         verticalAlign: 'middle',
-        /*-webkit-box-align: 'center',
-        -webkit-box-pack: 'center',*/
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        /*width: '100%',*/
-        minWidth: '10rem',
         minHeight: '44px',
         lineHeight: '44px',
         marginTop: '0px',
@@ -349,9 +347,6 @@ const useStyles = (theme) => ({
         borderWidth: '0px',
         borderStyle: 'solid',
         borderRadius: '0.3rem',
-        padding: '0px 1.6rem',
-        transition: 'transform 0.25s ease 0s, opacity 0.25s ease 0s, box-shadow 0.25s ease 0s',
-        outline: 'none !important',
     },
     dkwpEa:{
         display: 'inline-block',
@@ -367,7 +362,23 @@ const useStyles = (theme) => ({
     },
     btgzzv:{
         marginLeft: '0.6rem',
-    }
+    },
+    paper: {
+        borderRadius: "1.5rem 1.5rem 0px 0px",
+        padding: theme.spacing(1),
+        position:'absolute',
+        left:'0',
+        right:'0',
+        bottom:'3rem',
+        boxShadow:'unset',
+        height:'55vh',
+    },
+    footerwrapper: {
+        position:'fixed',
+        bottom:'0',
+        width:'100%',
+        height:'2.5rem'
+    },
 });
 
 class Itemdetail extends Component {
@@ -422,7 +433,7 @@ class Itemdetail extends Component {
                                                     <div className={classes.lrgclr}></div>
                                                     <img src={itemdetail.image_url} alt={`${itemdetail.item_name} Preview`} className={classes.menupreview} />
                                                 </div>
-                                                <div className={classes.devdet}>
+                                                <Paper className={classes.paper}>
                                                     <section className={classes.eggzWm}>
                                                         <Typography color="textPrimary" variant="h5">{itemdetail.item_name}</Typography>
                                                         <Typography color="textPrimary" variant="h6"><i className="fa fa-inr"></i> {itemdetail.baseprice}</Typography>
@@ -430,6 +441,8 @@ class Itemdetail extends Component {
                                                     <section className={classes.eggzWm}>
                                                         <Typography color="textPrimary" variant="subtitle1">{itemdetail.extras.extra_description}</Typography>
                                                     </section>
+
+
                                                     <section className={classes.oRYSe}>
                                                         <div className={classes.idQvOD}>
                                                             <div className={classes.hPCrWT}></div>
@@ -476,25 +489,28 @@ class Itemdetail extends Component {
                                                             <div className={classes.kesDMu}></div>
                                                         </div>
                                                     </section>
-                                                </div>
-                                            </div>
-                                            <div className={classes.teiDS}>
-                                                <div className={classes.fJNrek}>
-                                                    <div className={classes.ipHtgH}>
-                                                        <div className={classes.cMipmx}>
-                                                            <div className={classes.hTzRFw} onClick={()=>{decrementCustomItem(iid)}}>
-                                                                <i className={classes.iNGntN} size="14" color="#00B970"><svg xmlns="http://www.w3.org/2000/svg" fill="#00B970" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>remove</title><path d="M10.96 10.96h4.28c0.53 0 0.96-0.43 0.96-0.96s-0.43-0.96-0.96-0.96v0h-10.48c-0.53 0-0.96 0.43-0.96 0.96s0.43 0.96 0.96 0.96v0h6.2z"></path></svg></i>
-                                                            </div>
-                                                            <div className={classes.iQCkqv} style={{color: "rgb(0, 0, 0)"}}>
-                                                                <span className={classes.fTsfFl}>{itemdetail.customitemqty}</span>
-                                                            </div>
-                                                            <div className={classes.hTzRFw} onClick={()=>{incrementCustomItem(iid)}}>
-                                                                <i className={classes.iconblk} size="14" color="#00B970"><svg xmlns="http://www.w3.org/2000/svg" fill="#00B970" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg></i>
+                                                </Paper>
+
+                                                <div className={classes.teiDS}>
+                                                    <div className={classes.fJNrek}>
+                                                        <div className={classes.ipHtgH}>
+                                                            <div className={classes.cMipmx}>
+                                                                <div className={classes.hTzRFw} onClick={()=>{decrementCustomItem(iid)}}>
+                                                                    <i className={classes.iNGntN} size="14" color="#00B970"><svg xmlns="http://www.w3.org/2000/svg" fill="#00B970" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>remove</title><path d="M10.96 10.96h4.28c0.53 0 0.96-0.43 0.96-0.96s-0.43-0.96-0.96-0.96v0h-10.48c-0.53 0-0.96 0.43-0.96 0.96s0.43 0.96 0.96 0.96v0h6.2z"></path></svg></i>
+                                                                </div>
+                                                                <div className={classes.iQCkqv} style={{color: "rgb(0, 0, 0)"}}>
+                                                                    <span className={classes.fTsfFl}>{itemdetail.customitemqty}</span>
+                                                                </div>
+                                                                <div className={classes.hTzRFw} onClick={()=>{incrementCustomItem(iid)}}>
+                                                                    <i className={classes.iconblk} size="14" color="#00B970"><svg xmlns="http://www.w3.org/2000/svg" fill="#00B970" width="14" height="14" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg></i>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <button role="button" className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
                                                 </div>
-                                                <button role="button" className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
+                                                    
+
                                             </div>
                                             <Snackbar autoHideDuration={3000} anchorOrigin={{vertical, horizontal}} open={cartsuccess} onClose={closeSuccessCart} message="Item added in cart successfully" key={vertical + horizontal}
                                             action={

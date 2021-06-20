@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import {Switch, Route, Redirect, useHistory} from "react-router-dom";
+import {Switch, Route, Redirect} from "react-router-dom";
 
 import {authContext} from './context/Auth';
 
-import {PublicPage, PrivatePage, LoginPage, Menu, AllCategories, AllItems, Itemdetail, CartDetail, Removecartitem} from './screens';
+import {LoginPage, Menu, AllCategories, AllItems, Itemdetail, CartDetail, Removecartitem} from './screens';
 
 export default function App() {
   return (

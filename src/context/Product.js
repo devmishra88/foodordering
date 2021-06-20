@@ -167,8 +167,16 @@ class ProductProvider extends Component{
 					let products			= response.data.popularitems.list;
 					let productsNum			= Object.keys(products).length;
 
-					let orderedproducts		= response.data.orders.list;
-					let orderedProductsNum	= Object.keys(orderedproducts).length;
+					let orderedproductsheading	= "";
+					let orderedproducts			= [];
+					let orderedProductsNum		= 0;
+
+					if(user !== "guest")
+					{
+						orderedproductsheading	= response.data.orders.title;
+						orderedproducts			= response.data.orders.list;
+						orderedProductsNum		= Object.keys(orderedproducts).length;
+					}
 
 					if(homebannersNum > 0)
 					{
@@ -257,6 +265,8 @@ class ProductProvider extends Component{
 							tempProducts = [...tempProducts, singleItem];
 						}
 					}
+
+					console.log(this.state.isdataloaded);
 		
 					this.setState(()=>{
 						return{
@@ -268,7 +278,7 @@ class ProductProvider extends Component{
 							products:tempProducts,
 							hasproducts:hasproducts,
 							hasorderedproducts:hasorderedproducts,
-							orderedproductsheading:response.data.orders.title,
+							orderedproductsheading:orderedproductsheading,
 							bannerheading:response.data.banners.title,
 							categoryheading:response.data.categories.title,
 							itemheading:response.data.popularitems.title,

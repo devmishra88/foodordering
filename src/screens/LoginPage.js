@@ -7,9 +7,8 @@ import {
 } from "react-router-dom";
 
 import {authContext} from '../context/Auth';
-import Button from '@material-ui/core/Button';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
-import {CssBaseline, TextField, Box, Typography, Container, Checkbox, Snackbar, IconButton, FormControlLabel} from '@material-ui/core';
+import {Button, CssBaseline, TextField, Box, Typography, Container, Checkbox, Snackbar, IconButton, FormControlLabel} from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -37,12 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(4),
-    /*backgroundColor: theme.palette.secondary.main,*/
     backgroundColor: '#00B970',
   },
   logowrapper: {
     margin: theme.spacing(4),
-    /*backgroundColor: theme.palette.secondary.main,*/
   },
   logo: {
     width: '125px',

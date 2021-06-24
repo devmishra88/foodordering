@@ -124,7 +124,7 @@ export default function SignIn() {
       <CssBaseline />
       <div className={classes.paper}>
         <Box className={classes.logowrapper}>
-          <img src={logo} className={classes.logo}/>
+          <img src={logo} className={classes.logo} alt="App Logo"/>
         </Box>
         <Typography component="h1" variant="h5">
           Sign in

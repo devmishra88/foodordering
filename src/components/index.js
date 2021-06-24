@@ -6,6 +6,7 @@ import FeaturedCategoryLoading from './FeaturedCategoryLoading';
 import ItemLoading from './ItemLoading';
 import ItemsList from './ItemsList';
 import Menusearch from './Menusearch';
+import Ordereditems from './Ordereditems';
 
 export{
     Header,
@@ -16,4 +17,5 @@ export{
     ItemLoading,
     ItemsList,
     Menusearch,
+    Ordereditems,
 }

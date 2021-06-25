@@ -234,10 +234,12 @@ class Ordereditems extends Component {
                             {tempProducts.map((item, i) => {
                                 return(
                                     <Paper variant="outlined" square className={classes.productblock} key={i}>
-                                    <div className={classes.dfjlEy}>
-                                      <div className={classes.dqsEmh}></div>
-                                      <img alt={`${item.item_name} Preview`} src={item.image_url} className={classes.hppEfq} />
-                                    </div>
+                                    <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                      <div className={classes.dfjlEy}>
+                                        <div className={classes.dqsEmh}></div>
+                                        <img alt={`${item.item_name} Preview`} src={item.image_url} className={classes.hppEfq} />
+                                      </div>
+                                    </Link>
                                     <div className={classes.cattitle}>{item.item_name.substr(0, 12)}...</div>
                                       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',width:'95%',marginTop:'1rem',position:'absolute',bottom:'5px'}}>
                                         <div className={classes.jOoliK}>

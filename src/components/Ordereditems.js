@@ -3,11 +3,14 @@ import {Link} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 import FeaturedCategoryLoading from './FeaturedCategoryLoading';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+
+import {Remove,Plus}  from '../constants';
 
 const responsive = {
   superLargeDesktop: {
@@ -57,7 +60,7 @@ const useStyles = (theme) => ({
     marginRight:theme.spacing(1)
   },
   dfjlEy : {
-    borderRadius: '0.4rem',
+    /*borderRadius: '0.4rem',*/
     overflow: 'hidden',
 	  visibility: 'visible',
     transition: 'all 0.12s ease 0s',
@@ -81,8 +84,8 @@ const useStyles = (theme) => ({
       borderRadius: 'inherit',
   },
   hppEfq : {
-      width: '95%',
-      height: '95%',
+      width: '100%',
+      height: '100%',
       objectFit: 'cover',
       transform: 'none',
       opacity: '1',
@@ -93,17 +96,104 @@ const useStyles = (theme) => ({
       margin:'auto'
   },
   cattitle:{
-    position:'absolute',
+    /*position:'absolute',
     top: '8px',
-    left:'8px',
+    left:'8px',*/
     zIndex:'1',
-    backgroundColor:'#1c1c1c',
     opacity:'0.65',
-    color:'#ffffff',
+    color:'#171717',
+    fontWeight:'bold',
     padding:'.2rem .5rem',
     borderRadius:'5px',
-  }
-
+  },
+  productblock:{
+    height:'15rem',
+    position:'relative',
+    paddingTop:theme.spacing(.5),
+    paddingLeft:theme.spacing(.5),
+    paddingRight:theme.spacing(.5),
+  },
+  jOoliK:{
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0.5rem 0px',
+  },
+  cCiQWA:{
+    fontSize: '1rem',
+    color: 'rgb(28, 28, 28)',
+  },
+  fJNrek:{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  cBmpNp:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '4.5rem',
+    height: '1.8rem',
+    border: '1px solid rgb(181, 181, 181)',
+    borderRadius: '0.2rem',
+    overflow: 'hidden',
+    cursor: 'pointer',
+    userSelect: 'none',
+    background: '#00B970',
+    color: '#ffffff',
+  },
+  qtychildin:{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '4.5rem',
+    height: '1.8rem',
+    border: '1px solid #00B970',
+    borderRadius: '0.2rem',
+    overflow: 'hidden',
+    cursor: 'initial',
+    userSelect: 'none',
+    background: '#00B970',
+  },
+  cMipmx:{
+    width: '100%',
+    position: 'relative',
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent:'space-between',
+  },
+  hTzRFw:{
+    position: 'relative',
+    width: '100%',
+    flexGrow: '0',
+    flexShrink: '0',
+    maxWidth: '31.6667%',
+    padding: '0px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+  },
+  iQCkqv:{
+    position: 'relative',
+    width: '100%',
+    flexGrow: '0',
+    flexShrink: '0',
+    maxWidth: '36.6667%',
+    padding: '0px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: '#00B970',
+    cursor: 'initial',
+    height: '99%',
+  },
+  qtytitle:{
+    color: '#ED5A6B',
+    fontSize: '1.2rem',
+    margin: '0px 0.5rem',
+    fontWeight: '600',
+  },  
 });
 
 class Ordereditems extends Component {
@@ -143,13 +233,47 @@ class Ordereditems extends Component {
                             <Carousel responsive={responsive} infinite={false} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
                             {tempProducts.map((item, i) => {
                                 return(
-                                  <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none'}} key={i}>
+                                    <Paper variant="outlined" square className={classes.productblock} key={i}>
                                     <div className={classes.dfjlEy}>
-                                      <div className={classes.cattitle}>{item.item_name}</div>
                                       <div className={classes.dqsEmh}></div>
                                       <img alt={`${item.item_name} Preview`} src={item.image_url} className={classes.hppEfq} />
                                     </div>
-                                  </Link>
+                                    <div className={classes.cattitle}>{item.item_name.substr(0, 12)}...</div>
+                                      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',width:'95%',marginTop:'1rem',position:'absolute',bottom:'5px'}}>
+                                        <div className={classes.jOoliK}>
+                                          <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price}</span>
+                                        </div>
+                                        {
+                                          !item.inCart ? (
+                                            <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}><div className={classes.fJNrek}>
+                                              <div className={classes.cBmpNp}>
+                                                <span>ADD</span>
+                                              </div>
+                                            </div></Link>
+                                          ):(
+                                          <div className={classes.qtychildin}>
+                                              <div className={classes.cMipmx}>
+                                                  <div className={classes.hTzRFw}>
+                                                    <Link to={`/removecartitem/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                                      <Remove />
+                                                    </Link>
+                                                  </div>
+                                                  <div className={classes.iQCkqv}>
+                                                      <span className={classes.qtytitle} style={{
+                                                          color:'#FFF6F7'
+                                                      }}>{item.count}</span>
+                                                  </div>
+                                                    <div className={classes.hTzRFw}>
+                                                      <Link to={`/itemdetail/${item.id}`} style={{textDecoration:'none',color:'#5f5d5d'}}>
+                                                        <Plus />
+                                                      </Link>
+                                                    </div>
+                                              </div>
+                                          </div>
+                                          )
+                                        }
+                                      </div>
+                                    </Paper>
                                 );
                             })}
                             </Carousel>

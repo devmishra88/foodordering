@@ -550,10 +550,10 @@ class ProductProvider extends Component{
 					});
 				}
 				
-				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=${id}&cat=NA`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=${id}&cat=NA&srch=NA`) // api url
 				.then( response => {
 					
-					let orgitemdetail	= response.data[0];
+					let orgitemdetail	= response.data;
 					let itemdetailNum	= Object.keys(orgitemdetail).length;
 		
 					if(itemdetailNum > 0)

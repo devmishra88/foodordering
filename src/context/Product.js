@@ -650,8 +650,15 @@ class ProductProvider extends Component{
 
 	}
 
-	handleChange=()=>{
+	handleChange=(e)=>{
+		const name	= e.target.name;
+		const value	= e.target.value;
 
+		this.setState(()=>{
+			return{
+				[name]: value
+			}
+		})
 	}
 
 	showBusy=(id)=>{
@@ -1206,6 +1213,10 @@ class ProductProvider extends Component{
 		})
 	}
 
+	deleteSelectedFilter=()=>{
+
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -1231,6 +1242,7 @@ class ProductProvider extends Component{
 				closeCartAlert:this.closeCartAlert,
 				resetRedirectToMenu:this.resetRedirectToMenu,
 				setItemsByCategory:this.setItemsByCategory,
+				deleteSelectedFilter:this.deleteSelectedFilter,
 			}}
 			>
 			{this.props.children}

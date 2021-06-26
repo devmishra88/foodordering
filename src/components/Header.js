@@ -1,26 +1,14 @@
 import React,{useState, useContext} from 'react';
 import {Link} from "react-router-dom";
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {MenuItem, Badge, AppBar, Toolbar, Typography, IconButton, Divider, List, ListItem, ListItemIcon, ListItemText, Drawer} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-import clsx from 'clsx';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Drawer from '@material-ui/core/Drawer';
-
+import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-
-import { MenuItem, Badge } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 import {ProductContext} from '../context/Product';
 
@@ -32,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1.5),
   },
   title: {
     flexGrow: 1,
@@ -112,6 +100,15 @@ export default function Header(props) {
                 </Badge>
               </IconButton>
             </Link>
+        {
+          props.showsearch ? (
+            <Link to="/searchresult" style={{textDecoration:'none',color:'#ffffff'}}>
+              <IconButton aria-label="search" color="inherit" edge="end">
+                <SearchIcon />
+              </IconButton>
+            </Link>
+          ):null
+        }
           </MenuItem>
         </Toolbar>
       </AppBar>

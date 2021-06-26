@@ -7,6 +7,7 @@ import ItemLoading from './ItemLoading';
 import ItemsList from './ItemsList';
 import Menusearch from './Menusearch';
 import Ordereditems from './Ordereditems';
+import SearchCategoryFilter from './SearchCategoryFilter';
 
 export{
     Header,
@@ -18,4 +19,5 @@ export{
     ItemsList,
     Menusearch,
     Ordereditems,
+    SearchCategoryFilter,
 }

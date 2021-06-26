@@ -201,7 +201,7 @@ class CartDetail extends Component {
 
                     return (
                         <Fragment>
-                            <Header title="Remove your items" showdrawer={false} history={this.props.history}/>
+                            <Header title="Remove your items" showdrawer={false} showsearch={true} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
                             {tempcart.map((item, i) => {
                                 return(

@@ -2,7 +2,7 @@ import React,{Component, Fragment} from 'react';
 
 import { ProductContext } from '../context/Product';
 
-import {Header, Banner, Menusearch, HomeCategory, ItemsList, Ordereditems} from '../components';
+import {Header, Banner, /*Menusearch,*/ HomeCategory, ItemsList, Ordereditems} from '../components';
 
 class Menu extends Component {
 
@@ -37,9 +37,9 @@ class Menu extends Component {
         return (
 
             <Fragment>
-                <Header title="Menu" showdrawer={true} />
+                <Header title="Menu" showdrawer={true} showsearch={true} />
                 <Banner />
-                <Menusearch />
+                {/*<Menusearch />*/}
                 <HomeCategory />
                 <Ordereditems />
                 <ItemsList showtitle={true} group="home" />

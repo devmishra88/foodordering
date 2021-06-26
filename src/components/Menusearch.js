@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import {Container} from '@material-ui/core';
+import {Container, TextField} from '@material-ui/core';
 import { ProductConsumer, ProductContext } from '../context/Product';
 import {Search,CrossSearch}  from '../constants';
 
@@ -108,11 +108,11 @@ class MenuSearch extends Component{
             {(value) => {
 
                 const{ searchkeyword } = value;
-                const{ showHideSearch, handleChange } = value;
+                const{ handleChange } = value;
 
                 return (
                     <Container maxWidth="lg" className={classes.container}>
-                        <section className={classes.searwrapper}>
+                        {/*<section className={classes.searwrapper}>
                             <section label="Search within menu" value="" color="white" autoComplete="off" type="text" className={classes.searchbx}>
                                 <section className={classes.firstfindchild}>
                                     <div className={classes.findchildsub}>
@@ -128,7 +128,20 @@ class MenuSearch extends Component{
                                     </div>
                                 </section>
                             </section>
-                        </section>
+                        </section>*/}
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            id="searchkeyword"
+                            label="Search within menu"
+                            name="searchkeyword"
+                            type="text"
+                            autoComplete="searchkeyword"
+                            value={searchkeyword}
+                            onChange={handleChange}
+                            autoFocus
+                        />
                     </Container>
                 );
             }}

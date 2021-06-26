@@ -6,6 +6,7 @@ import Itemdetail from './Itemdetail';
 import CartDetail from './CartDetail';
 import Removecartitem from './Removecartitem';
 import Categorydetail from './Categorydetail';
+import Searchresult from './Searchresult';
 
 export {
     LoginPage,
@@ -16,4 +17,5 @@ export {
     CartDetail,
     Removecartitem,
     Categorydetail,
+    Searchresult,
 }

@@ -43,7 +43,7 @@ class AllItems extends Component {
 
                     return (
                         <div className={classes.root}>
-                            <Header title="All Items" showdrawer={false} history={this.props.history}/>
+                            <Header title="All Items" showdrawer={false} showsearch={true} history={this.props.history}/>
                             <ItemsList showtitle={false} group="popular" />
                         </div>
                     );

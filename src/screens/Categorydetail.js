@@ -56,7 +56,7 @@ class AllItems extends Component {
 
                     return (
                         <div className={classes.root}>
-                            <Header title={catname} showdrawer={false} history={this.props.history}/>
+                            <Header title={catname} showdrawer={false} showsearch={true} history={this.props.history}/>
                             <ItemsList showtitle={false} group={caturl} />
                         </div>
                     );

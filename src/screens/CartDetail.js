@@ -223,7 +223,7 @@ class CartDetail extends Component {
                                     return <Redirect to = {{ pathname: "/" }} />;
                                 }
                             })()}
-                            <Header title="Cart" showdrawer={false} history={this.props.history}/>
+                            <Header title="Cart" showdrawer={false} showsearch={true} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
 
                             <Collapse in={isalertopen}>

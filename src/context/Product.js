@@ -555,9 +555,7 @@ class ProductProvider extends Component{
 				{
 					tempSelectedFilterCategory	= 'NA';
 				}
-
-				console.log(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${tempSelectedFilterCategory}&srch=${searchkeyword}`);
-
+				
 				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${tempSelectedFilterCategory}&srch=${searchkeyword}`) // api url
 				.then( response => {
 

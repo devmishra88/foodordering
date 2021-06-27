@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {Container, TextField} from '@material-ui/core';
 import { ProductConsumer, ProductContext } from '../context/Product';
-import {Search,CrossSearch}  from '../constants';
+/*import {Search,CrossSearch}  from '../constants';*/
 
 const useStyles = (theme) => ({
     container:{

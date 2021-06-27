@@ -25,20 +25,20 @@ class Searchresult extends Component {
     componentDidMount(){
 
         this.context.resetRedirectToMenu();
-        this.context.setAllItems();
+        this.context.searchItemByCatAndKeyword();
         this.context.setAppAllCategories();
 
     }
 
     render(){
 
-        const { classes } = this.props;
+        /*const { classes } = this.props;*/
         
         return (
             <Fragment>
                 <Header title="Search" showdrawer={false} showsearch={false} history={this.props.history}/>
                 <SearchCategoryFilter />
-                <ItemsList showtitle={false} group="popular" />
+                <ItemsList showtitle={false} group="searchresult" />
             </Fragment>
         )
     }

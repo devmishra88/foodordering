@@ -67,8 +67,8 @@ class HomeCategory extends Component {
         <ProductConsumer>
             {(value) => {
 
-                const{deleteSelectedFilter} = value;
-                const{iscategoryloaded, hascategory, allcategories} = value;
+                const{deleteSelectedFilter, applySelectedFilter} = value;
+                const{iscategoryloaded, hascategory, allcategories, selectedfiltercategory} = value;
 
                 return (
                     <Fragment>
@@ -80,9 +80,20 @@ class HomeCategory extends Component {
                         <div className={classes.filterwrapper}>
                             <Carousel responsive={responsive} infinite={false} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
                             {allcategories.map((category, i) => {
+                              if(selectedfiltercategory === category.category_name)
+                              {
                                 return(
-                                    <Chip label={category.category_name} onDelete={deleteSelectedFilter} color='primary' style={{backgroundColor:'#00B970'}} key={i}/>
+                                    <Chip key={i} label={category.category_name} style={{backgroundColor:`${selectedfiltercategory === category.category_name ? '#00B970':''}`}} onDelete={deleteSelectedFilter}/>
                                 );
+                              }
+                              else
+                              {
+                                return(
+                                    <Chip key={i} label={category.category_name} style={{backgroundColor:`${selectedfiltercategory === category.category_name ? '#00B970':''}`}}  onClick={()=>{
+                                      applySelectedFilter(category.category_name);
+                                    }}/>
+                                );
+                              }
                             })}
                             </Carousel>
                         </div>

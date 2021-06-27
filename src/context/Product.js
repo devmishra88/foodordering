@@ -26,6 +26,7 @@ class ProductProvider extends Component{
 		isdataloaded:false,
 		isdataloadedhome:false,
 		searchkeyword:'',
+		selectedfiltercategory:'all',
 
 		allcategoryheading:"",
 		iscategoryloaded:false,
@@ -512,6 +513,115 @@ class ProductProvider extends Component{
 		});
 	}
 
+	searchItemByCatAndKeyword = () => {
+
+		this.setState(()=>{
+			return{
+				isdataloaded:false,
+				hasproducts:false,
+			}
+		},()=>{
+			setTimeout(async()=>{
+
+				/*let tempProducts 		= [...this.state.products];*/
+				let tempProducts 		= [];
+				let tempCart			= [];
+
+				let temphasitems		= false;
+
+				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+		
+				if(!restaurantid)
+				{
+					return;
+				}
+				
+				const cartdetails	= await this.state.db.fetchAllCartItem();
+
+				if(cartdetails)
+				{
+					cartdetails.forEach(item => {
+						const singleCartItem = {...item, tempinstock:true};
+	
+						tempCart = [...tempCart, singleCartItem];
+					});
+				}
+
+				const {searchkeyword, selectedfiltercategory} = this.state;
+
+				let tempSelectedFilterCategory	= selectedfiltercategory;
+
+				if(tempSelectedFilterCategory === '' || tempSelectedFilterCategory === 'all')
+				{
+					tempSelectedFilterCategory	= 'NA';
+				}
+
+				console.log(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${tempSelectedFilterCategory}&srch=${searchkeyword}`);
+
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${tempSelectedFilterCategory}&srch=${searchkeyword}`) // api url
+				.then( response => {
+
+					let products		= response.data;
+					let productsNum		= Object.keys(products).length;
+
+					if(productsNum > 0)
+					{
+						temphasitems	= true;
+
+						let item;
+						for(item in products)
+						{
+							let singleItem	= products[item];
+
+							const id		= singleItem.id;
+							const price		= singleItem.price;
+
+							let cartProduct	= tempCart.find(cartitem => cartitem.id === id);
+
+							const customizationTempCart	= tempCart.filter(tempcartitem => tempcartitem.id === id);
+
+							singleItem		= {...singleItem, group:'searchresult', busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false};
+
+							if(cartProduct)
+							{
+								let tempcount	= 0;
+
+								customizationTempCart.forEach((customizeitem)=>{
+
+									const singlecustomizeitem = {...customizeitem};
+
+									tempcount	+= singlecustomizeitem.count;
+								});
+
+								singleItem.count	= tempcount;
+								singleItem.total	= cartProduct.total;
+
+								singleItem.inCart	= true;
+							}
+
+							tempProducts = [...tempProducts, singleItem];
+						}
+					}
+		
+					this.setState(()=>{
+						return{
+							cart:tempCart,
+							products:tempProducts,
+							hasproducts:temphasitems,
+							isdataloaded:true,
+						};
+					},()=>{
+						this.addTotals();
+					});
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
+			},1000);
+		});
+	}
+
 	getItem = (id) =>{
 		const product = this.state.products.find(item => item.id === id);
 		return product;
@@ -657,6 +767,15 @@ class ProductProvider extends Component{
 		this.setState(()=>{
 			return{
 				[name]: value
+			}
+		},()=>{
+			if(name === 'searchkeyword')
+			{
+				setTimeout(()=>{
+
+					this.searchItemByCatAndKeyword();
+
+				},1500);
 			}
 		})
 	}
@@ -1214,7 +1333,29 @@ class ProductProvider extends Component{
 	}
 
 	deleteSelectedFilter=()=>{
+		this.setState(()=>{
+			return{
+				selectedfiltercategory:''
+			}
+		},()=>{
+			this.searchItemByCatAndKeyword();
+		})
+	}
 
+	applySelectedFilter=(catname)=>{
+
+		if(catname === this.state.selectedfiltercategory)
+		{
+			return;
+		}
+		
+		this.setState(()=>{
+			return{
+				selectedfiltercategory:catname
+			}
+		},()=>{
+			this.searchItemByCatAndKeyword();
+		})
 	}
 
 	render(){
@@ -1243,6 +1384,8 @@ class ProductProvider extends Component{
 				resetRedirectToMenu:this.resetRedirectToMenu,
 				setItemsByCategory:this.setItemsByCategory,
 				deleteSelectedFilter:this.deleteSelectedFilter,
+				applySelectedFilter:this.applySelectedFilter,
+				searchItemByCatAndKeyword:this.searchItemByCatAndKeyword,
 			}}
 			>
 			{this.props.children}

@@ -523,8 +523,8 @@ class ProductProvider extends Component{
 		},()=>{
 			setTimeout(async()=>{
 
-				/*let tempProducts 		= [...this.state.products];*/
-				let tempProducts 		= [];
+				let tempProducts 		= [...this.state.products];
+				tempProducts  			= tempProducts.filter(tempproduct => tempproduct.group !== 'searchresult');
 				let tempCart			= [];
 
 				let temphasitems		= false;
@@ -555,7 +555,7 @@ class ProductProvider extends Component{
 				{
 					tempSelectedFilterCategory	= 'NA';
 				}
-				
+
 				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${tempSelectedFilterCategory}&srch=${searchkeyword}`) // api url
 				.then( response => {
 

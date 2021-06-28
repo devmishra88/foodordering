@@ -1,14 +1,13 @@
-import React,{useState, useContext} from 'react';
+import React,{useState, useContext, Fragment} from 'react';
 import {Link} from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import {MenuItem, Badge, AppBar, Toolbar, Typography, IconButton, Divider, List, ListItem, ListItemIcon, ListItemText, Drawer} from '@material-ui/core';
+import {MenuItem, Badge, AppBar, Toolbar, Typography, IconButton, List, ListItem, ListItemIcon, ListItemText, Drawer} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import MailIcon from '@material-ui/icons/Mail';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import SearchIcon from '@material-ui/icons/Search';
+import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 
 import {ProductContext} from '../context/Product';
 
@@ -34,6 +33,8 @@ export default function Header(props) {
 
   const glbproduct = useContext(ProductContext);
 
+  const{iscategoryloaded, hascategory, allcategories} = glbproduct;
+
   const classes = useStyles();
 
   const [isopen, setMobileOpen] = useState(false);
@@ -53,23 +54,27 @@ export default function Header(props) {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+      {
+        iscategoryloaded ? (<Fragment>
+          {
+            hascategory ? (
       <List>
-        {['Menu 1', 'Menu 2', 'Menu 3', 'Menu 4'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+        {allcategories.map((category, index) => (
+          <ListItem button key={index}>
+            <Link to={`/category/${category.category_name.split(' ').join('-').toLowerCase()}`} style={{textDecoration:'none',color:'#666666'}}>
+              <ListItemIcon><LabelImportantIcon /></ListItemIcon>
+            </Link>
+            <Link to={`/category/${category.category_name.split(' ').join('-').toLowerCase()}`} style={{textDecoration:'none',color:'#666666'}}>
+              <ListItemText primary={category.category_name} />
+            </Link>
+            
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
-        {['My orders', 'My Profile', 'Track Order'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+            ):null
+          }
+        </Fragment>):null
+      }
     </div>
   );
 

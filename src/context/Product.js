@@ -66,9 +66,9 @@ class ProductProvider extends Component{
 
 		let temphascategory	= false;
 
-		let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+		let restaurantid	= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
 
-		if(!restaurantid)
+		if(!restaurantid || this.state.iscategoryloaded)
 		{
 			return;
 		}
@@ -101,6 +101,8 @@ class ProductProvider extends Component{
 	}
 
 	setAppHomeData = () => {
+
+		this.setAppAllCategories();
 
 		const tempProducts	= [...this.state.products];
 

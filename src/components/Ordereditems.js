@@ -119,7 +119,7 @@ const useStyles = (theme) => ({
     margin: '0.5rem 0px',
   },
   cCiQWA:{
-    fontSize: '1rem',
+    fontSize: '.8rem',
     color: 'rgb(28, 28, 28)',
   },
   fJNrek:{
@@ -131,8 +131,8 @@ const useStyles = (theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '4.5rem',
-    height: '1.8rem',
+    width: '4rem',
+    height: '1.5rem',
     border: '1px solid rgb(181, 181, 181)',
     borderRadius: '0.2rem',
     overflow: 'hidden',

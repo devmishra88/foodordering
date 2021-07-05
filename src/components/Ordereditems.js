@@ -230,7 +230,7 @@ class Ordereditems extends Component {
                                     {orderedproductsheading}
                                 </Typography>
                             </div>
-                            <Carousel responsive={responsive} infinite={false} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}}>
+                            <Carousel responsive={responsive} infinite={false} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} style={{margin:'0 5px'}} itemClass="carousel-item-nosh">
                             {tempProducts.map((item, i) => {
                                 return(
                                     <Paper variant="outlined" square className={classes.productblock} key={i}>

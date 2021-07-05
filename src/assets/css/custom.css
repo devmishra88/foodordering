@@ -60,3 +60,7 @@
 .nosh-banner-dot{
     bottom: 5px !important;
 }
+
+.carousel-item-nosh{
+    padding: 0 1.2px;
+}

@@ -47,6 +47,9 @@ const useStyles = (theme) => ({
       marginBottom:theme.spacing(2),
     }
   },
+  filteritem: {
+    minWidth:'5.5rem',
+  },
 });
 
 class HomeCategory extends Component {
@@ -83,7 +86,7 @@ class HomeCategory extends Component {
                               if(selectedfiltercategory === category.category_name)
                               {
                                 return(
-                                    <Chip key={i} label={category.category_name} style={{backgroundColor:`${selectedfiltercategory === category.category_name ? '#00B970':''}`}} onDelete={deleteSelectedFilter}/>
+                                    <Chip key={i} label={category.category_name} style={{backgroundColor:`${selectedfiltercategory === category.category_name ? '#00B970':''}`}} className={classes.filteritem} onDelete={deleteSelectedFilter}/>
                                 );
                               }
                               else
@@ -91,7 +94,7 @@ class HomeCategory extends Component {
                                 return(
                                     <Chip key={i} label={category.category_name} style={{backgroundColor:`${selectedfiltercategory === category.category_name ? '#00B970':''}`}}  onClick={()=>{
                                       applySelectedFilter(category.category_name);
-                                    }}/>
+                                    }} className={classes.filteritem}/>
                                 );
                               }
                             })}

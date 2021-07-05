@@ -56,3 +56,7 @@
     font-size: 1rem;
     font-weight: 600;
 }
+
+.nosh-banner-dot{
+    bottom: 5px !important;
+}

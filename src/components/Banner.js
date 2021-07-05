@@ -66,7 +66,7 @@ class Banner extends Component {
                 isdataloaded ? (<Fragment>
                 {
                     hasbanner ? (
-                        <Carousel responsive={responsive} infinite={true} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType}>
+                        <Carousel responsive={responsive} infinite={true} autoPlay={true} autoPlaySpeed={1500} removeArrowOnDeviceType={["tablet", "mobile"]} deviceType={this.props.deviceType} dotListClass="nosh-banner-dot" showDots>
                         {banners.map((banner, index) => {
                             return(
                                 <div key={index}>

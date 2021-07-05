@@ -166,13 +166,13 @@ const useStyles = (theme) => ({
   },
   teiDS:{
       height: '2.8rem',
-      width:'100%',
+      width:'94%',
       display: 'flex',
       position: 'fixed',
       bottom: '0px',
       background: '#EDEDEE',
       borderRadius: '1rem 1rem 0px 0px',
-      padding:'1rem 0',
+      padding:'1rem .8rem',
       justifyContent:'space-between',
   },
   backdrop: {

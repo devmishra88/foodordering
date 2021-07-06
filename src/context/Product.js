@@ -1189,7 +1189,6 @@ class ProductProvider extends Component{
 			cartsuccess:false
 
 		})
-
 	}
 
 	placeOrder = async() => {
@@ -1358,6 +1357,12 @@ class ProductProvider extends Component{
 		})
 	}
 
+	resetCartSuccess=()=>{
+		this.setState({
+			cartsuccess:false
+		})
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -1386,6 +1391,7 @@ class ProductProvider extends Component{
 				deleteSelectedFilter:this.deleteSelectedFilter,
 				applySelectedFilter:this.applySelectedFilter,
 				searchItemByCatAndKeyword:this.searchItemByCatAndKeyword,
+				resetCartSuccess:this.resetCartSuccess,
 			}}
 			>
 			{this.props.children}

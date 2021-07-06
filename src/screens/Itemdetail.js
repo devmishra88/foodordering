@@ -383,11 +383,16 @@ class Itemdetail extends Component {
         super(props);
 
         this.state = {
-            iid:this.props.match.params.iid
+            iid:this.props.match.params.iid,
+            isredirected:false
         };
     }
 
     componentDidMount(){
+
+        this.setState({
+            isredirected:false
+        });
 
         this.context.resetRedirectToMenu();
         this.context.getItemDetail(this.props.match.params.iid);
@@ -396,7 +401,18 @@ class Itemdetail extends Component {
 
     goBack=()=>{
 
-        this.props.history.goBack();
+        if(this.state.isredirected)
+        {
+            return;
+        }
+
+        this.setState(()=>{
+            return{
+                isredirected:true
+            }
+        },()=>{
+            this.props.history.goBack();
+        })
     }
 
     render(){
@@ -410,7 +426,15 @@ class Itemdetail extends Component {
             {(value) => {
 
                 const{itemdetail, hasitemdetail, isdetailloaded, cartsuccess, vertical, horizontal} = value;
-                const{ handleOptionSelection, incrementCustomItem, decrementCustomItem, addToCart, closeSuccessCart } = value;
+                const{ handleOptionSelection, incrementCustomItem, decrementCustomItem, addToCart, closeSuccessCart, resetCartSuccess } = value;
+
+                if(cartsuccess)
+                {
+                    setTimeout(()=>{
+                        resetCartSuccess();
+                        this.goBack();
+                    },500)
+                }
 
                 return (
                     <Fragment>

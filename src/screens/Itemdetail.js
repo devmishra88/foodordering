@@ -4,7 +4,7 @@ import { ProductContext, ProductConsumer } from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
-import { Typography } from '@material-ui/core';
+import { Typography, FormControlLabel, Checkbox } from '@material-ui/core';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -437,7 +437,6 @@ class Itemdetail extends Component {
                                                         <Typography color="textPrimary" variant="subtitle1">{itemdetail.extras.extra_description}</Typography>
                                                     </section>
 
-
                                                     <section className={classes.oRYSe}>
                                                         <div className={classes.idQvOD}>
                                                             <div className={classes.hPCrWT}></div>
@@ -454,20 +453,17 @@ class Itemdetail extends Component {
                                                                     <div className={classes.bmBDqp} key={i}>
                                                                         <div className={classes.dUGYrj}>
                                                                             <section className={classes.irrWnt}>
-                                                                                <label className={classes.jrHtYr}><input name="itemoption" className={classes.jlsszO} type="radio" value="1" />
-                                                                                
-                                                                                {
-                                                                                    option.checked ? (
-                                                                                        <svg viewBox="0 0 20 20" id="circle" className={classes.bIPSGt}><circle cx="10" cy="10" r="8" className={classes.kTfLuB} onClick={()=>{handleOptionSelection(iid, option.optionid)}}></circle><circle cx="10" cy="10" r="5" className={classes.cmcsiK} onClick={()=>{handleOptionSelection(iid, option.optionid)}}></circle></svg>
-                                                                                    ):(
-                                                                                        <svg viewBox="0 0 20 20" id="circle" className={classes.bIPSGt}><circle cx="10" cy="10" r="8" className={classes.iszoyV} onClick={()=>{handleOptionSelection(iid, option.optionid)}}></circle></svg>
-                                                                                    )
-                                                                                }
-                                                                                
-                                                                                <span className={classes.jUrwkH}></span></label>
-                                                                                <Typography gutterBottom color="textSecondary" style={{
-																					fontWeight:`${option.checked ?'600':'500'}`
-																				}}>{option.item}</Typography>
+                                                                                <FormControlLabel
+                                                                                    control={
+                                                                                    <Checkbox
+                                                                                        checked={Number(option.checked) === 1}
+                                                                                        onClick={()=>{handleOptionSelection(iid, option.optionid)}}
+                                                                                        name={`itemoption_${option.optionid}`}
+                                                                                        color="secondary"
+                                                                                    />
+                                                                                    }
+                                                                                    label={option.item}
+                                                                                />
                                                                             </section>
                                                                             <div className={classes.ggJkFu}>
                                                                                 <div className={classes.jiHnaU} style={{fontWeight: '500', display: 'flex', alignItems: 'center', minWidth: '3.5rem', justifyContent: 'space-between'}}>

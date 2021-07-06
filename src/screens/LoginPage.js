@@ -158,7 +158,7 @@ export default function SignIn() {
             By clicking <b>LET'S GO</b>. <Link to="" style={{color:'#00B970'}}>I agree to Nosh Privacy Policy</Link>
           </Typography>
           <Box mt={5} className={classes.boxcheckbox}>
-          <FormControlLabel control={<Checkbox value={isagree} color="secondary" checked={Number(isagree) === 1} onChange={e => setIsAgree(!isagree)}/>}
+          <FormControlLabel control={<Checkbox value="1" color="secondary" checked={Number(isagree) === 1} onChange={e => setIsAgree(!isagree)}/>}
             label="I do not wish to receive any marketing or promotional materials."
             style={{color:'#808080',fontSize:'0.875rem !important'}}
           />
@@ -179,7 +179,6 @@ export default function SignIn() {
       <Box mt={5}>
         <Copyright />
       </Box>
-
       <Snackbar autoHideDuration={3000}
         anchorOrigin={{ vertical, horizontal }}
         open={open}
@@ -197,8 +196,6 @@ export default function SignIn() {
               </IconButton>
           }
       />
-
-      
     </Container>
   );
 }

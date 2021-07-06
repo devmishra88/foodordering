@@ -943,7 +943,7 @@ class ProductProvider extends Component{
 
 		let tempcount	= cartproduct.count - 1;
 
-		if(tempcount === 0)
+		if(tempcount === 0 || tempcount < 1)
 		{
 			this.removeItemCustomOption(tempcartid);
 		}
@@ -1090,11 +1090,12 @@ class ProductProvider extends Component{
 		let tempProducts 	= [...this.state.products];
 		const cartdetails	= await this.state.db.fetchAllCartItem();
 
-		let tempCart	= [];
+		let cartDetailsNum	= Object.keys(cartdetails).length;
 
+		let tempCart		= [];
 		let tempNewProducts	= [];
 
-		if(cartdetails)
+		if(cartDetailsNum > 0)
 		{
 			cartdetails.forEach(item => {
 				const singleCartItem = {...item};
@@ -1139,6 +1140,12 @@ class ProductProvider extends Component{
 
 						singleItem.inCart	= true;
 					}
+					else
+					{
+						singleItem.count	= 1;
+						singleItem.total	= singleItem.price;
+						singleItem.inCart	= false;
+					}
 
 					tempNewProducts = [...tempNewProducts, singleItem];
 				});
@@ -1176,6 +1183,7 @@ class ProductProvider extends Component{
 					cartTax:0,
 					cartTotal:0,
 					cartTotalItem:0,
+					cart:[],
 					products:tempNewProducts
 				}
 			})

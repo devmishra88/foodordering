@@ -4,7 +4,7 @@ import {ProductConsumer, ProductContext} from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
 import {Container} from '@material-ui/core';
 
-import {Header} from '../components';
+import {Header, ItemNotFound} from '../components';
 
 import {Remove,Plus}  from '../constants';
 
@@ -203,6 +203,9 @@ class CartDetail extends Component {
                         <Fragment>
                             <Header title="Remove your items" showdrawer={false} showsearch={true} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
+                              {
+                                Object.keys(tempcart).length < 1 ? <ItemNotFound />:null
+                              }
                             {tempcart.map((item, i) => {
                                 return(
                                   <Container maxWidth="lg" className={classes.itelist} key={i}>

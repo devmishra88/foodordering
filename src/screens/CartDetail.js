@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { Container, Button, Backdrop, CircularProgress, IconButton, Collapse } from '@material-ui/core';
 
-import {Header} from '../components';
+import {Header, ItemNotFound} from '../components';
 
 import {Remove,Plus}  from '../constants';
 
@@ -225,7 +225,9 @@ class CartDetail extends Component {
                             })()}
                             <Header title="Cart" showdrawer={false} showsearch={true} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
-
+                              {
+                                Object.keys(cart).length < 1 ? <ItemNotFound />:null
+                              }
                             <Collapse in={isalertopen}>
                                 <Alert
                                     severity={`${cartseverity}`}
@@ -298,6 +300,8 @@ class CartDetail extends Component {
                                 );
                             })}
                             </div>
+                    {
+                        Object.keys(cart).length > 0 ? (
                             <div className={classes.teiDS}>
                                 <Button variant="contained" color="primary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#FFA401'}} onClick={this.goBack}>
                                     Add More
@@ -307,6 +311,8 @@ class CartDetail extends Component {
                                     Checkout
                                 </Button>
                             </div>
+                        ):null
+                    }
                             <Backdrop className={classes.backdrop} open={isorderadding}>
                                 <CircularProgress color="inherit" />
                             </Backdrop>

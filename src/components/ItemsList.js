@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import ItemNotFound from './ItemNotFound';
 import {Link, withRouter} from "react-router-dom";
 import {ProductConsumer} from '../context/Product';
 import { withStyles } from '@material-ui/core/styles';
@@ -308,6 +309,11 @@ class ItemsList extends Component {
                 }
 
                 const tempProducts  = products.filter(tempproduct => tempproduct.group === this.props.group);
+
+                if(isdataloaded && Object.keys(tempProducts).length < 1)
+                {
+                  return <ItemNotFound />
+                }
 
                 return (
                     <Fragment>

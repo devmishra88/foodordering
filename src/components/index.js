@@ -8,6 +8,7 @@ import ItemsList from './ItemsList';
 import Menusearch from './Menusearch';
 import Ordereditems from './Ordereditems';
 import SearchCategoryFilter from './SearchCategoryFilter';
+import ItemNotFound from './ItemNotFound';
 
 export{
     Header,
@@ -20,4 +21,5 @@ export{
     Menusearch,
     Ordereditems,
     SearchCategoryFilter,
+    ItemNotFound,
 }

@@ -56,7 +56,11 @@ class ProductProvider extends Component{
 		nosh_localdata:localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''},
 		name:'',
 		phone:'',
-		email:''
+		email:'',
+		isprofileupdating:false,
+		profileseverity:"info",
+		isprofilealertopen:false,
+		profileupdatemsg:'',
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -1440,10 +1444,6 @@ class ProductProvider extends Component{
 	updateProfile=(e)=>{
 		e.preventDefault();
 
-		alert("Under construction....");
-
-		return;
-
 		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:''};
 
 		if(!nosh_localdata.restaurantid)
@@ -1453,9 +1453,9 @@ class ProductProvider extends Component{
 
 		this.setState(()=>{
 			return{
-				isorderadding:true,
-				cartseverity:"info",
-				isalertopen:false,
+				isprofileupdating:true,
+				profileseverity:"info",
+				isprofilealertopen:false,
 			}
 		},()=>{
 
@@ -1480,17 +1480,17 @@ class ProductProvider extends Component{
 					{
 						this.setState(()=>{
 							return{
-								isorderadding:false,
-								cartseverity:"success",
-								isalertopen:true,
-								orderaddedmsg:'Your profile updated successfully',
+								isprofileupdating:false,
+								profileseverity:"success",
+								isprofilealertopen:true,
+								profileupdatemsg:'Your profile updated successfully',
 							}
 						},()=>{
 							setTimeout(()=>{
 								this.setState({
-									cartseverity:"info",
-									isalertopen:false,
-									orderaddedmsg:'',
+									profileseverity:"info",
+									isprofilealertopen:false,
+									profileupdatemsg:'',
 									redirecttomenu:true,
 								});
 							},3000);
@@ -1500,17 +1500,17 @@ class ProductProvider extends Component{
 					{
 						this.setState(()=>{
 							return{
-								isorderadding:false,
-								cartseverity:"error",
-								isalertopen:true,
-								orderaddedmsg:'Oops! somthing went wrong, please try latter',
+								isprofileupdating:false,
+								profileseverity:"error",
+								isprofilealertopen:true,
+								profileupdatemsg:'Oops! somthing went wrong, please try latter',
 							}
 						},()=>{
 							setTimeout(()=>{
 								this.setState({
-									cartseverity:"info",
-									isalertopen:false,
-									orderaddedmsg:'',
+									profileseverity:"info",
+									isprofilealertopen:false,
+									profileupdatemsg:'',
 									redirecttomenu:false
 								});
 							},3000);
@@ -1524,6 +1524,12 @@ class ProductProvider extends Component{
 
 			},200);
 		})		
+	}
+
+	closeProfileAlert=()=>{
+		this.setState({
+			isprofilealertopen:false
+		})
 	}
 
 	render(){
@@ -1557,6 +1563,7 @@ class ProductProvider extends Component{
 				resetCartSuccess:this.resetCartSuccess,
 				initProfile:this.initProfile,
 				updateProfile:this.updateProfile,
+				closeProfileAlert:this.closeProfileAlert,
 			}}
 			>
 			{this.props.children}

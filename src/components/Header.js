@@ -14,7 +14,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {ProductContext} from '../context/Product';
-const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
+/*const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};*/
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +38,7 @@ export default function Header(props) {
 
   const glbproduct = useContext(ProductContext);
 
-  const{iscategoryloaded, hascategory, allcategories} = glbproduct;
+  const{iscategoryloaded, hascategory, allcategories, nosh_localdata} = glbproduct;
 
   const classes = useStyles();
 
@@ -107,6 +107,8 @@ export default function Header(props) {
         </Link>
       </List>
       <Divider />
+  {
+    nosh_localdata.phone !== "guest" ? (
       <List>
           <ListItem button>
             <ListItemIcon><ExitToAppOutlinedIcon color="secondary"/></ListItemIcon>
@@ -114,7 +116,11 @@ export default function Header(props) {
             <ArrowForwardIosIcon color="action"/>
           </ListItem>
       </List>
-      <Divider />
+    ):null
+  }
+  {
+    nosh_localdata.phone !== "guest" ? <Divider />:null
+  }
     </div>
   );
 

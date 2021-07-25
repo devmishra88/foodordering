@@ -48,7 +48,7 @@ const useStyles = (theme) => ({
     }
   },
   filteritem: {
-    minWidth:'5.5rem',
+    minWidth:'4.5rem',
   },
 });
 

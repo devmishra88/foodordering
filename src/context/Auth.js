@@ -15,31 +15,41 @@ const fakeAuth = {
   }
 };
 
+const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
+
 function useProvideAuth() {
-  const [restaurantid, setRestaurant] = useState(localStorage.getItem('restaurantid'));
+  /*const [restaurantid, setRestaurant] = useState(localStorage.getItem('restaurantid'));
   const [user, setUser] = useState(localStorage.getItem('user'));
-  const [isagree, setIsAgree] = useState(localStorage.getItem('isagree'));
+  const [isagree, setIsAgree] = useState(localStorage.getItem('isagree'));*/
+
+  const [restaurantid, setRestaurant] = useState(nosh_localdata.restaurantid);
+  const [user, setUser] = useState(nosh_localdata.phone);
+  const [isagree, setIsAgree] = useState(nosh_localdata.isagree);
 
   const signin = (restaurantid, user, isagree, cb) => {
     return fakeAuth.signin(restaurantid, user, () => {
 
-		localStorage.setItem(`restaurantid`,restaurantid);
-		localStorage.setItem(`user`, user);
-		localStorage.setItem(`isagree`, isagree);
+      let nosh_localdata = {restaurantid:restaurantid, phone:user, isagree:isagree};
 
-		setRestaurant(restaurantid);
-		setUser(user);
-		setIsAgree(isagree);
-		cb();
+      /*localStorage.setItem(`restaurantid`,restaurantid);
+      localStorage.setItem(`isagree`, isagree);
+      localStorage.setItem(`user`, user);*/
+      localStorage.setItem(`nosh_localdata`, JSON.stringify(nosh_localdata));
+
+      setRestaurant(nosh_localdata.restaurantid);
+      setUser(nosh_localdata.user);
+      setIsAgree(nosh_localdata.isagree);
+      cb();
     });
   };
 
   const signout = cb => {
-    return fakeAuth.signout(() => {
+    return fakeAuth.signout(() =>{
 
-		localStorage.setItem(`restaurantid`,'');
+		/*localStorage.setItem(`restaurantid`,'');
 		localStorage.setItem(`user`,'');
-		localStorage.setItem(`isagree`,'');
+		localStorage.setItem(`isagree`,'');*/
+		localStorage.setItem(`nosh_localdata`,'{}');
 
 		setRestaurant(null);
 		setUser(null);

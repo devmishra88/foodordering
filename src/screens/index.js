@@ -7,6 +7,10 @@ import CartDetail from './CartDetail';
 import Removecartitem from './Removecartitem';
 import Categorydetail from './Categorydetail';
 import Searchresult from './Searchresult';
+import Orders from './Orders';
+import Orderstatus from './Orderstatus';
+import Profile from './Profile';
+import Terms from './Terms';
 
 export {
     LoginPage,
@@ -18,4 +22,8 @@ export {
     Removecartitem,
     Categorydetail,
     Searchresult,
+    Orders,
+    Orderstatus,
+    Profile,
+    Terms,
 }

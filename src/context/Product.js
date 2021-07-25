@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import axios from "axios";
 
 import IDB from '../idb';
+import { ThreeSixtyOutlined } from '@material-ui/icons';
 
 const ProductContext = React.createContext();
 //Provider
@@ -52,6 +53,10 @@ class ProductProvider extends Component{
 		isalertopen:false,
 		redirecttomenu:false,
 		orderaddedmsg:'',
+		nosh_localdata:localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''},
+		name:'',
+		phone:'',
+		email:''
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -66,14 +71,14 @@ class ProductProvider extends Component{
 
 		let temphascategory	= false;
 
-		let restaurantid	= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
+		const nosh_localdata	= localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
-		if(!restaurantid || this.state.iscategoryloaded)
+		if(!nosh_localdata.restaurantid || this.state.iscategoryloaded)
 		{
 			return;
 		}
 
-		axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}&all=category`) // api url
+		axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${nosh_localdata.restaurantid}&all=category`) // api url
 		.then( response => {
 			
 			let categories		= response.data.categories.list;
@@ -97,12 +102,16 @@ class ProductProvider extends Component{
 		})
 		.catch(function (error) {
 			console.log(error);
-		});		
+		});
+
+		this.setCustomerProfile();
 	}
 
 	setAppHomeData = () => {
 
 		this.setAppAllCategories();
+
+		const nosh_localdata	= localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		const tempProducts	= [...this.state.products];
 
@@ -134,15 +143,12 @@ class ProductProvider extends Component{
 
 				let tempuser	= "";
 
-				let restaurantid	= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
-				const user			= localStorage.getItem('user');
-
-				if(user !== "guest")
+				if(nosh_localdata.phone !== "guest")
 				{
-					tempuser	= `&cid=${user}`;
+					tempuser	= `&cid=${nosh_localdata.phone}`;
 				}
 
-				if(!restaurantid)
+				if(!nosh_localdata.restaurantid)
 				{
 					return;
 				}
@@ -158,27 +164,46 @@ class ProductProvider extends Component{
 					});
 				}
 
-				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}${tempuser}`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${nosh_localdata.restaurantid}${tempuser}`) // api url
 				.then( response => {
-		
-					let homebanners				= response.data.banners.list;
-					let homebannersNum			= Object.keys(homebanners).length;
+
+					let homebannersNum	= 0;
+
+					let homebanners	= response.data.banners.list;
+					if(homebanners !== undefined)
+					{
+						homebannersNum	= Object.keys(homebanners).length;
+					}
+
+					let homecategoriesNum	= 0;
 					
-					let homecategories			= response.data.categories.list;
-					let homecategoriesNum		= Object.keys(homecategories).length;
-					
-					let products			= response.data.popularitems.list;
-					let productsNum			= Object.keys(products).length;
+					let homecategories	= response.data.categories.list;
+					if(homecategories !== undefined)
+					{
+						homecategoriesNum	= Object.keys(homecategories).length;
+					}
+
+					let productsNum	= 0;
+
+					let products	= response.data.popularitems.list;
+
+					if(products !== undefined)
+					{
+						productsNum	= Object.keys(products).length;
+					}				
 
 					let orderedproductsheading	= "";
 					let orderedproducts			= [];
 					let orderedProductsNum		= 0;
 
-					if(user !== "guest")
+					if(nosh_localdata.phone !== "guest")
 					{
 						orderedproductsheading	= response.data.orders.title;
 						orderedproducts			= response.data.orders.list;
-						orderedProductsNum		= Object.keys(orderedproducts).length;
+						if(orderedproducts !== undefined)
+						{
+							orderedProductsNum	= Object.keys(orderedproducts).length;
+						}
 					}
 
 					if(homebannersNum > 0)
@@ -294,11 +319,13 @@ class ProductProvider extends Component{
 					console.log(error);
 				});				
 
-			},1000);
+			},200);
 		});
 	}
 
 	setAllItems = () => {
+
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		const tempProducts	= [...this.state.products];
 
@@ -323,10 +350,8 @@ class ProductProvider extends Component{
 				let tempCart			= [];
 
 				let temphasitems		= false;
-
-				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
 		
-				if(!restaurantid)
+				if(!nosh_localdata.restaurantid)
 				{
 					return;
 				}
@@ -342,7 +367,7 @@ class ProductProvider extends Component{
 					});
 				}
 				
-				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${restaurantid}&all=popular`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/app-home?mid=${nosh_localdata.restaurantid}&all=popular`) // api url
 				.then( response => {
 
 					let products		= response.data.popularitems.list;
@@ -403,11 +428,13 @@ class ProductProvider extends Component{
 					console.log(error);
 				});
 
-			},1000);
+			},200);
 		});
 	}
 
 	setItemsByCategory = (catname) => {
+
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		const tempProducts	= [...this.state.products];
 
@@ -432,10 +459,8 @@ class ProductProvider extends Component{
 				let tempCart			= [];
 
 				let temphasitems		= false;
-
-				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
 		
-				if(!restaurantid)
+				if(!nosh_localdata.restaurantid)
 				{
 					return;
 				}
@@ -451,7 +476,7 @@ class ProductProvider extends Component{
 					});
 				}
 				
-				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${catname}&srch=NA`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${nosh_localdata.restaurantid}&iid=NA&cat=${catname}&srch=NA`) // api url
 				.then( response => {
 
 					let products		= response.data;
@@ -511,11 +536,13 @@ class ProductProvider extends Component{
 					console.log(error);
 				});
 
-			},1000);
+			},200);
 		});
 	}
 
 	searchItemByCatAndKeyword = () => {
+
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		this.setState(()=>{
 			return{
@@ -530,10 +557,8 @@ class ProductProvider extends Component{
 				let tempCart			= [];
 
 				let temphasitems		= false;
-
-				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
 		
-				if(!restaurantid)
+				if(!nosh_localdata.restaurantid)
 				{
 					return;
 				}
@@ -558,7 +583,7 @@ class ProductProvider extends Component{
 					tempSelectedFilterCategory	= 'NA';
 				}
 
-				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=NA&cat=${tempSelectedFilterCategory}&srch=${searchkeyword}`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${nosh_localdata.restaurantid}&iid=NA&cat=${tempSelectedFilterCategory}&srch=${searchkeyword}`) // api url
 				.then( response => {
 
 					let products		= response.data;
@@ -618,7 +643,7 @@ class ProductProvider extends Component{
 					console.log(error);
 				});
 
-			},1000);
+			},200);
 		});
 	}
 
@@ -628,6 +653,8 @@ class ProductProvider extends Component{
 	}
 
 	getItemDetail = (id) =>{
+
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		this.setState(()=>{
 			return{
@@ -641,10 +668,8 @@ class ProductProvider extends Component{
 				let tempCart		= [];
 
 				let temphasitemdetail	= false;
-
-				let restaurantid		= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
 		
-				if(!restaurantid)
+				if(!nosh_localdata.restaurantid)
 				{
 					return;
 				}
@@ -660,7 +685,7 @@ class ProductProvider extends Component{
 					});
 				}
 				
-				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${restaurantid}&iid=${id}&cat=NA&srch=NA`) // api url
+				axios.get(`${process.env.REACT_APP_API_URL}/merchant-item?mid=${nosh_localdata.restaurantid}&iid=${id}&cat=NA&srch=NA`) // api url
 				.then( response => {
 					
 					let orgitemdetail	= response.data;
@@ -701,7 +726,7 @@ class ProductProvider extends Component{
 					console.log(error);
 				});
 
-			},1000);
+			},200);
 		});
 	}
 
@@ -775,7 +800,7 @@ class ProductProvider extends Component{
 
 					this.searchItemByCatAndKeyword();
 
-				},1500);
+				},200);
 			}
 		})
 	}
@@ -1201,13 +1226,15 @@ class ProductProvider extends Component{
 
 	placeOrder = async() => {
 
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
+
 		const { cartTotal, cartTotalItem } = this.state;
 
 		const cartdetails	= await this.state.db.fetchAllCartItem();
 
 		let marketing	= false;
 
-		if(Number(localStorage.getItem('isagree')) > 0)
+		if(Number(nosh_localdata.isagree) > 0)
 		{
 			marketing	= true;
 		}
@@ -1238,9 +1265,7 @@ class ProductProvider extends Component{
 
 		let cartItemNum		= Object.keys(cartItem).length;
 
-		let restaurantid	= localStorage.getItem('restaurantid') ? localStorage.getItem('restaurantid'):null;
-
-		if(!restaurantid || cartItemNum < 1)
+		if(!nosh_localdata.restaurantid || cartItemNum < 1)
 		{
 			return;
 		}
@@ -1256,8 +1281,8 @@ class ProductProvider extends Component{
 			setTimeout(()=>{
 
 				const bodyFormData = {
-					"merchant_id": localStorage.getItem('restaurantid'),
-					"customer_id": localStorage.getItem('user'),
+					"merchant_id": nosh_localdata.restaurantid,
+					"customer_id": nosh_localdata.phone,
 					"marketing": marketing,
 					"country_code": "IN",
 					"table_no": 1,
@@ -1270,7 +1295,7 @@ class ProductProvider extends Component{
 		
 				axios({
 					method: 'post',
-					url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${restaurantid}`,
+					url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${nosh_localdata.restaurantid}`,
 					data: bodyFormData,
 					config: { headers: {'Content-Type': 'multipart/form-data' }}
 				})
@@ -1323,7 +1348,7 @@ class ProductProvider extends Component{
 					console.log(response);
 				});					
 
-			},1500);
+			},200);
 		})
 	}
 
@@ -1371,6 +1396,136 @@ class ProductProvider extends Component{
 		})
 	}
 
+	setCustomerProfile = async () => {
+
+		const nosh_localdata	= localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
+
+		if(!nosh_localdata.restaurantid || nosh_localdata.phone === "guest")
+		{
+			return;
+		}
+
+		axios.get(`${process.env.REACT_APP_API_URL}/customer-info?mid=${nosh_localdata.restaurantid}&cid=${nosh_localdata.phone}`) // api url
+		.then( response => {
+
+			let nosh_localdata  = JSON.parse(localStorage.getItem(`nosh_localdata`));
+			nosh_localdata  = {...nosh_localdata, customer_name:response.data.customer_name, customer_email:response.data.customer_email, id:response.data.id};
+
+			localStorage.setItem(`nosh_localdata`,JSON.stringify(nosh_localdata));
+
+			this.setState({
+				nosh_localdata:localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'',customer_name:'',customer_email:'', phone:'', isagree:''},
+			})
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	}
+
+	initProfile=()=>{
+
+		let nosh_localdata  = JSON.parse(localStorage.getItem(`nosh_localdata`));
+
+		const{customer_name, customer_email, phone} = nosh_localdata;
+
+		this.setState(()=>{
+			return{
+				name:customer_name,
+				phone:phone,
+				email:customer_email,
+			}
+		})
+	}
+
+	updateProfile=(e)=>{
+		e.preventDefault();
+
+		alert("Under construction....");
+
+		return;
+
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:''};
+
+		if(!nosh_localdata.restaurantid)
+		{
+			return;
+		}
+
+		this.setState(()=>{
+			return{
+				isorderadding:true,
+				cartseverity:"info",
+				isalertopen:false,
+			}
+		},()=>{
+
+			setTimeout(()=>{
+
+				const bodyFormData = {
+					"merchant_id": nosh_localdata.restaurantid,
+					"customer_id": this.state.phone,
+					"customer_name": this.state.name,
+					"customer_email": this.state.email,
+				};
+		
+				axios({
+					method: 'post',
+					url: `${process.env.REACT_APP_API_URL}/customer-info?mid=${nosh_localdata.restaurantid}&cid=${nosh_localdata.phone}`,
+					data: bodyFormData,
+					config: { headers: {'Content-Type': 'multipart/form-data' }}
+				})
+				.then(response=>{
+		
+					if(response.status === 200)
+					{
+						this.setState(()=>{
+							return{
+								isorderadding:false,
+								cartseverity:"success",
+								isalertopen:true,
+								orderaddedmsg:'Your profile updated successfully',
+							}
+						},()=>{
+							setTimeout(()=>{
+								this.setState({
+									cartseverity:"info",
+									isalertopen:false,
+									orderaddedmsg:'',
+									redirecttomenu:true,
+								});
+							},3000);
+						})
+					}
+					else
+					{
+						this.setState(()=>{
+							return{
+								isorderadding:false,
+								cartseverity:"error",
+								isalertopen:true,
+								orderaddedmsg:'Oops! somthing went wrong, please try latter',
+							}
+						},()=>{
+							setTimeout(()=>{
+								this.setState({
+									cartseverity:"info",
+									isalertopen:false,
+									orderaddedmsg:'',
+									redirecttomenu:false
+								});
+							},3000);
+						})
+					}
+				})
+				.catch(function (response) {
+					//handle error
+					console.log(response);
+				});					
+
+			},200);
+		})		
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -1400,6 +1555,8 @@ class ProductProvider extends Component{
 				applySelectedFilter:this.applySelectedFilter,
 				searchItemByCatAndKeyword:this.searchItemByCatAndKeyword,
 				resetCartSuccess:this.resetCartSuccess,
+				initProfile:this.initProfile,
+				updateProfile:this.updateProfile,
 			}}
 			>
 			{this.props.children}

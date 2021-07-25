@@ -48,6 +48,8 @@ class ProductProvider extends Component{
 		cart:[],
 
 		isorderadding:false,
+		isorderadded:false,
+		order_id:'',
 		cartseverity:"info",
 		isalertopen:false,
 		redirecttomenu:false,
@@ -1276,6 +1278,8 @@ class ProductProvider extends Component{
 				isorderadding:true,
 				cartseverity:"info",
 				isalertopen:false,
+				isorderadded:false,
+				order_id:'',
 			}
 		},()=>{
 
@@ -1296,12 +1300,12 @@ class ProductProvider extends Component{
 		
 				axios({
 					method: 'post',
-					url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${nosh_localdata.restaurantid}`,
+					url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${nosh_localdata.restaurantid}&cid=${nosh_localdata.phone}&oid=NA`,
 					data: bodyFormData,
 					config: { headers: {'Content-Type': 'multipart/form-data' }}
 				})
 				.then(response=>{
-		
+	
 					if(response.status === 200)
 					{
 						this.setState(()=>{
@@ -1310,6 +1314,8 @@ class ProductProvider extends Component{
 								cartseverity:"success",
 								isalertopen:true,
 								orderaddedmsg:'Your order added successfully',
+								isorderadded:true,
+								order_id:response.data.order_id,
 							}
 						},()=>{
 							this.clearCart();
@@ -1319,8 +1325,10 @@ class ProductProvider extends Component{
 									isalertopen:false,
 									orderaddedmsg:'',
 									redirecttomenu:true,
+									isorderadded:false,
+									order_id:'',
 								});
-							},3000);
+							},6000);
 						})
 					}
 					else
@@ -1331,6 +1339,8 @@ class ProductProvider extends Component{
 								cartseverity:"error",
 								isalertopen:true,
 								orderaddedmsg:'Oops! somthing went wrong, please try latter',
+								isorderadded:false,
+								order_id:'',
 							}
 						},()=>{
 							setTimeout(()=>{
@@ -1361,7 +1371,9 @@ class ProductProvider extends Component{
 
 	resetRedirectToMenu=()=>{
 		this.setState({
-			redirecttomenu:false
+			redirecttomenu:false,
+			isorderadded:false,
+			order_id:''
 		})
 	}
 
@@ -1393,7 +1405,9 @@ class ProductProvider extends Component{
 
 	resetCartSuccess=()=>{
 		this.setState({
-			cartsuccess:false
+			cartsuccess:false,
+			isorderadded:false,
+			order_id:''
 		})
 	}
 
@@ -1464,7 +1478,7 @@ class ProductProvider extends Component{
 					"customer_name": this.state.name,
 					"customer_email": this.state.email,
 				};
-		
+
 				axios({
 					method: 'post',
 					url: `${process.env.REACT_APP_API_URL}/customer-info?mid=${nosh_localdata.restaurantid}&cid=${nosh_localdata.phone}`,

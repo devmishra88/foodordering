@@ -6,7 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { Container, Button, Backdrop, CircularProgress, IconButton, Collapse } from '@material-ui/core';
+import { Container, Button, Backdrop, CircularProgress, IconButton, Collapse, Typography, List, ListItem } from '@material-ui/core';
+
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import {Header, ItemNotFound} from '../components';
 
@@ -179,6 +181,10 @@ const useStyles = (theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  submitphone: {
+    backgroundColor:'#00B970',
+    borderRadius:'25px',
+  },
 });
 
 class CartDetail extends Component {
@@ -212,7 +218,7 @@ class CartDetail extends Component {
             <ProductConsumer>
                 {(value) => {
 
-                    const{ cart, isorderadding, isalertopen, cartseverity, redirecttomenu, orderaddedmsg } = value;
+                    const{ cart, isorderadding, isalertopen, cartseverity, redirecttomenu, orderaddedmsg, isorderadded, order_id } = value;
 
                     const{ incrementCustomOption, decrementCustomOption, placeOrder, closeCartAlert } = value;
 
@@ -224,95 +230,136 @@ class CartDetail extends Component {
                                 }
                             })()}
                             <Header title="Cart" showdrawer={false} showsearch={true} history={this.props.history}/>
-                            <div style={{marginBottom:'5rem'}}>
-                              {
-                                Object.keys(cart).length < 1 ? <ItemNotFound />:null
-                              }
-                            <Collapse in={isalertopen}>
-                                <Alert
-                                    severity={`${cartseverity}`}
-                                    action={
-                                    <IconButton
-                                        aria-label="close"
-                                        color="inherit"
-                                        size="small"
-                                        onClick={() => {
-                                            closeCartAlert();
-                                        }}
-                                    >
-                                        <CloseIcon fontSize="inherit" />
-                                    </IconButton>
-                                    }
-                                >
-                                    {orderaddedmsg}
-                                </Alert>
-                            </Collapse>
-
-                            {cart.map((item, i) => {
-                                return(
-                                  <Container maxWidth="lg" className={classes.itelist} key={i}>
+                            <div>
+                            {
+                                isorderadded ? (
+                                    <Container maxWidth="lg" style={{height:'90vh',display:'flex',alignItems:'center',flexDirection:'column'}}>
+                                        <Typography variant="body1" color="textPrimary" align="center" style={{color:'#00B970', fontSize:'2rem',fontWeight:'600',padding:'1rem 0'}}>
+                                            Congratulations!
+                                        </Typography>
+                                        <div style={{padding:'.5rem 0'}}>
+                                            <CheckCircleIcon color="primary" style={{fontSize:'7rem',color:'#00B970'}}/>
+                                        </div>
+                                        <Typography variant="body1" color="textPrimary" align="center" style={{color:'#00B970', fontSize:'1.2rem',fontWeight:'600',padding:'.3rem 0'}}>
+                                            Your order has been received.
+                                        </Typography>
+                                        <Typography variant="body1" color="textPrimary" align="center" style={{color:'#00B970', fontSize:'1.2rem',fontWeight:'600',padding:'.3rem 0'}}>
+                                            Order number:{order_id}
+                                        </Typography>
+                                        <List>
+                                            <ListItem style={{justifyContent:'center'}}>
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className={classes.submitphone}>
+                                                    View Order
+                                                </Button>
+                                            </ListItem>
+                                            <ListItem style={{justifyContent:'center'}}>
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className={classes.submitphone}>
+                                                    Continue browsing
+                                                </Button>
+                                            </ListItem>
+                                        </List>
+                                    </Container>
+                                ):(
                                     <div>
-                                      <div className={classes.bGrnCu}>
-                                        <div className={classes.bckjvf}>
-                                            <div className={classes.jlQqiv}>
-                                            <div src="" className={classes.dqsEmh}></div>
-                                            <img alt={`${item.item_name} preview`} src={item.image_url} className={classes.hppEfq} />
-                                            </div>
-                                        </div>
-                                        <div className={classes.cYSFTJ}>
-                                          <div className={classes.cYGeYt}>
-                                            <div className={classes.kQHKsO}>
-                                              <h4 className={classes.iSmBPS}>{item.item_name}</h4>
-                                            </div>
-                                          </div>
-                                          <div>
-                                          {
-                                              item.selectedoption.map((option, optionloop)=>{
-                                                return <span key={optionloop} className="optionname small">{option.item}</span>
-                                              })
-                                          }
-                                          </div>
-                                          <p className={classes.hcROsL}>{item.description}</p>
-                                          <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
-                                            <div className={classes.jOoliK}>
-                                              <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price.toFixed(2)}</span>
-                                            </div>
-                                              <div className={classes.qtychildin}>
-                                                  <div className={classes.cMipmx}>
-                                                      <div className={classes.hTzRFw}>
-                                                          <Remove />
-                                                      </div>
-                                                      <div className={classes.iQCkqv} onClick={()=>decrementCustomOption(item.tempcartid)}>
-                                                          <span className={classes.qtytitle} style={{
-                                                              color:'#FFF6F7'
-                                                          }}>{item.count}</span>
-                                                      </div>
-                                                        <div className={classes.hTzRFw} onClick={()=>incrementCustomOption(item.tempcartid)}>
-                                                            <Plus />
+                                        <div style={{marginBottom:'5rem'}}>
+                                        {
+                                            Object.keys(cart).length < 1 ? <ItemNotFound />:null
+                                        }
+                                        <Collapse in={isalertopen}>
+                                            <Alert
+                                                severity={`${cartseverity}`}
+                                                action={
+                                                <IconButton
+                                                    aria-label="close"
+                                                    color="inherit"
+                                                    size="small"
+                                                    onClick={() => {
+                                                        closeCartAlert();
+                                                    }}
+                                                >
+                                                    <CloseIcon fontSize="inherit" />
+                                                </IconButton>
+                                                }>
+                                                {orderaddedmsg}
+                                            </Alert>
+                                        </Collapse>
+                                        {cart.map((item, i) => {
+                                            return(
+                                            <Container maxWidth="lg" className={classes.itelist} key={i}>
+                                                <div>
+                                                <div className={classes.bGrnCu}>
+                                                    <div className={classes.bckjvf}>
+                                                        <div className={classes.jlQqiv}>
+                                                        <div src="" className={classes.dqsEmh}></div>
+                                                        <img alt={`${item.item_name} preview`} src={item.image_url} className={classes.hppEfq} />
                                                         </div>
-                                                  </div>
-                                              </div>
-                                          </div>
+                                                    </div>
+                                                    <div className={classes.cYSFTJ}>
+                                                    <div className={classes.cYGeYt}>
+                                                        <div className={classes.kQHKsO}>
+                                                        <h4 className={classes.iSmBPS}>{item.item_name}</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                    {
+                                                        item.selectedoption.map((option, optionloop)=>{
+                                                            return <span key={optionloop} className="optionname small">{option.item}</span>
+                                                        })
+                                                    }
+                                                    </div>
+                                                    <p className={classes.hcROsL}>{item.description}</p>
+                                                    <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
+                                                        <div className={classes.jOoliK}>
+                                                        <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price.toFixed(2)}</span>
+                                                        </div>
+                                                        <div className={classes.qtychildin}>
+                                                            <div className={classes.cMipmx}>
+                                                                <div className={classes.hTzRFw}>
+                                                                    <Remove />
+                                                                </div>
+                                                                <div className={classes.iQCkqv} onClick={()=>decrementCustomOption(item.tempcartid)}>
+                                                                    <span className={classes.qtytitle} style={{
+                                                                        color:'#FFF6F7'
+                                                                    }}>{item.count}</span>
+                                                                </div>
+                                                                    <div className={classes.hTzRFw} onClick={()=>incrementCustomOption(item.tempcartid)}>
+                                                                        <Plus />
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </Container>
+                                            );
+                                        })}
                                         </div>
-                                      </div>
+                                        {
+                                            Object.keys(cart).length > 0 ? (
+                                                <div className={classes.teiDS}>
+                                                    <Button variant="contained" color="primary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#FFA401'}} onClick={this.goBack}>
+                                                        Add More
+                                                    </Button>
+                                                    &nbsp;
+                                                    <Button variant="contained" color="secondary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#00B970'}} onClick={placeOrder}>
+                                                        Checkout
+                                                    </Button>
+                                                </div>
+                                            ):null
+                                        }
                                     </div>
-                                  </Container>
-                                );
-                            })}
+                                )
+                            }
                             </div>
-                    {
-                        Object.keys(cart).length > 0 ? (
-                            <div className={classes.teiDS}>
-                                <Button variant="contained" color="primary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#FFA401'}} onClick={this.goBack}>
-                                    Add More
-                                </Button>
-                                &nbsp;
-                                <Button variant="contained" color="secondary" fullWidth style={{borderRadius:'2rem',fontSize:'1rem',backgroundColor:'#00B970'}} onClick={placeOrder}>
-                                    Checkout
-                                </Button>
-                            </div>
-                        ):null
-                    }
                             <Backdrop className={classes.backdrop} open={isorderadding}>
                                 <CircularProgress color="inherit" />
                             </Backdrop>

@@ -47,6 +47,10 @@ const useStyles = (theme) => ({
   mainwrapper:{
     position:'relative',
     height:'88vh'
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
   }
 });
 
@@ -92,9 +96,8 @@ class Profile extends Component {
                                     size="small"
                                     onClick={() => {
                                       closeProfileAlert();
-                                    }}
-                                >
-                                    <CloseIcon fontSize="inherit" />
+                                  }}>
+                                  <CloseIcon fontSize="inherit" />
                                 </IconButton>
                                 }
                             >
@@ -149,8 +152,7 @@ class Profile extends Component {
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                className={classes.submitphone}
-                            >
+                                className={classes.submitphone}>
                                 Update Profile
                             </Button>
                             </div>

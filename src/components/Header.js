@@ -1,5 +1,5 @@
 import React,{useState, useContext} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {MenuItem, Badge, AppBar, Toolbar, Typography, IconButton, List, ListItem, ListItemIcon, ListItemText, Drawer, Divider, ListItemSecondaryAction} from '@material-ui/core';
@@ -14,6 +14,8 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {ProductContext} from '../context/Product';
+import {authContext} from '../context/Auth';
+
 /*const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};*/
 
 const useStyles = makeStyles((theme) => ({
@@ -36,9 +38,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
 
-  const glbproduct = useContext(ProductContext);
+  let history = useHistory();
 
-  const{iscategoryloaded, hascategory, allcategories, nosh_localdata} = glbproduct;
+  const glbproduct  = useContext(ProductContext);
+  const glbauth     = useContext(authContext);
+
+  const{nosh_localdata} = glbproduct;
+  const{signout} = glbauth;
 
   const classes = useStyles();
 
@@ -110,7 +116,7 @@ export default function Header(props) {
   {
     nosh_localdata.phone !== "guest" ? (
       <List>
-          <ListItem button>
+          <ListItem button onClick={()=>{signout(() => history.push("/"))}}>
             <ListItemIcon><ExitToAppOutlinedIcon color="secondary"/></ListItemIcon>
             <ListItemText color="secondary" primary={`Logout`} />
             <ArrowForwardIosIcon color="action"/>
@@ -166,7 +172,6 @@ export default function Header(props) {
       <Drawer anchor="left" open={isopen} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
-
     </div>
   );
 }

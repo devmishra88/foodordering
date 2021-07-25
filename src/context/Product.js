@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import axios from "axios";
 
 import IDB from '../idb';
-import { ThreeSixtyOutlined } from '@material-ui/icons';
 
 const ProductContext = React.createContext();
 //Provider
@@ -896,8 +895,6 @@ class ProductProvider extends Component{
 				tempproduct.count			+= Number(selectedCartProduct.count);
 				tempproduct.customitemqty	+= Number(selectedCartProduct.customitemqty);
 				tempproduct.total			+= Number(selectedCartProduct.total);
-
-				tempproduct.total			= tempproduct.total;
 
 				await this.state.db.updateCartItem(tempproduct);
 			}

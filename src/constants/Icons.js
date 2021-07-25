@@ -117,7 +117,7 @@ export const CloseModal=()=> {
   );
 }
 
-export default {
+/*export default {
     StarFilled,
     StarBlank,
     Remove,
@@ -131,4 +131,4 @@ export default {
     PinkPlus,
     PinkRemove,
     BlackPlus,
-}
+}*/

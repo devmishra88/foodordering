@@ -193,7 +193,7 @@ class CartDetail extends Component {
             <ProductConsumer>
                 {(value) => {
 
-                    const{cart} = value;
+                    const{cart, nosh_localdata} = value;
 
                     const{ incrementCustomOption, decrementCustomOption } = value;
 
@@ -233,7 +233,7 @@ class CartDetail extends Component {
                                           <p className={classes.hcROsL}>{item.description}</p>
                                           <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
                                             <div className={classes.jOoliK}>
-                                              <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price.toFixed(2)}</span>
+                                              <span className={classes.cCiQWA}>{nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>}{item.price.toFixed(2)}</span>
                                             </div>
                                               <div className={classes.qtychildin}>
                                                   <div className={classes.cMipmx}>

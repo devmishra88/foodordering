@@ -214,7 +214,7 @@ class Ordereditems extends Component {
         <ProductConsumer>
             {(value) => {
 
-                const{isdataloaded, hasorderedproducts, orderedproductsheading, products} = value;
+                const{isdataloaded, hasorderedproducts, orderedproductsheading, products, nosh_localdata} = value;
 
                 const tempProducts  = products.filter(tempproduct => tempproduct.group === 'ordereditems');
 
@@ -243,7 +243,7 @@ class Ordereditems extends Component {
                                     <div className={classes.cattitle}>{item.item_name.substr(0, 12)}...</div>
                                       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',width:'95%',marginTop:'1rem',position:'absolute',bottom:'5px'}}>
                                         <div className={classes.jOoliK}>
-                                          <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price}</span>
+                                          <span className={classes.cCiQWA}>{nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>}{item.price}</span>
                                         </div>
                                         {
                                           !item.inCart ? (

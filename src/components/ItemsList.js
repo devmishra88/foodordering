@@ -295,7 +295,7 @@ class ItemsList extends Component {
         <ProductConsumer>
             {(value) => {
 
-                const{isdataloaded, hasproducts, products, itemheading, hasorderedproducts, orderedproductsheading} = value;
+                const{isdataloaded, hasproducts, products, itemheading, hasorderedproducts, orderedproductsheading, nosh_localdata} = value;
 
                 let temphasproducts = hasproducts;
                 let tempitemheading = itemheading;
@@ -359,7 +359,7 @@ class ItemsList extends Component {
                                           <p className={classes.hcROsL}>{item.description}</p>
                                           <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
                                             <div className={classes.jOoliK}>
-                                              <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price}</span>
+                                              <span className={classes.cCiQWA}>{nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>}{item.price}</span>
                                             </div>
                                             {
                                               !item.inCart ? (

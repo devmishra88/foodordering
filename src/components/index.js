@@ -9,6 +9,8 @@ import Menusearch from './Menusearch';
 import Ordereditems from './Ordereditems';
 import SearchCategoryFilter from './SearchCategoryFilter';
 import ItemNotFound from './ItemNotFound';
+import Orderthanks from './Orderthanks';
+import Viewcart from './Viewcart';
 
 export{
     Header,
@@ -22,4 +24,6 @@ export{
     Ordereditems,
     SearchCategoryFilter,
     ItemNotFound,
+    Orderthanks,
+    Viewcart,
 }

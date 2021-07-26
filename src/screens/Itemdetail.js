@@ -425,7 +425,7 @@ class Itemdetail extends Component {
             <ProductConsumer>
             {(value) => {
 
-                const{itemdetail, hasitemdetail, isdetailloaded, cartsuccess, vertical, horizontal} = value;
+                const{itemdetail, hasitemdetail, isdetailloaded, cartsuccess, vertical, horizontal, nosh_localdata} = value;
                 const{ handleOptionSelection, incrementCustomItem, decrementCustomItem, addToCart, closeSuccessCart, resetCartSuccess } = value;
 
                 if(cartsuccess)
@@ -455,7 +455,7 @@ class Itemdetail extends Component {
                                                 <Paper className={classes.paper}>
                                                     <section className={classes.eggzWm}>
                                                         <Typography color="textPrimary" variant="h5">{itemdetail.item_name}</Typography>
-                                                        <Typography color="textPrimary" variant="h6"><i className="fa fa-inr"></i> {itemdetail.baseprice}</Typography>
+                                                        <Typography color="textPrimary" variant="h6">{nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>} {itemdetail.baseprice}</Typography>
                                                     </section>
                                                     <section className={classes.eggzWm}>
                                                         <Typography color="textPrimary" variant="subtitle1">{itemdetail.extras.extra_description}</Typography>
@@ -491,7 +491,7 @@ class Itemdetail extends Component {
                                                                             </section>
                                                                             <div className={classes.ggJkFu}>
                                                                                 <div className={classes.jiHnaU} style={{fontWeight: '500', display: 'flex', alignItems: 'center', minWidth: '3.5rem', justifyContent: 'space-between'}}>
-                                                                                    <i className={classes.iconblk} size="14" color="#6d6a6a"><svg xmlns="http://www.w3.org/2000/svg" fill="#6d6a6a" width="20" height="20" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg></i><i className="fa fa-inr"></i> {option.price}
+                                                                                    <i className={classes.iconblk} size="14" color="#6d6a6a"><svg xmlns="http://www.w3.org/2000/svg" fill="#6d6a6a" width="20" height="20" viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" className={classes.listicon}><title>plus</title><path d="M15.5 9.42h-4.5v-4.5c0-0.56-0.44-1-1-1s-1 0.44-1 1v4.5h-4.5c-0.56 0-1 0.44-1 1s0.44 1 1 1h4.5v4.5c0 0.54 0.44 1 1 1s1-0.46 1-1v-4.5h4.5c0.56 0 1-0.46 1-1s-0.44-1-1-1z"></path></svg></i>{nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>} {option.price}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -522,7 +522,7 @@ class Itemdetail extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}><i className="fa fa-inr"></i> {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
+                                                    <button className={classes.elxuhW} onClick={()=>{addToCart(iid, true)}}><span className={classes.bXdRxo}><span className={classes.dkwpEa}><div className={classes.eYrDjb}><span>Add</span><div className={classes.btgzzv}>{nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>} {(itemdetail.price * itemdetail.customitemqty).toFixed(2)}</div></div></span></span></button>
                                                 </div>
                                             </div>
                                             <Snackbar autoHideDuration={3000} anchorOrigin={{vertical, horizontal}} open={cartsuccess} onClose={closeSuccessCart} message="Item added in cart successfully" key={vertical + horizontal}

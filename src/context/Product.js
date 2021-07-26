@@ -62,6 +62,7 @@ class ProductProvider extends Component{
 		profileseverity:"info",
 		isprofilealertopen:false,
 		profileupdatemsg:'',
+		cancheckout:false,
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -173,6 +174,26 @@ class ProductProvider extends Component{
 				.then( response => {
 
 					let homebannersNum	= 0;
+
+					let merchantdata	= response.data.merchant;
+
+					if(merchantdata !== undefined)
+					{
+						let nosh_localdata  = JSON.parse(localStorage.getItem(`nosh_localdata`));
+						nosh_localdata  = {...nosh_localdata, restaurant_name:merchantdata.title};
+
+						if(merchantdata.list !== undefined)
+						{
+							let more_restaurant_data = merchantdata.list[0];
+
+							nosh_localdata  = {...nosh_localdata, restaurant_country:more_restaurant_data.restaurant_country, restaurant_vat:more_restaurant_data.restaurant_vat, restaurant_currency:more_restaurant_data.restaurant_currency};
+						}
+						localStorage.setItem(`nosh_localdata`,JSON.stringify(nosh_localdata));
+			
+						this.setState({
+							nosh_localdata:localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'',customer_name:'',customer_email:'', phone:'', isagree:'',restaurant_name:'',restaurant_country:'',restaurant_vat:'',restaurant_currency:''},
+						});
+					}
 
 					let homebanners	= response.data.banners.list;
 					if(homebanners !== undefined)

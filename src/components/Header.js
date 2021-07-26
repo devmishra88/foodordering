@@ -43,7 +43,7 @@ export default function Header(props) {
   const glbproduct  = useContext(ProductContext);
   const glbauth     = useContext(authContext);
 
-  const{nosh_localdata} = glbproduct;
+  const{nosh_localdata, cancheckout, setCheckout} = glbproduct;
   const{signout} = glbauth;
 
   const classes = useStyles();
@@ -140,7 +140,16 @@ export default function Header(props) {
             <MenuIcon />
           </IconButton>
         ):(
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer" onClick={()=>{props.history.goBack()}}>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer" onClick={()=>{
+            if(cancheckout)
+            {
+              setCheckout(false);
+            }
+            else
+            {
+              props.history.goBack();
+            }
+          }}>
             <ArrowBackIcon />
           </IconButton>              
         )

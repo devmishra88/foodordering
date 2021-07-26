@@ -117,6 +117,10 @@ class ProductProvider extends Component{
 
 		this.setAppAllCategories();
 
+		this.setState({
+			cancheckout:false
+		});
+
 		const nosh_localdata	= localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		const tempProducts	= [...this.state.products];
@@ -351,6 +355,10 @@ class ProductProvider extends Component{
 
 	setAllItems = () => {
 
+		this.setState({
+			cancheckout:false
+		});
+
 		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		const tempProducts	= [...this.state.products];
@@ -460,6 +468,10 @@ class ProductProvider extends Component{
 
 	setItemsByCategory = (catname) => {
 
+		this.setState({
+			cancheckout:false
+		});
+
 		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
 		const tempProducts	= [...this.state.products];
@@ -567,6 +579,10 @@ class ProductProvider extends Component{
 	}
 
 	searchItemByCatAndKeyword = () => {
+
+		this.setState({
+			cancheckout:false
+		});
 
 		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
@@ -679,6 +695,10 @@ class ProductProvider extends Component{
 	}
 
 	getItemDetail = (id) =>{
+
+		this.setState({
+			cancheckout:false
+		});
 
 		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
@@ -1564,6 +1584,12 @@ class ProductProvider extends Component{
 		})
 	}
 
+	setCheckout=(cancheckout)=>{
+		this.setState({
+			cancheckout:cancheckout
+		})
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -1596,6 +1622,7 @@ class ProductProvider extends Component{
 				initProfile:this.initProfile,
 				updateProfile:this.updateProfile,
 				closeProfileAlert:this.closeProfileAlert,
+				setCheckout:this.setCheckout,
 			}}
 			>
 			{this.props.children}

@@ -11,6 +11,7 @@ import SearchCategoryFilter from './SearchCategoryFilter';
 import ItemNotFound from './ItemNotFound';
 import Orderthanks from './Orderthanks';
 import Viewcart from './Viewcart';
+import Checkout from './Checkout';
 
 export{
     Header,
@@ -26,4 +27,5 @@ export{
     ItemNotFound,
     Orderthanks,
     Viewcart,
+    Checkout,
 }

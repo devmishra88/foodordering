@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {withRouter} from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import {Container, Button, Typography, List, ListItem} from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -65,7 +66,9 @@ class Orderthanks extends Component{
                                     type="submit"
                                     variant="contained"
                                     color="primary"
-                                    className={classes.submitphone}>
+                                    className={classes.submitphone}
+                                    onClick={this.props.goBack}
+                                    >
                                     Continue browsing
                                 </Button>
                             </ListItem>
@@ -78,4 +81,4 @@ class Orderthanks extends Component{
 	}
 }
 
-export default withStyles(useStyles, { withTheme: true })(Orderthanks);
+export default withRouter(withStyles(useStyles, { withTheme: true })(Orderthanks));

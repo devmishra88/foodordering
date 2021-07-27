@@ -112,23 +112,6 @@ class MenuSearch extends Component{
 
                 return (
                     <Container maxWidth="lg" className={classes.container}>
-                        {/*<section className={classes.searwrapper}>
-                            <section label="Search within menu" value="" color="white" autoComplete="off" type="text" className={classes.searchbx}>
-                                <section className={classes.firstfindchild}>
-                                    <div className={classes.findchildsub}>
-                                        <Search />
-                                    </div>
-                                    <input autoComplete="off" type="text" className={classes.searchinput} name="searchkeyword" id="searchkeyword" value={searchkeyword} placeholder="Search within menu" onChange={handleChange}/>
-                                    <div className={classes.closefindbox}>
-                                        <i className={classes.closefindchild} size="17" color="#B5B5B5" onClick={()=>{
-                                            showHideSearch();
-                                        }}>
-                                            <CrossSearch />
-                                        </i>
-                                    </div>
-                                </section>
-                            </section>
-                        </section>*/}
                         <TextField
                             variant="outlined"
                             margin="normal"

@@ -63,6 +63,8 @@ class ProductProvider extends Component{
 		isprofilealertopen:false,
 		profileupdatemsg:'',
 		cancheckout:false,
+
+		specialInstructions:'',
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -1156,6 +1158,13 @@ class ProductProvider extends Component{
 		let subTotal = 0;
 		let cartItem = 0;
 
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
+
+		if(!nosh_localdata.restaurantid)
+		{
+			return;
+		}
+
 		let tempProducts 	= [...this.state.products];
 		const cartdetails	= await this.state.db.fetchAllCartItem();
 
@@ -1219,15 +1228,21 @@ class ProductProvider extends Component{
 					tempNewProducts = [...tempNewProducts, singleItem];
 				});
 
-				const tempTax	= subTotal * 0; /*here 0.1 is temp tax and can be dynamic*/
+				let tempTax	= 0;
+
+				if(parseFloat(nosh_localdata.restaurant_vat) > 0 && nosh_localdata.restaurant_vat !== undefined && nosh_localdata.restaurant_vat !== null)
+				{
+					tempTax	= (subTotal * parseFloat(nosh_localdata.restaurant_vat))/100;
+				}
+
 				const tax		= parseFloat(tempTax.toFixed(2));
 				const total		= subTotal + tax;
 
 				this.setState(()=>{
 					return{
-						cartSubTotal:subTotal,
-						cartTax:tax,
-						cartTotal:total,
+						cartSubTotal:parseFloat(subTotal.toFixed(2)),
+						cartTax:parseFloat(tax.toFixed(2)),
+						cartTotal:parseFloat(total.toFixed(2)),
 						cartTotalItem:cartItem,
 						products:tempNewProducts
 					}
@@ -1272,7 +1287,7 @@ class ProductProvider extends Component{
 
 		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
 
-		const { cartTotal, cartTotalItem } = this.state;
+		const { cartSubTotal, cartTotal, cartTotalItem, cartTax, specialInstructions } = this.state;
 
 		const cartdetails	= await this.state.db.fetchAllCartItem();
 
@@ -1298,8 +1313,8 @@ class ProductProvider extends Component{
 				singleitem.category		= category;
 				singleitem.description	= description;
 				singleitem.image_url	= image_url;
-				singleitem.price		= price;
-				singleitem.total		= total;
+				singleitem.price		= price.toFixed(2);
+				singleitem.total		= total.toFixed(2);
 				singleitem.quantity		= count;
 				singleitem.extra_items	= selectedoption;
 
@@ -1329,14 +1344,18 @@ class ProductProvider extends Component{
 				const bodyFormData = {
 					"merchant_id": nosh_localdata.restaurantid,
 					"customer_id": nosh_localdata.phone,
+					"country_code": nosh_localdata.restaurant_country,
+					"restaurant_vat": nosh_localdata.restaurant_vat,
 					"marketing": marketing,
-					"country_code": "IN",
 					"table_no": 1,
+					"sub_total_amount": cartSubTotal,
 					"total_amount": cartTotal,
+					"total_tax": cartTax,
 					"total_quantity": cartTotalItem,
-					"discount_coupon": "ABC123",
-					"discount_amount": 5,
+					/*"discount_coupon": "ABC123",
+					"discount_amount": 5,*/
 					"items": cartItem,
+					"special_instructions": specialInstructions,
 				};
 		
 				axios({

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Container, Button, Backdrop, CircularProgress, IconButton, Collapse } from '@material-ui/core';
+import { Container, Button, IconButton, Collapse } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -173,10 +173,6 @@ const useStyles = (theme) => ({
       padding:'1rem .8rem',
       justifyContent:'space-between',
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
 });
 
 class Viewcart extends Component{
@@ -201,9 +197,9 @@ class Viewcart extends Component{
             <ProductConsumer>
             {(value) => {
 
-            const{ cart, isorderadding, isalertopen, cartseverity, orderaddedmsg } = value;
+            const{ nosh_localdata, cart, isalertopen, cartseverity, orderaddedmsg } = value;
 
-            const{ incrementCustomOption, decrementCustomOption, placeOrder, closeCartAlert, setCheckout } = value;
+            const{ incrementCustomOption, decrementCustomOption, closeCartAlert, setCheckout } = value;
 
                 return (
                     <div>
@@ -256,7 +252,7 @@ class Viewcart extends Component{
                                     <p className={classes.hcROsL}>{item.description}</p>
                                     <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'1rem'}}>
                                         <div className={classes.jOoliK}>
-                                        <span className={classes.cCiQWA}><i className="fa fa-inr"></i>{item.price.toFixed(2)}</span>
+                                        <span className={classes.cCiQWA}>{nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>}{item.price.toFixed(2)}</span>
                                         </div>
                                         <div className={classes.qtychildin}>
                                             <div className={classes.cMipmx}>
@@ -294,9 +290,6 @@ class Viewcart extends Component{
                                 </div>
                             ):null
                         }
-                        <Backdrop className={classes.backdrop} open={isorderadding}>
-                            <CircularProgress color="inherit" />
-                        </Backdrop>
                     </div>
                 );
             }}

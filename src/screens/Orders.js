@@ -1,9 +1,11 @@
 import React,{Component, Fragment} from 'react';
 import {withRouter} from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
-import { ProductContext } from '../context/Product';
+import { CircularProgress } from '@material-ui/core';
 
-import {Header} from '../components';
+import { ProductConsumer, ProductContext } from '../context/Product';
+
+import {Header, Order} from '../components';
 
 const useStyles = (theme) => ({
   root: {
@@ -24,22 +26,47 @@ class Orders extends Component {
     }
     componentDidMount(){
 
-        this.context.resetRedirectToMenu();
-        this.context.searchItemByCatAndKeyword();
-        this.context.setAppAllCategories();
+        this.context.initCustomerOrders();
 
     }
 
     render(){
 
         /*const { classes } = this.props;*/
-        
-        return (
-            <Fragment>
-                <Header title="My Order" showdrawer={false} showsearch={true} history={this.props.history}/>
 
-            </Fragment>
-        )
+        return (
+            <ProductConsumer>
+            {(value) => {
+
+                const{ isorderloaded, hasorders, orderslist, nosh_localdata } = value;
+
+                return (
+                    <Fragment>
+                        <Header title="My Order" showdrawer={false} showsearch={true} history={this.props.history}/>
+                        {
+                            isorderloaded ? (
+                                <Fragment>
+                                    {
+                                        hasorders ? (
+                                            <Fragment>
+                                                {orderslist.map((order, i) => {
+                                                    return <Order singleorder={order} nosh_localdata={nosh_localdata} key={i}/>
+                                                })}
+                                            </Fragment>
+                                        ):null
+                                    }
+                                </Fragment>
+                            ):(
+                                <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexGrow: 1, height:'90vh'}}>
+                                    <CircularProgress disableShrink />
+                                </div>
+                            )
+                        }
+                    </Fragment>
+                )
+            }}
+            </ProductConsumer>
+        );
     }
 }
 

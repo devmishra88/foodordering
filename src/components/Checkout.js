@@ -66,7 +66,7 @@ class Checkout extends Component{
                                         <Box fontWeight={500} p={1}>
                                             {nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>}{item.total.toFixed(2)}
                                         </Box>
-                                    </Box>                                    
+                                    </Box>
                                 );
                             })}
                         </Container>

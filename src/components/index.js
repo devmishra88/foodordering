@@ -12,6 +12,7 @@ import ItemNotFound from './ItemNotFound';
 import Orderthanks from './Orderthanks';
 import Viewcart from './Viewcart';
 import Checkout from './Checkout';
+import Order from './Order';
 
 export{
     Header,
@@ -28,4 +29,5 @@ export{
     Orderthanks,
     Viewcart,
     Checkout,
+    Order,
 }

@@ -264,9 +264,9 @@ class Viewcart extends Component{
                                                         color:'#FFF6F7'
                                                     }}>{item.count}</span>
                                                 </div>
-                                                    <div className={classes.hTzRFw} onClick={()=>incrementCustomOption(item.tempcartid)}>
-                                                        <Plus />
-                                                    </div>
+                                                <div className={classes.hTzRFw} onClick={()=>incrementCustomOption(item.tempcartid)}>
+                                                    <Plus />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

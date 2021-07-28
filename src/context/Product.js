@@ -65,6 +65,10 @@ class ProductProvider extends Component{
 		cancheckout:false,
 
 		specialInstructions:'',
+
+		isorderloaded:false,
+		hasorders:false,
+		orderslist:[],
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -1357,7 +1361,7 @@ class ProductProvider extends Component{
 					"items": cartItem,
 					"special_instructions": specialInstructions,
 				};
-		
+
 				axios({
 					method: 'post',
 					url: `${process.env.REACT_APP_API_URL}/customer-order?mid=${nosh_localdata.restaurantid}&cid=${nosh_localdata.phone}&oid=NA`,
@@ -1609,6 +1613,66 @@ class ProductProvider extends Component{
 		})
 	}
 
+	initCustomerOrders = () => {
+
+		this.setState({
+			cancheckout:false
+		});
+
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
+
+		this.setState(()=>{
+			return{
+				isorderloaded:false,
+				hasorders:false,
+			}
+		},()=>{
+			setTimeout(async()=>{
+		
+				if(!nosh_localdata.restaurantid)
+				{
+					return;
+				}
+
+				let tempuser	= "";
+
+				if(nosh_localdata.phone !== "guest")
+				{
+					tempuser	= `&cid=${nosh_localdata.phone}`;
+				}
+
+				axios.get(`${process.env.REACT_APP_API_URL}/customer-order?mid=${nosh_localdata.restaurantid}${tempuser}&oid=NA`) // api url
+				.then( response => {
+
+					let orders		= response.data;
+					let ordersNum	= Object.keys(orders).length;
+
+					let temphasorders	= false;
+
+					if(ordersNum > 0)
+					{
+						temphasorders	= true;
+					}
+
+					this.setState(()=>{
+						return{
+							orderslist:orders,
+							isorderloaded:true,
+							hasorders:temphasorders,
+						};
+					},()=>{
+						console.log(this.state.orderslist);
+					});
+
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
+			},200);
+		});
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -1642,6 +1706,7 @@ class ProductProvider extends Component{
 				updateProfile:this.updateProfile,
 				closeProfileAlert:this.closeProfileAlert,
 				setCheckout:this.setCheckout,
+				initCustomerOrders:this.initCustomerOrders,
 			}}
 			>
 			{this.props.children}

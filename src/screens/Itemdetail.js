@@ -3,14 +3,8 @@ import { ProductContext, ProductConsumer } from '../context/Product';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import Paper from '@material-ui/core/Paper';
-import { Typography, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Typography, FormControlLabel, Checkbox, CircularProgress, Paper, Snackbar, IconButton } from '@material-ui/core';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-import Snackbar from '@material-ui/core/Snackbar';
-
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = (theme) => ({

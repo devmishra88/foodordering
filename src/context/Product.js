@@ -1660,8 +1660,6 @@ class ProductProvider extends Component{
 							isorderloaded:true,
 							hasorders:temphasorders,
 						};
-					},()=>{
-						console.log(this.state.orderslist);
 					});
 
 				})

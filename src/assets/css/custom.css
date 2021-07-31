@@ -64,3 +64,15 @@
 .carousel-item-nosh{
     padding: 0 1.2px;
 }
+.MuiStepIcon-root.MuiStepIcon-active{
+    color:#00B970 !important;
+}
+
+.inactive .MuiStepLabel-root .MuiStepIcon-root.MuiStepIcon-active{
+    color:#585858 !important;
+}
+
+.MuiStep-horizontal{
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}

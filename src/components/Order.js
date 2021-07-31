@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {withRouter} from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
-import { Box, Divider, Container, Button } from '@material-ui/core';
+import { Box, Divider, Container } from '@material-ui/core';
 
 const useStyles = (theme) => ({
     btnstyle: {
@@ -24,12 +24,16 @@ class Order extends Component{
 
 	render(){
         const {singleorder, nosh_localdata} = this.props;
+
+        const orderIdArr  = singleorder.id.split('-');
+        const orderid     = orderIdArr[0];
+
         return (
             <Box display="flex" justifyContent="flex-start" m={1} bgcolor="background.paper">
                 <Container maxWidth="lg" style={{marginBottom:'.5rem'}}>
                     <Box display="flex" fontWeight={500} style={{marginBottom:'.5rem'}}>
                         <Box p={1} flexGrow={1} style={{color:'#00B970'}}>
-                            Order #{singleorder.id.split('-').[0]}<br />
+                            Order #{orderid}<br />
                         </Box>
                         <Box p={1}>
                         {nosh_localdata.restaurant_currency !== "" && nosh_localdata.restaurant_currency !== undefined ? `${nosh_localdata.restaurant_currency}`:<i className="fa fa-inr"></i>} {singleorder.total_amount.toFixed(2)}
@@ -52,11 +56,11 @@ class Order extends Component{
                         })
                     }
                     <Box display="flex" alignItems="center" style={{marginBottom:'.5rem'}}>
-                        <Box p={1} flexGrow={1}>
-                            Status<br /><span style={{color:'#fdc749'}}>{singleorder.order_status}</span>
+                        <Box p={1} flexGrow={1} fontWeight="500">
+                            Status
                         </Box>
                         <Box p={1}>
-                            <Button size="small" variant="outlined" color="secondary">Track</Button>
+                            <span style={{color:'#fdc749'}}>{singleorder.order_status}</span>
                         </Box>
                     </Box>
                     <Divider />

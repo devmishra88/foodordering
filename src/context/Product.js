@@ -69,6 +69,10 @@ class ProductProvider extends Component{
 		isorderloaded:false,
 		hasorders:false,
 		orderslist:[],
+
+		issingleorderloaded:false,
+		hasorderdetail:false,
+		singleorder:[],
 	}
 
 	devInArray=(needle, haystack)=> {
@@ -1382,6 +1386,14 @@ class ProductProvider extends Component{
 								order_id:response.data.order_id,
 							}
 						},()=>{
+
+							if(this.state.order_id !== null && this.state.order_id !== undefined && this.state.order_id !== "")
+							{
+								let nosh_localdata  = JSON.parse(localStorage.getItem(`nosh_localdata`));
+								nosh_localdata  = {...nosh_localdata, orderid:this.state.order_id};
+								localStorage.setItem(`nosh_localdata`,JSON.stringify(nosh_localdata));
+							}
+
 							this.clearCart();
 							setTimeout(()=>{
 								this.setState({
@@ -1389,7 +1401,6 @@ class ProductProvider extends Component{
 									isalertopen:false,
 									orderaddedmsg:'',
 									redirecttomenu:true,
-									isorderadded:false,
 									order_id:'',
 								});
 							},6000);
@@ -1671,6 +1682,64 @@ class ProductProvider extends Component{
 		});
 	}
 
+	initSingleOrder = () => {
+
+		this.setState({
+			cancheckout:false
+		});
+
+		const nosh_localdata = localStorage.getItem(`nosh_localdata`) !== null ? JSON.parse(localStorage.getItem(`nosh_localdata`)):{restaurantid:'', phone:'', isagree:''};
+
+		this.setState(()=>{
+			return{
+				issingleorderloaded:false,
+				hasorderdetail:false,
+			}
+		},()=>{
+			setTimeout(async()=>{
+		
+				if(!nosh_localdata.restaurantid || !nosh_localdata.orderid)
+				{
+					return;
+				}
+
+				let tempuser	= "";
+
+				if(nosh_localdata.phone !== "guest")
+				{
+					tempuser	= `&cid=${nosh_localdata.phone}`;
+				}
+
+				axios.get(`${process.env.REACT_APP_API_URL}/customer-order?mid=${nosh_localdata.restaurantid}${tempuser}&oid=${nosh_localdata.orderid}`) // api url
+				.then( response => {
+
+					let singleorder		= response.data;
+					let singleOrderNum	= Object.keys(singleorder).length;
+
+					let temphasorders	= false;
+
+					if(singleOrderNum > 0)
+					{
+						temphasorders	= true;
+					}
+
+					this.setState(()=>{
+						return{
+							singleorder:singleorder,
+							issingleorderloaded:true,
+							hasorderdetail:temphasorders,
+						};
+					});
+
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
+			},200);
+		});
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -1705,6 +1774,7 @@ class ProductProvider extends Component{
 				closeProfileAlert:this.closeProfileAlert,
 				setCheckout:this.setCheckout,
 				initCustomerOrders:this.initCustomerOrders,
+				initSingleOrder:this.initSingleOrder,
 			}}
 			>
 			{this.props.children}

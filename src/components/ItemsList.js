@@ -119,7 +119,7 @@ const useStyles = (theme) => ({
       maxWidth: '75%',
   },
   iSmBPS:{
-      fontSize: '1.2rem',
+      fontSize: '1rem',
       fontWeight: '500',
       color: 'rgb(28, 28, 28)',
       margin: '0px',
@@ -172,7 +172,7 @@ const useStyles = (theme) => ({
       margin: '0.5rem 0px',
   },
   cCiQWA:{
-      fontSize: '1.2rem',
+      fontSize: '1rem',
       color: 'rgb(28, 28, 28)',
   },
   fJNrek:{
@@ -202,7 +202,7 @@ const useStyles = (theme) => ({
       color: 'rgb(244, 162, 102)',
   },
   hcROsL:{
-      fontSize: '1rem',
+      fontSize: '.8rem',
       fontWeight: '400',
       maxWidth: '100%',
       margin: '0px',

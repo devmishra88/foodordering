@@ -7,6 +7,8 @@ import { Typography, FormControlLabel, Checkbox, CircularProgress, Paper, Snackb
 
 import CloseIcon from '@material-ui/icons/Close';
 
+import {Header, ItemNotFound} from '../components';
+
 const useStyles = (theme) => ({
     root: {
         width: '100%',
@@ -531,7 +533,12 @@ class Itemdetail extends Component {
                                                   </IconButton>
                                               }
                                             />
-                                        </Fragment>):null
+                                        </Fragment>):(
+                                            <Fragment>
+                                                <Header title="Item Detail" showdrawer={false} showsearch={true} history={this.props.history}/>
+                                                <ItemNotFound msg="Item detail not available"/>
+                                            </Fragment>
+                                        )
                                     }
                                 </Fragment>
                             ):(<div style={{display:'flex',alignItems:'center',justifyContent:'center',flexGrow: 1, height:'90vh'}}>

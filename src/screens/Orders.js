@@ -26,6 +26,7 @@ class Orders extends Component {
     }
     componentDidMount(){
 
+        this.context.resetRedirectToMenu();
         this.context.initCustomerOrders();
 
     }

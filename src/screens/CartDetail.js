@@ -2,9 +2,7 @@ import React,{Component, Fragment} from 'react';
 import {withRouter} from "react-router-dom";
 import {ProductConsumer, ProductContext} from '../context/Product';
 
-import {Header} from '../components';
-
-import {Viewcart, Checkout, Orderthanks} from '../components';
+import {Header, Viewcart, Checkout, Orderthanks} from '../components';
 
 class CartDetail extends Component {
 
@@ -27,6 +25,11 @@ class CartDetail extends Component {
     goBack=()=>{
 
         this.props.history.goBack();
+    }
+
+    viewRecentOrder=()=>{
+
+        this.props.history.push("/orderstatus");
     }
 
     render(){
@@ -65,7 +68,7 @@ class CartDetail extends Component {
                             return(
                                 <Fragment>
                                     <Header title="Checkout" showdrawer={false} showsearch={true} history={this.props.history}/>
-                                    <Orderthanks history={this.props.history} goBack={this.goBack}/>
+                                    <Orderthanks history={this.props.history} goBack={this.goBack} viewRecentOrder={this.viewRecentOrder}/>
                                 </Fragment>
                             )
                         }

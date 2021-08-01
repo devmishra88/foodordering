@@ -57,7 +57,8 @@ class Orderthanks extends Component{
                                     type="submit"
                                     variant="contained"
                                     color="primary"
-                                    className={classes.submitphone}>
+                                    className={classes.submitphone}
+                                    onClick={this.props.viewRecentOrder}>
                                     View Order
                                 </Button>
                             </ListItem>

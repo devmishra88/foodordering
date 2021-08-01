@@ -69,6 +69,7 @@ class Orderstatus extends Component {
     }
     componentDidMount(){
 
+        this.context.resetRedirectToMenu();
         this.context.initSingleOrder();
 
     }

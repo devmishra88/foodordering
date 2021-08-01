@@ -745,8 +745,20 @@ class ProductProvider extends Component{
 				.then( response => {
 					
 					let orgitemdetail	= response.data;
+
+					if(orgitemdetail.id === undefined)
+					{
+						return this.setState(()=>{
+							return{
+								itemdetail:[],
+								hasitemdetail:false,
+								isdetailloaded:true,
+							}
+						})
+					}
+
 					let itemdetailNum	= Object.keys(orgitemdetail).length;
-		
+
 					if(itemdetailNum > 0)
 					{
 						temphasitemdetail	= true;
@@ -758,12 +770,15 @@ class ProductProvider extends Component{
 
 						let tempExtraItem	= [];
 
-						singleItem.extras.extra_items.forEach((option, i)=>{
+						if(singleItem.extras.extra_items !== undefined)
+						{
+							singleItem.extras.extra_items.forEach((option, i)=>{
 
-							const singleoption = {...option, checked:false, optionid:`${id}_${i+1}`};
-
-							tempExtraItem	= [...tempExtraItem, singleoption];
-						});
+								const singleoption = {...option, checked:false, optionid:`${id}_${i+1}`};
+	
+								tempExtraItem	= [...tempExtraItem, singleoption];
+							});
+						}
 
 						singleItem		= {...singleItem, busy:false, customitemqty:1, baseprice:price, optiontotal:0, iscustomization:true, inCart:false, extraoptions:tempExtraItem};
 
@@ -1401,7 +1416,6 @@ class ProductProvider extends Component{
 									isalertopen:false,
 									orderaddedmsg:'',
 									redirecttomenu:true,
-									order_id:'',
 								});
 							},6000);
 						})

@@ -312,7 +312,7 @@ class ItemsList extends Component {
 
                 if(isdataloaded && Object.keys(tempProducts).length < 1)
                 {
-                  return <ItemNotFound />
+                  return <ItemNotFound msg="No items found that match your search/filter."/>
                 }
 
                 return (

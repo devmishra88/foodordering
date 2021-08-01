@@ -205,7 +205,7 @@ class Viewcart extends Component{
                     <div>
                         <div style={{marginBottom:'5rem'}}>
                         {
-                            Object.keys(cart).length < 1 ? <ItemNotFound />:null
+                            Object.keys(cart).length < 1 ? <ItemNotFound msg="Cart is empty"/>:null
                         }
                         <Collapse in={isalertopen}>
                             <Alert

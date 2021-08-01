@@ -204,7 +204,7 @@ class CartDetail extends Component {
                             <Header title="Remove your items" showdrawer={false} showsearch={true} history={this.props.history}/>
                             <div style={{marginBottom:'5rem'}}>
                               {
-                                Object.keys(tempcart).length < 1 ? <ItemNotFound />:null
+                                Object.keys(tempcart).length < 1 ? <ItemNotFound msg="No item found"/>:null
                               }
                             {tempcart.map((item, i) => {
                                 return(

@@ -4,7 +4,7 @@ import { Divider, Box, Typography, CircularProgress, Stepper, Step, StepLabel } 
 import { withStyles } from '@material-ui/core/styles';
 import { ProductConsumer, ProductContext } from '../context/Product';
 
-import {Header} from '../components';
+import {Header, ItemNotFound} from '../components';
 
 const useStyles = (theme) => ({
   root: {
@@ -81,7 +81,7 @@ class Orderstatus extends Component {
             <ProductConsumer>
             {(value) => {
 
-                const{ issingleorderloaded, hasorderdetail, singleorder, nosh_localdata } = value;
+                const{ issingleorderloaded, hasorderdetail, singleorder } = value;
 
                 return (
                     <Fragment>
@@ -98,10 +98,10 @@ class Orderstatus extends Component {
                                                             <Box key={i}>
                                                                 <Box display="flex" key={i}>
                                                                     <Box className={classes.bckjvf}>
-                                                                            <div className={classes.jlQqiv}>
+                                                                        <div className={classes.jlQqiv}>
                                                                             <div src="" className={classes.dqsEmh}></div>
                                                                             <img alt={`${item.item_name} Preview`} src={item.image_url} className={classes.hppEfq} />
-                                                                            </div>
+                                                                        </div>
                                                                     </Box>
                                                                     <Box width="100%">
                                                                         <Typography style={{fontWeight:'500'}}>{item.item_name}</Typography>
@@ -141,7 +141,9 @@ class Orderstatus extends Component {
                                                     })
                                                 }
                                             </Box>
-                                        ):null
+                                        ):(
+                                            <ItemNotFound msg="No recent order found"/>
+                                        )
                                     }
                                 </Fragment>
                             ):(

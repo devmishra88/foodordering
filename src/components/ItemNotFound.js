@@ -60,7 +60,7 @@ export default function ItemNotFound(props) {
                     <div className={classes.dqsEmh}></div>
                     <img alt="404 preview" src={cutlery} loading="lazy" className={classes.cNjMLA} />
                 </div>
-                <p>No items found that match your search/filter.</p>
+                <p>{props.msg}.</p>
             </div>
         </div>
     </Fragment>

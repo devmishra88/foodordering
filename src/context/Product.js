@@ -1700,6 +1700,16 @@ class ProductProvider extends Component{
 		
 				if(!nosh_localdata.restaurantid || !nosh_localdata.orderid)
 				{
+					if(!nosh_localdata.orderid)
+					{
+						this.setState(()=>{
+							return{
+								singleorder:[],
+								issingleorderloaded:true,
+								hasorderdetail:false,
+							};
+						});
+					}
 					return;
 				}
 
@@ -1740,6 +1750,17 @@ class ProductProvider extends Component{
 		});
 	}
 
+	getOrderStatusColorAndTitle=(status)=>{
+		switch (status){
+			case 0: return {color:'#A4254E',title:'Reject'}
+			case 1: return {color:'#00B970',title:'Active'}
+			case 2: return {color:'#fdc749',title:'Kitchen'}
+			case 3: return {color:'#00B970',title:'Ready'}
+			case 4: return {color:'##00b970',title:'Complete'}
+			default : return {color:'#000000',title:'No Status'}
+		}
+	}
+
 	render(){
 		return (
 			<ProductContext.Provider value={{
@@ -1775,6 +1796,7 @@ class ProductProvider extends Component{
 				setCheckout:this.setCheckout,
 				initCustomerOrders:this.initCustomerOrders,
 				initSingleOrder:this.initSingleOrder,
+				getOrderStatusColorAndTitle:this.getOrderStatusColorAndTitle,
 			}}
 			>
 			{this.props.children}

@@ -5,7 +5,7 @@ import { CircularProgress } from '@material-ui/core';
 
 import { ProductConsumer, ProductContext } from '../context/Product';
 
-import {Header, Order} from '../components';
+import {Header, Order, ItemNotFound} from '../components';
 
 const useStyles = (theme) => ({
   root: {
@@ -53,7 +53,9 @@ class Orders extends Component {
                                                     return <Order singleorder={order} nosh_localdata={nosh_localdata} key={i}/>
                                                 })}
                                             </Fragment>
-                                        ):null
+                                        ):(
+                                            <ItemNotFound msg="Order not found"/>
+                                        )
                                     }
                                 </Fragment>
                             ):(
